@@ -1,0 +1,491 @@
+{
+  "auth": {
+    "username": "sdkjs@situm.es",
+    "password": "sdkjs@situm.es"
+  },
+  "jwtMock": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZGJkNWVmZC0zNTBhLTRlMGQtOGZiOC1kMDA0ZmFjNDI1ZjYiLCJlbWFpbCI6InRlc3RAc2l0dW0uZXMiLCJvcmdhbml6YXRpb25fdXVpZCI6IjBhNWQwZmY0LWNkNzYtNGUwOC1iY2RjLWUzNmUwMTgyZmQ3OCIsImlhdCI6MTYzODE0MjExNCwiaW1wZXJzb25hdGUiOiJiZjBkZWE2OS0yMDcxLTQzYzItYmVmZi03Yjk5MzI5MmRlMTIiLCJleHAiOjE2Mzg3NDY5MTQwMH0.yDOOv6MyQLhmYPBcqJa5f6LxszFbTe91nKsk4q4eG_M",
+  "userMock1": {
+    "locale": null,
+    "id": "29fa9286-bd95-4cb3-a4e5-6aee8e544539",
+    "email": "044708@situm.es",
+    "code": null,
+    "createdAt": "2021-09-21T17:41:27.788+00:00",
+    "updatedAt": "2021-11-09T20:33:51.252+00:00",
+    "adminOrg": false,
+    "lastActivity": "2021-11-09T20:33:51.252+00:00",
+    "fullName": "John Smith",
+    "subscribedToNewsletter": null,
+    "termsAcceptedAt": "2021-09-21T17:41:27.788+00:00",
+    "collectiveId": null,
+    "assignmentId": null,
+    "iconColour": null,
+    "info": null,
+    "isVerified": true,
+    "hasBuilding": false,
+    "role": "USER",
+    "organizationId": "218aef12-187d-4104-945d-dd4da92faa9c",
+    "buildingIds": [1111, 2222, 3333, 4444, 5555, 6666, 7777],
+    "groupIds": [],
+    "license": {
+      "id": "218aef12-187d-4104-945d-dd4da92faa9c",
+      "expirationDate": "2050-01-01",
+      "licenseType": "ENTERPRISE"
+    },
+    "importationDate": null,
+    "groups": [],
+    "hasWriteBuilding": false
+  },
+  "userResponseMock1": {
+    "locale": null,
+    "id": "29fa9286-bd95-4cb3-a4e5-6aee8e544539",
+    "email": "044708@situm.es",
+    "code": null,
+    "created_at": "2021-09-21T17:41:27.788+00:00",
+    "updated_at": "2021-11-09T20:33:51.252+00:00",
+    "admin_org": false,
+    "last_activity": "2021-11-09T20:33:51.252+00:00",
+    "full_name": "John Smith",
+    "subscribed_to_newsletter": null,
+    "terms_accepted_at": "2021-09-21T17:41:27.788+00:00",
+    "situm_maps": null,
+    "sos_alarm": null,
+    "deadman_alarm": null,
+    "see_alarms": null,
+    "see_emergency": null,
+    "declare_emergency": null,
+    "cancel_emergency": null,
+    "confirm_emergency": null,
+    "collective_id": null,
+    "assignment_id": null,
+    "icon_colour": null,
+    "info": null,
+    "has_building": false,
+    "organization_id": "218aef12-187d-4104-945d-dd4da92faa9c",
+    "building_ids": [1111, 2222, 3333, 4444, 5555, 6666, 7777],
+    "license": {
+      "id": "218aef12-187d-4104-945d-dd4da92faa9c",
+      "expiration_date": "2050-01-01",
+      "license_type": "ENTERPRISE",
+      "uuid": "218aef12-187d-4104-945d-dd4da92faa9c"
+    },
+    "is_verified": true,
+    "group_ids": [],
+    "is_staff": false,
+    "uuid": "29fa9286-bd95-4cb3-a4e5-6aee8e544539",
+    "importation_date": null,
+    "role": "USER",
+    "groups": [],
+    "organization_uuid": "718aef12-187d-4104-945d-dd4da92faa9c",
+    "shift_start": null,
+    "shift_end": null,
+    "has_write_building": false
+  },
+  "geofenceMock1": {
+    "id": "16d0ab76-d23a-486d-99b6-08d8e1a995a5",
+    "createdAt": "2020-05-08T10:26:34.801Z[UTC]",
+    "updatedAt": "2020-05-08T10:26:34.801Z[UTC]",
+    "customFields": [],
+    "name": "Area",
+    "organizationId": "0a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
+    "info": "<p><br>Datos</p>",
+    "description": "<p><br>Datos</p>",
+    "type": "POLYGON",
+    "geometric": [
+      [42.872359703295416, -8.563322466238354],
+      [42.87240688040733, -8.563216518982266],
+      [42.87232923472481, -8.563146781547879],
+      [42.87228205755356, -8.563241999967907],
+      [42.87225257180323, -8.563154828174923],
+      [42.87216804590747, -8.563205790146206],
+      [42.87220637743271, -8.56331978402934],
+      [42.87228795470195, -8.563266139849041],
+      [42.872359703295416, -8.563322466238354]
+    ],
+    "floorId": 11915,
+    "buildingId": "5962",
+    "deleted": false
+  },
+  "geofenceResponseMock1": {
+    "id": "16d0ab76-d23a-486d-99b6-08d8e1a995a5",
+    "created_at": "2020-05-08T10:26:34.801Z[UTC]",
+    "updated_at": "2020-05-08T10:26:34.801Z[UTC]",
+    "custom_fields": [],
+    "name": "Area",
+    "organization_id": "0a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
+    "info": "<p><br>Datos</p>",
+    "description": "<p><br>Datos</p>",
+    "type": "POLYGON",
+    "geometric": [
+      [42.872359703295416, -8.563322466238354],
+      [42.87240688040733, -8.563216518982266],
+      [42.87232923472481, -8.563146781547879],
+      [42.87228205755356, -8.563241999967907],
+      [42.87225257180323, -8.563154828174923],
+      [42.87216804590747, -8.563205790146206],
+      [42.87220637743271, -8.56331978402934],
+      [42.87228795470195, -8.563266139849041],
+      [42.872359703295416, -8.563322466238354]
+    ],
+    "floor_id": 11915,
+    "level_id": 11915,
+    "building_id": "5962",
+    "deleted": false,
+    "CustomFields": []
+  },
+  "buildingMock1": {
+    "id": 5762,
+    "calibrationModel": {
+      "id": 171703,
+      "updatedAt": "2020-12-16T13:49:53.492+00:00",
+      "download": "/api/v1/model/5962/latest/file"
+    },
+    "corners": [
+      {
+        "lat": 42.872215,
+        "lng": -8.562779
+      },
+      {
+        "lat": 42.872103,
+        "lng": -8.563636
+      },
+      {
+        "lat": 42.872481,
+        "lng": -8.563727
+      },
+      {
+        "lat": 42.872592,
+        "lng": -8.56287
+      }
+    ],
+    "createdAt": "2019-09-11T15:11:48.155+02:00",
+    "customFields": [],
+    "description": "",
+    "dimensions": {
+      "width": 71.0686153823893,
+      "length": 42.6106416714803
+    },
+    "events": [],
+    "floors": [],
+    "geofences": [],
+    "indoorPois": [],
+    "info": "",
+    "location": {
+      "lat": 42.8723472943445,
+      "lng": -8.56325268745422
+    },
+    "name": "Ed. Emprendia - Situm",
+    "outdoorPois": [],
+    "paths": {},
+    "pictureThumbUrl": null,
+    "pictureUrl": null,
+    "rotation": 2.96666027771214,
+    "serverUrl": "*",
+    "updatedAt": "2021-01-18T16:20:59.347+01:00",
+    "userId": "fdbd5efd-350a-4e0d-8fb8-d004fac425f6"
+  },
+  "buildingResponseMock1": {
+    "id": 5762,
+    "calibration_model": {
+      "id": 171703,
+      "updated_at": "2020-12-16T13:49:53.492+00:00",
+      "download": "/api/v1/model/5962/latest/file"
+    },
+    "corners": [
+      {
+        "lat": 42.872215,
+        "lng": -8.562779
+      },
+      {
+        "lat": 42.872103,
+        "lng": -8.563636
+      },
+      {
+        "lat": 42.872481,
+        "lng": -8.563727
+      },
+      {
+        "lat": 42.872592,
+        "lng": -8.56287
+      }
+    ],
+    "created_at": "2019-09-11T15:11:48.155+02:00",
+    "custom_fields": [],
+    "description": "",
+    "dimensions": {
+      "width": 71.0686153823893,
+      "length": 42.6106416714803
+    },
+    "events": [],
+    "floors": [],
+    "geofences": [],
+    "indoor_pois": [],
+    "info": "",
+    "location": {
+      "lat": 42.8723472943445,
+      "lng": -8.56325268745422
+    },
+    "name": "Ed. Emprendia - Situm",
+    "outdoor_pois": [],
+    "paths": {},
+    "picture_thumb_url": null,
+    "picture_url": null,
+    "rotation": 2.96666027771214,
+    "server_url": "*",
+    "updated_at": "2021-01-18T16:20:59.347+01:00",
+    "user_uuid": "fdbd5efd-350a-4e0d-8fb8-d004fac425f6"
+  },
+  "floorMock1": {
+    "id": 12220,
+    "buildingId": 6085,
+    "createdAt": "2019-10-07T16:39:12.731+02:00",
+    "customFields": [
+      {
+        "key": "Plano",
+        "value": "Fabrica"
+      }
+    ],
+    "level": 1,
+    "levelHeight": 0,
+    "maps": {
+      "scale": 5.20492879625628,
+      "mapUrl": "https://dashboard.situm.com/uploads/floor/12220/0764f17b-e62c-4de9-9466-650c22c52d24.PNG",
+      "mapId": "0764f17b-e62c-4de9-9466-650c22c52d24.PNG"
+    },
+    "name": "Plant",
+    "updatedAt": "2019-10-07T16:39:12.731+02:00"
+  },
+  "floorResponseMock1": {
+    "id": 12220,
+    "building_id": 6085,
+    "created_at": "2019-10-07T16:39:12.731+02:00",
+    "custom_fields": [
+      {
+        "key": "Plano",
+        "value": "Fabrica"
+      }
+    ],
+    "level": 1,
+    "level_height": 0,
+    "maps": {
+      "scale": 5.20492879625628,
+      "map_url": "https://dashboard.situm.com/uploads/floor/12220/0764f17b-e62c-4de9-9466-650c22c52d24.PNG",
+      "map_id": "0764f17b-e62c-4de9-9466-650c22c52d24.PNG"
+    },
+    "name": "Plant",
+    "project_id": 6085,
+    "updated_at": "2019-10-07T16:39:12.731+02:00"
+  },
+  "pathMock1": {
+    "links": [
+      {
+        "source": 1,
+        "target": 2,
+        "origin": "both",
+        "tags": null,
+        "accessible": true
+      },
+      {
+        "source": 2,
+        "target": 3,
+        "origin": "both",
+        "tags": null,
+        "accessible": true
+      }
+    ],
+    "nodes": [
+      {
+        "id": 1,
+        "floorId": 11916,
+        "x": 43.275,
+        "y": 36.472
+      },
+      {
+        "id": 2,
+        "floorId": 11916,
+        "x": 41.65,
+        "y": 34.271
+      }
+    ]
+  },
+  "pathResponseMock1": {
+    "links": [
+      {
+        "source": 1,
+        "target": 2,
+        "origin": "both",
+        "tags": null,
+        "accessible": true
+      },
+      {
+        "source": 2,
+        "target": 3,
+        "origin": "both",
+        "tags": null,
+        "accessible": true
+      }
+    ],
+    "nodes": [
+      {
+        "id": 1,
+        "floor_id": 11916,
+        "x": 43.275,
+        "y": 36.472
+      },
+      {
+        "id": 2,
+        "floor_id": 11916,
+        "x": 41.65,
+        "y": 34.271
+      }
+    ]
+  },
+  "poiCategoryMock1": {
+    "id": 12,
+    "nameEn": "Coffee",
+    "nameEs": "Cafetería",
+    "code": "situm-coffee",
+    "iconUrl": "/uploads/poicategory/1/b3d4b884-ed86-4ab5-929d-3e5a40502e56.png",
+    "selectedIconUrl": "/uploads/poicategoryselected/1/fcfb13c6-44e7-4b58-b568-780ef41628f1.png",
+    "updatedAt": "2017-04-07T13:45:24.940+02:00",
+    "createdAt": "2016-06-23T09:14:05.701+02:00",
+    "public": true
+  },
+  "poiCategoryResponseMock1": {
+    "id": 12,
+    "name_en": "Coffee",
+    "name_es": "Cafetería",
+    "code": "situm-coffee",
+    "icon_url": "/uploads/poicategory/1/b3d4b884-ed86-4ab5-929d-3e5a40502e56.png",
+    "selected_icon_url": "/uploads/poicategoryselected/1/fcfb13c6-44e7-4b58-b568-780ef41628f1.png",
+    "updated_at": "2017-04-07T13:45:24.940+02:00",
+    "created_at": "2016-06-23T09:14:05.701+02:00",
+    "public": true
+  },
+  "poiMock1": {
+    "id": 44526,
+    "buildingId": 6349,
+    "name": "AC Shaft",
+    "createdAt": "2019-12-17T17:33:40.063+01:00",
+    "updatedAt": "2019-12-17T17:33:40.063+01:00",
+    "categoryId": 148,
+    "categoryName": "No category",
+    "info": "",
+    "infoUnsafe": "",
+    "position": {
+      "floorId": 12917,
+      "x": 264.019705190557,
+      "y": 67.5138261169767,
+      "lat": 25.2289190880612,
+      "lng": 55.4029336723872,
+      "radius": 5,
+      "georeferences": {
+        "lat": 25.2289190880612,
+        "lng": 55.4029336723872
+      },
+      "cartesians": {
+        "x": 264.019705190557,
+        "y": 67.5138261169767
+      }
+    },
+    "customFields": [],
+    "projectId": 6349,
+    "type": null
+  },
+  "poiResponseMock1": {
+    "id": 44526,
+    "building_id": 6349,
+    "name": "AC Shaft",
+    "created_at": "2019-12-17T17:33:40.063+01:00",
+    "updated_at": "2019-12-17T17:33:40.063+01:00",
+    "category_id": 148,
+    "category_name": "No category",
+    "info": "",
+    "info_unsafe": "",
+    "position": {
+      "floor_id": 12917,
+      "x": 264.019705190557,
+      "y": 67.5138261169767,
+      "lat": 25.2289190880612,
+      "lng": 55.4029336723872,
+      "radius": 5,
+      "georeferences": {
+        "lat": 25.2289190880612,
+        "lng": 55.4029336723872
+      },
+      "cartesians": {
+        "x": 264.019705190557,
+        "y": 67.5138261169767
+      }
+    },
+    "custom_fields": [],
+    "project_id": 6349,
+    "type": null
+  },
+  "realtimeMock1": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [42.8723438487793, -8.563077344186299]
+        },
+        "properties": {
+          "time": "2021-12-15T08:15:20.006Z",
+          "yaw": 0,
+          "localCoordinates": [21.49236653379807, 24.17577872679699],
+          "floorId": 11916,
+          "buildingId": 5962,
+          "levelHeight": 0,
+          "accuracy": 5
+        },
+        "id": "5323811"
+      }
+    ],
+    "devicesInfo": [
+      {
+        "id": "5323811",
+        "createdAt": "2021-12-14T05:58:29.726+00:00",
+        "updatedAt": "2021-12-14T05:58:29.726+00:00",
+        "organizationId": "1a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
+        "groupIds": [],
+        "buildingIds": []
+      }
+    ]
+  },
+  "realtimeResponseMock1": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [42.8723438487793, -8.563077344186299]
+        },
+        "properties": {
+          "time": "2021-12-15T08:15:20.006Z",
+          "yaw": 0,
+          "local_coordinates": [21.49236653379807, 24.17577872679699],
+          "floor_id": 11916,
+          "building_id": 5962,
+          "level_height": 0,
+          "accuracy": 5
+        },
+        "id": "5323811"
+      }
+    ],
+    "devicesInfo": [
+      {
+        "id": "5323811",
+        "organization": "1a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
+        "groups": [],
+        "buildings": [],
+        "created_at": "2021-12-14T05:58:29.726+00:00",
+        "updated_at": "2021-12-14T05:58:29.726+00:00",
+        "organization_id": "1a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
+        "group_ids": [],
+        "building_ids": []
+      }
+    ]
+  }
+}

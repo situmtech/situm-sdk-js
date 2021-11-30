@@ -1,0 +1,25 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 2
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[{*.{rb,erb,js,coffee,json,yml,css,scss,sh,markdown,md,html,ts}]
+indent_size = 2
+
+[*.{sh,markdown}]
+indent_size = 4
+
+[*.md]
+max_line_length = 0
+trim_trailing_whitespace = false
+
+[COMMIT_EDITMSG]
+max_line_length = 0
+
+[Makefile]
+intent_style = tab
