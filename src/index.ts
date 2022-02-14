@@ -28,7 +28,7 @@ export default class SitumSDK {
   readonly cartography: CartographyApi;
   readonly realtime: RealtimeApi;
 
-  static readonly version = "0.0.3-development";
+  static readonly version = "0.0.4-development";
 
   constructor({ auth, domain }: SDKConfiguration) {
     this.domains = {} as ApiDomains;

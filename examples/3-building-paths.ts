@@ -23,7 +23,7 @@ import SitumSDK from "../src";
     console.log(data);
   });
 
-  // We've got functions to performa CRUD operations for buildings
+  // We've got functions to perform CRUD operations for buildings
   await sdk.cartography.updatePath(5962, {
     nodes: [
       {

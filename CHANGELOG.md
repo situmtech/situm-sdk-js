@@ -1,22 +1,24 @@
 # Changelog
 
-SITUM SDK JS is a JavaScript library that interacts with different SITUM APIs. It is part of the SITUM ecosystem.
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
-
-## [Unreleased]
-
-## 0.0.1 - 2021-12-xx
-
-### Changed
-
-- Explanation ([#xxx](https://github.com/situmtech/situm-sdk-js/pull/xxxx))
+## 0.0.4 (2022-02-14) 💌 edition
 
 ### Added
 
+- API wrappers for the POI REST api, now with the complete CRUD
+
 ### Fixed
 
-### Changed
+- ES 2017 support
+
+## 0.0.1 (2021-12-30)
+
+This is the first version of the Situm Javascript SDK.Please bear in mind this is the first draft version. You must not use it as a production-ready package. We will publish further more stable versions.
+
+### Added
+
+- Consumer wrappers for the cartography REST API for the cartography (floors, geofences, pois, paths, events)
+- Consumer wrappers for the Users REST API
+- Consumer wrappers for fetching realtime positioning.
+- Support for multiple authentication methods

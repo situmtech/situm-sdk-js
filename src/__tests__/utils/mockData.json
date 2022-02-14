@@ -167,17 +167,16 @@
     "events": [],
     "floors": [],
     "geofences": [],
-    "indoorPois": [],
     "info": "",
     "location": {
       "lat": 42.8723472943445,
       "lng": -8.56325268745422
     },
     "name": "Ed. Emprendia - Situm",
-    "outdoorPois": [],
     "paths": {},
     "pictureThumbUrl": null,
     "pictureUrl": null,
+    "pois": [],
     "rotation": 2.96666027771214,
     "serverUrl": "*",
     "updatedAt": "2021-01-18T16:20:59.347+01:00",

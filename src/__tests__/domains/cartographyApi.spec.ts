@@ -7,6 +7,7 @@
  */
 import { expect } from "chai";
 
+import { getAdapter as getAdapterPoi } from "../../adapters/PoiAdapter";
 import SitumSDK from "../../index";
 import {
   BuildingForm,
@@ -14,8 +15,8 @@ import {
   GeofenceForm,
   Paths,
   PoiCategoryForm,
-  PoisCreateForm,
-  PoisUpdateForm,
+  PoiCreateForm,
+  PoiUpdateForm,
 } from "../../types";
 import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 
@@ -175,7 +176,7 @@ describe("SitumSDK.cartography Floor", () => {
       mockFloorList,
     ]);
 
-    const floorList = await situmSDK.cartography.searchFloor(
+    const floorList = await situmSDK.cartography.getFloorsOfBuilding(
       mockFloorList[0].buildingId
     );
 
@@ -502,21 +503,22 @@ describe("SitumSDK.cartography POI category", () => {
 });
 
 describe("SitumSDK.cartography POI", () => {
-  test("should retrieve indoor pois by building", async () => {
+  test("should retrieve pois by building", async () => {
     const situmSDK = new SitumSDK({ auth: getMockData("auth") });
     const mockPoi = getMockData("poiMock1");
     const axiosMock = mockAxiosRequest([
       { access_token: "fakeJWT" },
       [getMockData("poiResponseMock1")],
     ]);
-    const poiList = await situmSDK.cartography.getInsidePoisByBuildingId(
-      mockPoi.id
+    const poiList = await situmSDK.cartography.getPoisOfBuilding(
+      mockPoi.buildingId,
+      "indoor"
     );
 
     //Validate test
     const configuration = axiosMock.mock.calls[1][0];
     expect(configuration.url).to.be.equals(
-      `/api/v1/buildings/${mockPoi.id}/pois`
+      `/api/v1/buildings/${mockPoi.buildingId}/pois`
     );
     expect(poiList).is.deep.equal([mockPoi]);
     axiosMock.mockClear();
@@ -530,14 +532,15 @@ describe("SitumSDK.cartography POI", () => {
       { access_token: "fakeJWT" },
       [getMockData("poiResponseMock1")],
     ]);
-    const poiList = await situmSDK.cartography.getOutsidePoisByBuildingId(
-      mockPoi.id
+    const poiList = await situmSDK.cartography.getPoisOfBuilding(
+      mockPoi.buildingId,
+      "outdoor"
     );
 
     //Validate test
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(
-      `/api/v1/buildings/${mockPoi.id}/exterior_pois`
+    expect(configuration.url + "?" + configuration.params).to.be.equals(
+      `/api/v1/buildings/${mockPoi.buildingId}/pois?type=outdoor`
     );
     expect(poiList).is.deep.equal([mockPoi]);
     axiosMock.mockClear();
@@ -556,7 +559,7 @@ describe("SitumSDK.cartography POI", () => {
     //Validate test
     const configuration = axiosMock.mock.calls[1][0];
     expect(configuration.url).to.be.equals(`/api/v1/pois`);
-    expect(poiList).is.deep.equal([mockPoi]);
+    expect(poiList).is.deep.equal([getAdapterPoi(mockPoi)]);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -569,27 +572,16 @@ describe("SitumSDK.cartography POI", () => {
     ]);
     const situmSDK = new SitumSDK({ auth: getMockData("auth") });
 
-    const poiForm: PoisCreateForm = {
+    const poiForm: PoiCreateForm = {
       buildingId: 5962,
       name: "Test Fence",
       info: "info",
       categoryId: 1234,
       customFields: [{ key: "key", value: "value" }],
-      position: {
-        floorId: 12917,
-        x: 264.019705190557,
-        y: 67.5138261169767,
+      floorId: 12917,
+      location: {
         lat: 25.2289190880612,
         lng: 55.4029336723872,
-        radius: 5,
-        georeferences: {
-          lat: 25.2289190880612,
-          lng: 55.4029336723872,
-        },
-        cartesians: {
-          x: 264.019705190557,
-          y: 67.5138261169767,
-        },
       },
     };
     axiosMock.mockClear();
@@ -603,24 +595,15 @@ describe("SitumSDK.cartography POI", () => {
       custom_fields: [{ key: "key", value: "value" }],
       position: {
         floor_id: 12917,
-        x: 264.019705190557,
-        y: 67.5138261169767,
-        lat: 25.2289190880612,
-        lng: 55.4029336723872,
-        radius: 5,
         georeferences: {
           lat: 25.2289190880612,
           lng: 55.4029336723872,
-        },
-        cartesians: {
-          x: 264.019705190557,
-          y: 67.5138261169767,
         },
       },
     });
     expect(configuration.method).to.be.deep.equals("post");
     expect(configuration.url).to.be.equals("/api/v1/pois");
-    expect(poi).is.deep.equal(mockPoi);
+    expect(poi).is.deep.equal(getAdapterPoi(mockPoi));
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -632,30 +615,19 @@ describe("SitumSDK.cartography POI", () => {
       getMockData("poiResponseMock1"),
     ]);
     const situmSDK = new SitumSDK({ auth: getMockData("auth") });
-    const poiForm: PoisUpdateForm = {
+    const poiForm: PoiUpdateForm = {
       name: "Test Fence",
       info: "info",
       categoryId: 1234,
       customFields: [{ key: "key", value: "value" }],
-      position: {
-        floorId: 12917,
-        x: 264.019705190557,
-        y: 67.5138261169767,
+      floorId: 12917,
+      location: {
         lat: 25.2289190880612,
         lng: 55.4029336723872,
-        radius: 5,
-        georeferences: {
-          lat: 25.2289190880612,
-          lng: 55.4029336723872,
-        },
-        cartesians: {
-          x: 264.019705190557,
-          y: 67.5138261169767,
-        },
       },
     };
     const poi = await situmSDK.cartography.patchPoi(1234, poiForm);
-    expect(poi).is.deep.equal(mockPoi);
+    expect(poi).is.deep.equal(getAdapterPoi(mockPoi));
     const configuration = axiosMock.mock.calls[1][0];
     expect(configuration.method).to.be.equals("put");
     axiosMock.mockClear();

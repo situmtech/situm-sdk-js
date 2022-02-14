@@ -96,6 +96,7 @@ export default class ApiBase {
       params: qs.stringify(keysToSnake(requestInfo.params)),
       paramsSerializer: (params) => params,
       data: keysToSnake(requestInfo.body),
+      ...(!jwt ? { withCredentials: true } : {}),
     };
 
     if (requestInfo.authorization) {

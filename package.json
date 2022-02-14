@@ -1,12 +1,12 @@
 {
   "author": "Situm Technologies",
   "name": "@situm/sdk-js",
-  "version": "0.0.3-development",
+  "version": "0.0.4",
   "description": "Javascript SDK for the Situm Web APIs",
   "repository": "https://github.com/situmtech/situm-sdk-js",
-  "main": "build/index.js",
-  "typings": "build/main/index.d.ts",
-  "module": "build/module/index.js",
+  "main": "build/main/index.js",
+  "types": "build/main/types",
+  "module": "build/main/index.js",
   "license": "MIT",
   "keywords": [
     "situm",
@@ -79,11 +79,12 @@
     "nyc": "^15.1.0",
     "open-cli": "^6.0.1",
     "prettier": "^2.5.0",
+    "run-s": "^0.0.0",
     "standard-version": "^9.0.0",
     "ts-jest": "^27.0.7",
     "ts-node": "^9.0.0",
-    "typedoc": "^0.22.10",
-    "typescript": "^4.4.4"
+    "typedoc": "^0.22.11",
+    "typescript": "^4.5.4"
   },
   "lint-staged": {
     "*.+(js|jsx|ts|tsx)": [

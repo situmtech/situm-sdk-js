@@ -202,30 +202,20 @@ export type Cartesians = {
   y: number;
 };
 
-export type Position = {
+export type PoiUpdateForm = {
   floorId: number;
-  x: number;
-  y: number;
-  lat: number;
-  lng: number;
-  radius: 5;
-  georeferences: Coordinate;
-  cartesians: Cartesians;
-};
-
-export type PoisUpdateForm = {
   name: string;
   info: string;
   categoryId: number;
-  position: Position;
+  location: Coordinate;
   customFields: CustomField[];
 };
 
-export type PoisCreateForm = PoisUpdateForm & {
+export type PoiCreateForm = PoiUpdateForm & {
   buildingId: number;
 };
 
-export type Pois = PoisCreateForm & {
+export type Poi = PoiCreateForm & {
   id: number;
   createdAt: Date;
   updatedAt: Date;
@@ -293,9 +283,9 @@ export type BuildingForm = BuildingBase & {
   pictureId?: string;
 };
 
-export type BuildingListElement = {
-  info: string;
+export type BuildingListElement = BuildingBase & {
   id: number;
+  info: string;
   calibrationModel: CalibrationModel;
   createdAt: Date;
   pictureThumbUrl: string;
@@ -307,9 +297,8 @@ export type BuildingListElement = {
 
 export type Building = BuildingListElement & {
   corners: Coordinate[];
-  floors: Floor;
-  outdoorPois: Pois[];
-  indoorPois: Pois[];
+  floors: Floor[];
+  pois: Poi[];
   geofences: Geofence[];
   paths: Paths;
 };

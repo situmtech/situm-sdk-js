@@ -5,7 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
+import { getAdapter as getBuildingAdapter } from "../adapters/BuildingAdapter";
+import { getAdapter as getFloorAdapter } from "../adapters/FloorAdapter";
+import { getAdapter as getGeofenceAdapter } from "../adapters/GeofenceAdapter";
+import {
+  getAdapter as getPoiAdapter,
+  postAdapter as postPoiAdapter,
+} from "../adapters/PoiAdapter";
 import ApiBase from "../apiBase";
 import type {
   Building,
@@ -17,44 +23,14 @@ import type {
   GeofenceForm,
   Paginated,
   Paths,
+  Poi,
   PoiCategory,
   PoiCategoryForm,
-  Pois,
-  PoisCreateForm,
-  PoisUpdateForm,
+  PoiCreateForm,
+  PoiUpdateForm,
   SearchGeofence,
   UUID,
 } from "../types";
-
-function buildingMapper(building: Record<string, unknown>): Building {
-  const buildingToReturn = {
-    ...building,
-  };
-
-  buildingToReturn.userId = building.userUuid;
-  delete buildingToReturn.event;
-  delete buildingToReturn.userUuid;
-  return buildingToReturn as Building;
-}
-
-function floorMapper(floor: Record<string, unknown>): Floor {
-  const floorToReturn = {
-    ...floor,
-  };
-
-  delete floorToReturn.projectId;
-  return floorToReturn as Floor;
-}
-
-function geofenceMapper(geofence: Record<string, unknown>): Geofence {
-  const geofenceToReturn = {
-    ...geofence,
-  };
-
-  delete geofenceToReturn.CustomFields;
-  delete geofenceToReturn.levelId;
-  return geofenceToReturn as Geofence;
-}
 
 export default class CartographyApi {
   private readonly apiBase: ApiBase;
@@ -63,11 +39,12 @@ export default class CartographyApi {
     this.apiBase = apiBase;
   }
 
-  async getGeofenceById(geofenceId: UUID): Promise<Geofence> {
-    const geofence = (await this.apiBase.get({
-      url: "/api/v1/geofences/" + geofenceId,
-    })) as Record<string, unknown>;
-    return geofenceMapper(geofence);
+  getGeofenceById(geofenceId: UUID): Promise<Geofence> {
+    return this.apiBase
+      .get({
+        url: "/api/v1/geofences/" + geofenceId,
+      })
+      .then(getGeofenceAdapter);
   }
 
   async searchGeofences(
@@ -76,214 +53,229 @@ export default class CartographyApi {
     if (!searchGeofence.organizationId) {
       searchGeofence.organizationId = await this.apiBase.getJwtOrganizationId();
     }
-    const paginatedGeofences = (await this.apiBase.get({
-      url: "/api/v1/geofences",
-      params: searchGeofence,
-    })) as Paginated<Record<string, unknown>>;
-    return {
-      metadata: paginatedGeofences.metadata,
-      data: paginatedGeofences.data.map((geofence: Record<string, unknown>) =>
-        geofenceMapper(geofence)
-      ),
-    };
+    return this.apiBase
+      .get({
+        url: "/api/v1/geofences",
+        params: searchGeofence,
+      })
+      .then((result: Paginated<Record<string, unknown>>) => ({
+        metadata: result.metadata,
+        data: result.data.map((geofence: Record<string, unknown>) =>
+          getGeofenceAdapter(geofence)
+        ),
+      }));
   }
 
-  async patchGeofence(
+  patchGeofence(
     geofenceId: UUID,
     geofenceForm: Partial<GeofenceForm>
   ): Promise<Geofence> {
-    const geofence = (await this.apiBase.put({
-      url: "/api/v1/geofences/" + geofenceId,
-      body: geofenceForm,
-    })) as Record<string, unknown>;
-    return geofenceMapper(geofence);
+    return this.apiBase
+      .put({
+        url: "/api/v1/geofences/" + geofenceId,
+        body: geofenceForm,
+      })
+      .then(getGeofenceAdapter);
   }
 
-  async createGeofence(geofenceForm: GeofenceForm): Promise<Geofence> {
-    const geofence = (await this.apiBase.post({
-      url: "/api/v1/geofences",
-      body: geofenceForm,
-    })) as Record<string, unknown>;
-    return geofenceMapper(geofence);
+  createGeofence(geofenceForm: GeofenceForm): Promise<Geofence> {
+    return this.apiBase
+      .post({
+        url: "/api/v1/geofences",
+        body: geofenceForm,
+      })
+      .then(getGeofenceAdapter);
   }
 
-  async deleteGeofence(geofenceId: UUID) {
-    await this.apiBase.delete({ url: "/api/v1/geofences/" + geofenceId });
+  deleteGeofence(geofenceId: UUID) {
+    return this.apiBase.delete({ url: "/api/v1/geofences/" + geofenceId });
   }
 
-  async getBuildingById(buildingId: number): Promise<Building> {
-    const building = (await this.apiBase.get({
-      url: "/api/v1/buildings/" + buildingId,
-    })) as Record<string, unknown>;
-    return buildingMapper(building);
+  getBuildingById(buildingId: number): Promise<Building> {
+    return this.apiBase
+      .get({
+        url: "/api/v1/buildings/" + buildingId,
+      })
+      .then(getBuildingAdapter);
   }
 
-  async getBuildings(): Promise<readonly BuildingListElement[]> {
-    const buildingList = (await this.apiBase.get({
-      url: "/api/v1/buildings",
-    })) as Record<string, unknown>[];
-    return buildingList.map((building: Record<string, unknown>) =>
-      buildingMapper(building)
-    );
+  getBuildings(): Promise<readonly BuildingListElement[]> {
+    return this.apiBase
+      .get({
+        url: "/api/v1/buildings",
+      })
+      .then((buildingList: Record<string, unknown>[]) =>
+        buildingList.map((building: Record<string, unknown>) =>
+          getBuildingAdapter(building)
+        )
+      );
   }
 
-  async patchBuilding(
+  patchBuilding(
     buildingId: number,
     buildingForm: Partial<BuildingForm>
   ): Promise<BuildingListElement> {
-    const building = (await this.apiBase.put({
-      url: "/api/v1/buildings/" + buildingId,
-      body: buildingForm,
-    })) as Record<string, unknown>;
-    return buildingMapper(building);
+    return this.apiBase
+      .put({
+        url: "/api/v1/buildings/" + buildingId,
+        body: buildingForm,
+      })
+      .then(getBuildingAdapter);
   }
 
-  async createBuilding(
-    buildingForm: BuildingForm
-  ): Promise<BuildingListElement> {
-    const building = (await this.apiBase.post({
-      url: "/api/v1/buildings",
-      body: buildingForm,
-    })) as Record<string, unknown>;
-    return buildingMapper(building);
+  createBuilding(buildingForm: BuildingForm): Promise<BuildingListElement> {
+    return this.apiBase
+      .post({
+        url: "/api/v1/buildings",
+        body: buildingForm,
+      })
+      .then(getBuildingAdapter);
   }
 
-  async deleteBuilding(buildingId: number) {
-    await this.apiBase.delete({ url: "/api/v1/buildings/" + buildingId });
+  deleteBuilding(buildingId: number) {
+    return this.apiBase.delete({ url: "/api/v1/buildings/" + buildingId });
   }
 
-  async getFloorById(floorId: number): Promise<Floor> {
-    const floor = (await this.apiBase.get({
-      url: "/api/v1/floors/" + floorId,
-    })) as Record<string, unknown>;
-    return floorMapper(floor);
+  getFloorById(floorId: number): Promise<Floor> {
+    return this.apiBase
+      .get({
+        url: "/api/v1/floors/" + floorId,
+      })
+      .then(getFloorAdapter);
   }
 
-  async searchFloor(buildingId: number): Promise<readonly Floor[]> {
-    const buildingFloors = (await this.apiBase.get({
-      url: `/api/v1/buildings/${buildingId}/floors`,
-    })) as Record<string, unknown>[];
-    return buildingFloors.map((floor: Record<string, unknown>) =>
-      floorMapper(floor)
-    );
+  getFloorsOfBuilding(buildingId: number): Promise<readonly Floor[]> {
+    return this.apiBase
+      .get({
+        url: `/api/v1/buildings/${buildingId}/floors`,
+      })
+      .then((buildingFloors: Record<string, unknown>[]) =>
+        buildingFloors.map((floor: Record<string, unknown>) =>
+          getFloorAdapter(floor)
+        )
+      );
   }
 
-  async patchFloor(
-    floorId: number,
-    floorForm: Partial<FloorForm>
-  ): Promise<Floor> {
-    const floor = (await this.apiBase.put({
-      url: "/api/v1/floors/" + floorId,
-      body: floorForm,
-    })) as Record<string, unknown>;
-    return floorMapper(floor);
+  patchFloor(floorId: number, floorForm: Partial<FloorForm>): Promise<Floor> {
+    return this.apiBase
+      .put({
+        url: "/api/v1/floors/" + floorId,
+        body: floorForm,
+      })
+      .then(getFloorAdapter);
   }
 
-  async createFloor(floorForm: FloorForm): Promise<Floor> {
-    const floor = (await this.apiBase.post({
-      url: "/api/v1/floors",
-      body: floorForm,
-    })) as Record<string, unknown>;
-    return floorMapper(floor);
+  createFloor(floorForm: FloorForm): Promise<Floor> {
+    return this.apiBase
+      .post({
+        url: "/api/v1/floors",
+        body: floorForm,
+      })
+      .then(getFloorAdapter);
   }
 
-  async deleteFloor(floorId: number) {
-    await this.apiBase.delete({ url: "/api/v1/floors/" + floorId });
+  deleteFloor(floorId: number) {
+    return this.apiBase.delete({ url: "/api/v1/floors/" + floorId });
   }
 
-  async getPathsByBuildingId(buildingId: number): Promise<Paths> {
-    const path = (await this.apiBase.get({
+  getPathsByBuildingId(buildingId: number): Promise<Paths> {
+    return this.apiBase.get({
       url: `/api/v1/buildings/${buildingId}/paths`,
-    })) as Paths;
-    return path;
+    }) as Promise<Paths>;
   }
 
-  async getPaths(): Promise<Paths[]> {
-    return (await this.apiBase.get({
+  getPaths(): Promise<Paths[]> {
+    return this.apiBase.get({
       url: "/api/v1/paths",
-    })) as Paths[];
+    }) as Promise<Paths[]>;
   }
 
-  async updatePath(buildingId: number, pathForm: Paths): Promise<Paths> {
-    return (await this.apiBase.put({
+  updatePath(buildingId: number, pathForm: Paths): Promise<Paths> {
+    return this.apiBase.put({
       url: `/api/v1/buildings/${buildingId}/paths`,
       body: pathForm,
-    })) as Paths;
+    }) as Promise<Paths>;
   }
 
-  async getPoiCategories(): Promise<readonly PoiCategory[]> {
-    return (await this.apiBase.get({
+  getPoiCategories(): Promise<readonly PoiCategory[]> {
+    return this.apiBase.get({
       url: "/api/v1/poi_categories",
-    })) as PoiCategory[];
+    }) as Promise<readonly PoiCategory[]>;
   }
 
-  async patchPoiCategory(
+  patchPoiCategory(
     poiCategoryId: number,
     poiCategoryForm: Partial<PoiCategoryForm>
   ): Promise<PoiCategory> {
-    return (await this.apiBase.put({
+    return this.apiBase.put({
       url: "/api/v1/poi_categories/" + poiCategoryId,
       body: poiCategoryForm,
-    })) as PoiCategory;
+    }) as Promise<PoiCategory>;
   }
 
-  async createPoiCategory(
-    poiCategoryForm: PoiCategoryForm
-  ): Promise<PoiCategory> {
-    return (await this.apiBase.post({
+  createPoiCategory(poiCategoryForm: PoiCategoryForm): Promise<PoiCategory> {
+    return this.apiBase.post({
       url: "/api/v1/poi_categories",
       body: poiCategoryForm,
-    })) as PoiCategory;
+    }) as Promise<PoiCategory>;
   }
 
-  async deletePoiCategory(poiCategoryId: number) {
-    await this.apiBase.delete({
+  deletePoiCategory(poiCategoryId: number) {
+    return this.apiBase.delete({
       url: "/api/v1/poi_categories/" + poiCategoryId,
     });
   }
 
-  async getInsidePoisByBuildingId(
-    buildingId: number
-  ): Promise<readonly Pois[]> {
-    return (await this.apiBase.get({
+  /**
+   * Returns the pois of a building.
+   */
+  getPoisOfBuilding(
+    buildingId: number,
+    type: "indoor" | "outdoor"
+  ): Promise<readonly Poi[]> {
+    const params = {};
+    if (type) {
+      params["type"] = type;
+    }
+    return this.apiBase.get({
       url: `/api/v1/buildings/${buildingId}/pois`,
-    })) as Pois[];
+      params,
+    }) as Promise<Poi[]>;
   }
 
-  async getOutsidePoisByBuildingId(
-    buildingId: number
-  ): Promise<readonly Pois[]> {
-    return (await this.apiBase.get({
-      url: `/api/v1/buildings/${buildingId}/exterior_pois`,
-    })) as Pois[];
-  }
-
-  async getPois(buildingId?: number): Promise<readonly Pois[]> {
+  /**
+   * Returns all the pois of your organization.
+   */
+  getPois(buildingId?: number): Promise<readonly Poi[]> {
     const params = {};
     if (buildingId) {
       params["buildingId"] = buildingId;
     }
-    return (await this.apiBase.get({ url: `/api/v1/pois`, params })) as Pois[];
+    return this.apiBase
+      .get({ url: `/api/v1/pois`, params })
+      .then((pois: Array<Record<string, unknown>>) => pois.map(getPoiAdapter));
   }
 
-  async patchPoi(
-    poiId: number,
-    poisForm: Partial<PoisUpdateForm>
-  ): Promise<Pois> {
-    return (await this.apiBase.put({
-      url: "/api/v1/pois/" + poiId,
-      body: poisForm,
-    })) as Pois;
+  patchPoi(poiId: number, poiForm: Partial<PoiUpdateForm>): Promise<Poi> {
+    return this.apiBase
+      .put({
+        url: "/api/v1/pois/" + poiId,
+        body: poiForm,
+      })
+      .then(getPoiAdapter);
   }
 
-  async createPoi(poisCreateForm: PoisCreateForm): Promise<Pois> {
-    return (await this.apiBase.post({
-      url: "/api/v1/pois",
-      body: poisCreateForm,
-    })) as Pois;
+  createPoi(poiCreateForm: PoiCreateForm): Promise<Poi> {
+    const poiCreateFormAdapted = postPoiAdapter(poiCreateForm);
+    return this.apiBase
+      .post({
+        url: "/api/v1/pois",
+        body: poiCreateFormAdapted,
+      })
+      .then(getPoiAdapter);
   }
 
-  async deletePoi(poiId: number) {
-    await this.apiBase.delete({ url: "/api/v1/pois/" + poiId });
+  deletePoi(poiId: number) {
+    return this.apiBase.delete({ url: "/api/v1/pois/" + poiId });
   }
 }

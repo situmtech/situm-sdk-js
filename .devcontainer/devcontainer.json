@@ -26,5 +26,5 @@
 		"orta.vscode-jest",
 		"kavod-io.vscode-jest-test-adapter"
 	],
-	"postCreateCommand": "yarn install"
+	"postCreateCommand": "npm install"
 }
