@@ -1,7 +1,7 @@
 {
   "author": "Situm Technologies",
   "name": "@situm/sdk-js",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Javascript SDK for the Situm Web APIs",
   "repository": "https://github.com/situmtech/situm-sdk-js",
   "main": "build/main/index.js",
@@ -97,11 +97,14 @@
   "files": [
     "build",
     "examples",
+    "docs/guides",
     "!**/*.spec.*",
     "!**/*.json",
     "CHANGELOG.md",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "CONTRIBUTING.md",
+    "SECURITY-POLICY.md"
   ],
   "config": {
     "commitizen": {

@@ -1,19 +1,30 @@
-# Situm SDK JS
+<p align="center"> <img width="233" src="https://situm.com/wp-content/themes/situm/img/logo-situm.svg" style="margin-bottom:1rem" /> <h1 align="center">Situm SDK JS</h1> </p>
 
-[![](https://situm.com/wp-content/themes/situm/img/logo-situm.svg)](https://www.situm.es)
+<p align="center" style="text-align:center">
 
-Situm SDK JS is a JavaScript library to interact with the Situm REST APIs to build your
-own applications with the power of [SITUM](https://situm.com/). This library is used by
-SITUM internally to build our dashboards and tools so you can use any fix and feature
-we develop publicly.
+A JavaScript library to interact with the Situm REST APIs to build your own applications with the power of
+[SITUM](https://www.situm.com/).
+
+</p>
+
+<div align="center" style="text-align:center">
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+![Latest version:](https://img.shields.io/npm/v/@situm/sdk-js/latest)
+![Node compatibility:](https://img.shields.io/node/v/@situm/sdk-js)
+[![TypeScript](https://badges.frapsoft.com/typescript/code/typescript.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
+
+</div>
 
 ## Getting Started
 
+The SITUM SDK JS is Javascript library to create web applications using the REST API from Situm. This will allow you to fetch geospacial information and create your own js-based applications. We aim to make it easy to use for you and to keep your focus on creating your bussiness logic over our services.
+
 The best way to get started is to navigate through the Situm SDK JS documentation site:
 
-- [Guide](https://situm.com/en/docs/sdk-js/guides/quickstart/) will give you a good overview of the library.
-- [API Reference](https://situm.com/en/docs/sdk-js/reference/) will help you use a particular class or method.
-- [Examples](https://situm.com/en/docs/sdk-js/examples/) will demo some specific features.
+- [Guide](https://situm.com/docs/01-quickstart-guide/) will give you a good overview of the library.
+- [API Reference](https://situm.com/docs/01-quickstart-guide/) will help you use a particular class or method.
+- [Examples](./examples) will demo some specific features.
 - [Support](https://situm.com/en/docs/sdk-js/support/) might answer some of your questions.
 
 ## Versioning

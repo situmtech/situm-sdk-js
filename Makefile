@@ -1,4 +1,3 @@
-# Starts servers
 .PHONY: build
 build:
 	@echo -e "Building service… \n"

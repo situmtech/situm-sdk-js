@@ -141,6 +141,7 @@ export default class ApiBase {
       ...headersToReturn,
       "Content-Type": "application/json",
     };
+
     return headersToReturn;
   }
 

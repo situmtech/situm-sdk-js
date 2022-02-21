@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.0.5 (2022-02-21)
+
+### Improvements
+
+- Separated all data mappers (functions to map server responses to TS objects)
+  into the adapters/ folder
+- Added JSDoc to all API wrappers
+- Renamed `getFloorsOfBuilding` to `getFloorsByBuildingId`
+- Renamed `searchGeofences` to `getGeofences`
+
+### Fixed
+
+- Crash in cartography fetch request due to improper server response handling
+
 ## 0.0.4 (2022-02-14) 💌 edition
 
 ### Added
