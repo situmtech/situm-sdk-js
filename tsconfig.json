@@ -1,25 +1,14 @@
 {
   "compilerOptions": {
-    "incremental": true,
-    "target": "es2017",
-    "outDir": "build/main",
-    "rootDir": "src",
     "moduleResolution": "node",
-    "module": "commonjs",
+    "target": "ES2015",
+    "module": "es2015",
+    "lib": ["es2015", "es2016", "es2017", "dom"],
     "declaration": true,
     "inlineSourceMap": false,
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
     "resolveJsonModule": true /* Include modules imported with .json extension. */,
-
     // "strict": true /* Enable all strict type-checking options. */,
-
-    /* Strict Type-Checking Options */
-    // "noImplicitAny": true /* Raise error on expressions and declarations with an implied 'any' type. */,
-    // "strictNullChecks": true /* Enable strict null checks. */,
-    // "strictFunctionTypes": true /* Enable strict checking of function types. */,
-    // "strictPropertyInitialization": true /* Enable strict checking of property initialization in classes. */,
-    // "noImplicitThis": true /* Raise error on 'this' expressions with an implied 'any' type. */,
-    // "alwaysStrict": true /* Parse in strict mode and emit "use strict" for each source file. */,
 
     /* Additional Checks */
     "noUnusedLocals": true /* Report errors on unused locals. */,
@@ -37,14 +26,13 @@
     // "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */,
     // "emitDecoratorMetadata": true /* Enables experimental support for emitting type metadata for decorators. */,
 
-    "lib": ["es2017", "dom"],
     "types": ["jest"],
     "typeRoots": ["node_modules/@types", "src/types"]
   },
   "parserOptions": {
     "sourceType": "module"
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules/**", "src/__tests__/**"],
+  "include": ["src/**/*", "test/**/*"],
+  "exclude": ["node_modules/**"],
   "compileOnSave": false
 }

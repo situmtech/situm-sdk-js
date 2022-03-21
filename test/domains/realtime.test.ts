@@ -1,71 +1,83 @@
 import { expect } from "chai";
 
-import SitumSDK from "../../index";
-import { UUID } from "../../types";
+import SitumSDK from "../../src";
+import { UUID } from "../../src/types";
 import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 
 describe("SitumSDK.realtime", () => {
-  test("should retrieve realtime positions by organization id", async () => {
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
-    const mockRealtime = getMockData("realtimeMock1");
-    const axiosMock = mockAxiosRequest([
+  let situmSDK = null;
+  let mockRealtime = null;
+  let axiosMock = null;
+
+  beforeEach(() => {
+    situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    mockRealtime = getMockData("realtimeMock1");
+  });
+
+  afterEach(() => {
+    situmSDK = null;
+    axiosMock.mockClear();
+    axiosMock.mockRestore();
+  });
+
+  it("should retrieve realtime positions by organization id", async () => {
+    // Arrange
+    axiosMock = mockAxiosRequest([
       { access_token: "fakeJWT" },
       getMockData("realtimeResponseMock1"),
     ]);
     const organizationId: UUID = "1a5d0ff4-cd76-4e08-bcdc-e36e0182fd78";
-    const realtimePositions = await situmSDK.realtime.getUsersPositions({
+
+    // Execute
+    const realtimePositions = await situmSDK.realtime.getPositions({
       organizationId,
     });
 
-    // Validate test
+    // Assert
     const configuration = axiosMock.mock.calls[1][0];
     expect(configuration.url).to.be.equals(
       `/api/v1/realtime/organization/${organizationId}`
     );
     expect(realtimePositions).is.deep.equal(mockRealtime);
-    axiosMock.mockClear();
-    axiosMock.mockRestore();
   });
 
-  test("should retrieve realtime positions by building id", async () => {
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
-    const mockRealtime = getMockData("realtimeMock1");
-    const axiosMock = mockAxiosRequest([
+  it("should retrieve realtime positions by building id", async () => {
+    // Arrange
+    axiosMock = mockAxiosRequest([
       { access_token: "fakeJWT" },
       getMockData("realtimeResponseMock1"),
     ]);
     const buildingId = 1111;
-    const realtimePositions = await situmSDK.realtime.getUsersPositions({
+
+    // Execute
+    const realtimePositions = await situmSDK.realtime.getPositions({
       buildingId,
     });
 
-    // Validate test
+    // Assert
     const configuration = axiosMock.mock.calls[1][0];
     expect(configuration.url).to.be.equals(
       `/api/v1/realtime/building/${buildingId}`
     );
     expect(realtimePositions).is.deep.equal(mockRealtime);
-    axiosMock.mockClear();
-    axiosMock.mockRestore();
   });
 
-  test("should retrieve realtime positions by organization id but without pass organization", async () => {
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
-    const mockRealtime = getMockData("realtimeMock1");
-    const axiosMock = mockAxiosRequest([
+  it("should retrieve realtime positions by organization id but without pass organization", async () => {
+    // Arrange
+    axiosMock = mockAxiosRequest([
       { access_token: getMockData("jwtMock") },
       getMockData("realtimeResponseMock1"),
     ]);
     const organizationId = "0a5d0ff4-cd76-4e08-bcdc-e36e0182fd78";
-    const realtimePositions = await situmSDK.realtime.getUsersPositions();
 
-    // Validate test
+    // Execute
+    const realtimePositions = await situmSDK.realtime.getPositions();
+
+    // Assert
     const configuration = axiosMock.mock.calls[1][0];
     expect(configuration.url).to.be.equals(
       `/api/v1/realtime/organization/${organizationId}`
     );
     expect(realtimePositions).is.deep.equal(mockRealtime);
-    axiosMock.mockClear();
-    axiosMock.mockRestore();
   });
 });

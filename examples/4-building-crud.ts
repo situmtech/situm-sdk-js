@@ -19,12 +19,12 @@ import SitumSDK from "../src";
   });
 
   // Fetching info from a path searching by building
-  await sdk.cartography.getPathsByBuildingId(5962).then((data) => {
+  await sdk.cartography.getPaths({ buildingId: 5962 }).then((data) => {
     console.log(data);
   });
 
   // We've got functions to perform CRUD operations for buildings
-  await sdk.cartography.updatePath(5962, {
+  await sdk.cartography.patchPath(5962, {
     nodes: [
       {
         id: 1,

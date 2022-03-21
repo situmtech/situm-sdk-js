@@ -5,12 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import axios, { AxiosError, AxiosRequestConfig, Method } from "axios";
-import jwt_decode from "jwt-decode";
-import qs from "qs";
+import axios, {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosRequestHeaders,
+  Method,
+} from "axios";
+import { stringify } from "qs";
 
-import SitumError from "./situmError";
 import { AuthBasic, SDKConfiguration, SitumErrorType, UUID } from "./types";
+import { parseJWT } from "./utils/jwt";
+import SitumError from "./utils/situmError";
 import { keysToCamel, keysToSnake } from "./utils/snakeCaseCamelCaseUtils";
 
 type Jwt = {
@@ -30,37 +35,79 @@ export type RequestInfo = {
 export default class ApiBase {
   private readonly configuration: SDKConfiguration;
   private readonly getAuthorization;
-  private jwt: string;
+  private jwt: string | null;
 
-  constructor(configuration: SDKConfiguration, getAuthorization) {
+  constructor(
+    configuration: SDKConfiguration,
+    getAuthorization: () => Promise<string>
+  ) {
     this.configuration = configuration;
     this.getAuthorization = getAuthorization;
+    this.jwt = null;
   }
 
-  get(requestInfo: RequestInfo): Promise<unknown> {
-    return this.request("get", requestInfo);
+  /**
+   * Performs an HTTP GET request given a parameters hash
+   *
+   * @param requestInfo Parameters to use while performing the request
+   * @returns Promise
+   */
+  get<T>(requestInfo: RequestInfo): Promise<T> {
+    return this.request<T>("get", requestInfo);
   }
 
-  post(requestInfo: RequestInfo): Promise<unknown> {
-    return this.request("post", requestInfo);
+  /**
+   * Performs an HTTP POST request given a parameters hash
+   *
+   * @param requestInfo Parameters to use while performing the request
+   * @returns Promise
+   */
+  post<T>(requestInfo: RequestInfo): Promise<T> {
+    return this.request<T>("post", requestInfo);
   }
 
-  put(requestInfo: RequestInfo): Promise<unknown> {
-    return this.request("put", requestInfo);
+  /**
+   * Performs an HTTP POST request given a parameters hash
+   *
+   * @param requestInfo Parameters to use while performing the request
+   * @returns Promise
+   */
+  put<T>(requestInfo: RequestInfo): Promise<T> {
+    return this.request<T>("put", requestInfo);
   }
 
-  patch(requestInfo: RequestInfo): Promise<unknown> {
-    return this.request("patch", requestInfo);
+  /**
+   * Performs an HTTP PATCH request given a parameters hash
+   *
+   * @param requestInfo Parameters to use while performing the request
+   * @returns Promise
+   */
+  patch<T>(requestInfo: RequestInfo): Promise<T> {
+    return this.request<T>("patch", requestInfo);
   }
 
-  delete(requestInfo: RequestInfo): Promise<unknown> {
-    return this.request("delete", requestInfo);
+  /**
+   * Performs an HTTP DELETE request given a parameters hash
+   *
+   * @param requestInfo Parameters to use while performing the request
+   * @returns Promise
+   */
+  delete(requestInfo: RequestInfo): Promise<void> {
+    return this.request<void>("delete", requestInfo);
   }
 
-  private async request(
+  /**
+   * Wrapper around axios that converts our domain HTTP request parameters
+   * to the axios request requirements.
+   *
+   * @param method the HTTP verb to use
+   * @param requestInfo Parameters to use while performing the request
+   * @returns Promise
+   */
+  private async request<T>(
     method: string,
     requestInfo: RequestInfo
-  ): Promise<unknown> {
+  ): Promise<T> {
     let jwt = null;
 
     try {
@@ -78,13 +125,16 @@ export default class ApiBase {
     }
   }
 
-  async getJwtOrganizationId(): Promise<UUID> {
-    const jwt = await this.getJwt();
-    return this.parseJwt(jwt).organizationId;
-  }
-
+  /**
+   * Generates a complete axios request configuration from a set of parameters
+   *
+   * @param jwt The JWT to use in the request headers
+   * @param method The HTTP verb to use in the request
+   * @param requestInfo Additional information to send in the axios request
+   * @returns AxiosRequestConfig
+   */
   private transformRequestInfoToAxiosRequestConfig(
-    jwt: string,
+    jwt: string | null,
     method: string,
     requestInfo: RequestInfo
   ): AxiosRequestConfig {
@@ -93,11 +143,9 @@ export default class ApiBase {
       url: requestInfo.url,
       baseURL: this.configuration.domain,
       headers: this.addDefaultHeaders(jwt, requestInfo.headers),
-      params: qs.stringify(keysToSnake(requestInfo.params)),
-      paramsSerializer: (params) => params,
+      params: stringify(keysToSnake(requestInfo.params)),
       data: keysToSnake(requestInfo.body),
-      ...(!jwt ? { withCredentials: true } : {}),
-    };
+    } as AxiosRequestConfig;
 
     if (requestInfo.authorization) {
       request["auth"] = {
@@ -116,8 +164,28 @@ export default class ApiBase {
     return request;
   }
 
-  private addDefaultHeaders(jwt, headers: Record<string, string>) {
-    let headersToReturn = { ...headers };
+  /**
+   * Retrieves the organization id from the JWT
+   */
+  async getJwtOrganizationId(): Promise<UUID> {
+    const jwt = await this.getJwt();
+
+    return this.parseJwt(jwt).organizationId;
+  }
+
+  /**
+   * Calculates the axios request headers from
+   */
+  private addDefaultHeaders(
+    jwt: string | null,
+    headers: Record<string, string> | undefined
+  ): AxiosRequestHeaders | undefined {
+    let headersToReturn = {
+      ...headers,
+      "Content-Type": "application/json",
+      // "X-API-CLIENT": "SitumJSSDK/" + this.configuration.version,
+    } as Record<string, string>;
+
     if (jwt) {
       headersToReturn = {
         ...headersToReturn,
@@ -125,26 +193,13 @@ export default class ApiBase {
       };
     }
 
-    if (!("User-Agent" in headersToReturn)) {
-      headersToReturn = {
-        ...headersToReturn,
-        "User-Agent": "SitumJSSDK/" + this.configuration.version,
-      };
-    }
-    if (!("User-Agent" in headersToReturn)) {
-      headersToReturn = {
-        ...headersToReturn,
-        "User-Agent": "SitumJSSDK/" + this.configuration.version,
-      };
-    }
-    headersToReturn = {
-      ...headersToReturn,
-      "Content-Type": "application/json",
-    };
-
     return headersToReturn;
   }
 
+  /**
+   * Calculates and retrieves a JWT, renews if needed it
+   * @returns the JWT string
+   */
   private async getJwt() {
     if (!this.configuration.auth) {
       return null;
@@ -157,19 +212,36 @@ export default class ApiBase {
     return this.jwt;
   }
 
+  /**
+   * Checks if the given JWT parameter is expired or not
+   * @param token The JWT to validate
+   * @returns boolean
+   */
   private expiredJwt(token: string): boolean {
     const parsedJwt = this.parseJwt(token);
+
     return (parsedJwt.expiration - 500) * 1000 < Date.now();
   }
 
-  private parseJwt(token: string): Jwt {
-    const jwt = jwt_decode(token) as Record<string, unknown>;
+  /**
+   * Decodes the given JWT string and returns it as an object
+   * @param token The JWT token string to parse
+   * @returns The JWT object
+   */
+  private parseJwt(token: string | null): Jwt {
+    const jwt = parseJWT(token) as Record<string, unknown>;
+
     return {
       expiration: jwt.exp as number,
       organizationId: jwt.organization_uuid as UUID,
     };
   }
 
+  /**
+   * Converts An AxiosError to SitumError
+   *
+   * @param error The AxiosError to parse
+   */
   private parseRequestException(error: AxiosError<SitumErrorType>): SitumError {
     if (error instanceof SitumError) {
       return error;
@@ -190,8 +262,4 @@ export default class ApiBase {
       message: error.message,
     });
   }
-
-  // private atob(buffer) {
-  //   return Buffer.from(buffer, "base64").toString("binary");
-  // }
 }

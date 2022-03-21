@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { SitumErrorType, SitumSubError } from "./types";
+import { SitumErrorType, SitumSubError } from "../types";
 
 export default class SitumError extends Error {
   readonly status: number;
   readonly code: string;
-  readonly errors: readonly SitumSubError[];
+  readonly errors: SitumSubError[] | undefined;
 
   constructor({ status, code, message, errors }: SitumErrorType) {
     super(message);

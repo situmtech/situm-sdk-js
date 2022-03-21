@@ -6,58 +6,59 @@
  *
  */
 import ApiBase from "./apiBase";
-import AuthApi from "./domains/authApi";
-import CartographyApi from "./domains/cartographyApi";
-import RealtimeApi from "./domains/realtimeApi";
-import UserApi from "./domains/userApi";
+import AuthApi from "./domains/auth";
+import CartographyApi from "./domains/cartography";
+import RealtimeApi from "./domains/realtime";
+import UserApi from "./domains/user";
 import { SDKConfiguration } from "./types";
-
-type ApiDomains = {
-  readonly userApi?: UserApi;
-  readonly cartographyApi?: CartographyApi;
-};
 
 export default class SitumSDK {
   private readonly configuration: SDKConfiguration;
   private readonly apiBase: ApiBase;
-  private readonly domains: ApiDomains;
 
   // Domains
   private auth: AuthApi;
+  /**
+   * Gives access to the user domain with its operations
+   */
   readonly user: UserApi;
+  /**
+   * Gives access to the user domain with its operations
+   */
   readonly cartography: CartographyApi;
+  /**
+   * Gives access to the user domain with its operations
+   */
   readonly realtime: RealtimeApi;
 
-  static readonly version = "0.0.5";
+  static readonly version = "0.1.0";
 
-  constructor({ auth, domain }: SDKConfiguration) {
-    this.domains = {} as ApiDomains;
+  /**
+   * Initializes the API configuration and services exported
+   *
+   * @param config The configuration
+   */
+  constructor(config: SDKConfiguration) {
     this.configuration = {
-      domain: domain || "https://dashboard.situm.es",
+      ...config,
+      domain: config.domain || "https://dashboard.situm.com",
       version: SitumSDK.version,
-      auth,
+      auth: config.auth,
     };
     this.apiBase = new ApiBase(
       this.configuration,
       (): Promise<string> => this.getAuthApi().getAuthorization()
     );
 
-    return new Proxy(this, {
-      get: (target: SitumSDK, prop: string) => {
-        if (!(prop in target.domains)) {
-          if (prop === "user") {
-            target.domains[prop] = new UserApi(this.apiBase);
-          } else if (prop === "cartography") {
-            target.domains[prop] = new CartographyApi(this.apiBase);
-          } else if (prop === "realtime") {
-            target.domains[prop] = new RealtimeApi(this.apiBase);
-          }
-        }
-        return target.domains[prop];
-      },
-    });
+    this.user = new UserApi(this.apiBase);
+    this.cartography = new CartographyApi(this.apiBase);
+    this.realtime = new RealtimeApi(this.apiBase);
   }
 
+  /**
+   * Returns the AuthAPI initialized
+   * @returns Returns the Auth API wrapper
+   */
   private getAuthApi() {
     if (!this.auth) {
       this.auth = new AuthApi(this.configuration.auth, this.apiBase);

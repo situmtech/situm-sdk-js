@@ -7,7 +7,7 @@
  */
 import { Cartesians, Coordinate, Poi, PoiCreateForm } from "../types";
 
-type ServerPoiGet = Poi & {
+export type ServerPoiGet = Poi & {
   position: {
     floorId: number;
     x: number;
@@ -27,18 +27,42 @@ type ServerPoiPost = Poi & {
   };
 };
 
-export function getAdapter(poi: ServerPoiGet): Poi {
+/**
+ * Adapts the server response to our common Poi object,
+ * cleaning deprecations, removing redundancies, and more.
+ *
+ * @param poi The poi object that returns the server api
+ * @returns Poi the clean and normalized floor object
+ */
+export function getAdapter(serverPoi: ServerPoiGet): Poi {
+  const poi = {
+    ...serverPoi,
+  };
+
+  // if indoor, normalize response
   if (poi.position) {
-    //indoor
     poi["floorId"] = poi.position.floorId;
     poi["location"] = poi.position.georeferences;
+
     delete poi.position;
   }
 
   return poi;
 }
 
-export function postAdapter(poi: PoiCreateForm): ServerPoiPost {
+/**
+ * Adapts our common Poi object to the server,
+ * adapting deprecations, and more.
+ *
+ * @param poi The normalized poi object
+ * @returns Poi the poi object to send to the server api
+ */
+export function postAdapter(serverPoi: PoiCreateForm): ServerPoiPost {
+  const poi = {
+    ...serverPoi,
+  } as ServerPoiPost;
+
+  // If indoor, de-normalize response
   poi["position"] = {
     floorId: poi.floorId,
     georeferences: poi.location,

@@ -35,6 +35,7 @@ export type Auth = AuthBasic | AuthApiKey;
 export type Jwt = string;
 
 export type UUID = string;
+export type ID = number;
 
 export type SDKConfiguration = {
   domain?: string;
@@ -122,7 +123,7 @@ export type User = {
   isVerified: boolean;
   groupIds: UUID[];
   license: License;
-  buildingIds: number[];
+  buildingIds: ID[];
   importationDate: Date;
 };
 
@@ -135,19 +136,19 @@ export type UserForm = {
   code?: string;
   subscribedToNewsletter?: boolean;
   verifiedByAdmin?: boolean;
-  groupIds?: number[];
-  buildingIds?: number[];
+  groupIds?: UUID[];
+  buildingIds?: ID[];
   role?: Role;
   iconColour?: string;
   info?: string;
   acceptTerms?: boolean;
 };
 
-export type SearchUser = PaginatedSearch & {
+export type UserSearch = PaginatedSearch & {
   ids?: string[];
   excludeIds?: string[];
   groupIds?: string[];
-  buildingIds?: number[];
+  buildingIds?: ID[];
   hasBuildings?: boolean;
   fullName?: string;
   codes?: string[];
@@ -163,20 +164,20 @@ export type Geofence = GeofenceForm & {
 };
 
 export type GeofenceForm = {
-  customFields?: CustomField[];
-  name: string;
-  code?: string;
-  organizationId?: UUID;
-  info?: string;
-  type: GeofenceType;
-  geometric: [[number, number]];
-  floorId: number;
   buildingId: string;
+  code?: string;
+  customFields?: CustomField[];
+  floorId: ID;
+  geometric: [[number, number]];
+  info?: string;
+  name: string;
+  organizationId?: UUID;
+  type: GeofenceType;
 };
 
-export type SearchGeofence = PaginatedSearchShort & {
+export type GeofenceSearch = PaginatedSearchShort & {
   organizationId?: UUID;
-  buildingIds?: number[];
+  buildingIds?: ID[];
   name?: string;
   deleted?: boolean;
 };
@@ -203,7 +204,7 @@ export type Cartesians = {
 };
 
 export type PoiUpdateForm = {
-  floorId: number;
+  floorId: ID;
   name: string;
   info: string;
   categoryId: number;
@@ -212,17 +213,19 @@ export type PoiUpdateForm = {
 };
 
 export type PoiCreateForm = PoiUpdateForm & {
-  buildingId: number;
+  buildingId: ID;
 };
 
 export type Poi = PoiCreateForm & {
-  id: number;
+  id: ID;
   createdAt: Date;
   updatedAt: Date;
   categoryName: string;
   infoUnsafe: string;
   type: string;
 };
+
+export type PoiSearch = { buildingId?: ID; type?: "indoor" | "outdoor" };
 
 export type Node = {
   id: number;
@@ -239,6 +242,8 @@ export type Link = {
   accesible?: boolean;
 };
 
+export type PathSearch = { buildingId?: ID };
+
 export type Paths = {
   nodes: Node[];
   links: Link[];
@@ -251,7 +256,7 @@ export type Maps = {
 };
 
 export type FloorBase = {
-  buildingId: number;
+  buildingId: ID;
   level: number;
   levelHeight?: number;
   name?: string;
@@ -263,11 +268,13 @@ export type FloorForm = FloorBase & {
 };
 
 export type Floor = FloorBase & {
-  id: number;
+  id: ID;
   createdAt: Date;
   updatedAt: Date;
   maps: Maps;
 };
+
+export type FloorSearch = { buildingId?: ID };
 
 export type BuildingBase = {
   name: string;
@@ -284,7 +291,7 @@ export type BuildingForm = BuildingBase & {
 };
 
 export type BuildingListElement = BuildingBase & {
-  id: number;
+  id: ID;
   info: string;
   calibrationModel: CalibrationModel;
   createdAt: Date;
@@ -315,7 +322,7 @@ export type PoiCategoryForm = PoiCategoryBase & {
 };
 
 export type PoiCategory = PoiCategoryBase & {
-  id: number;
+  id: ID;
   iconUrl: string;
   selectedIconUrl: string;
   updatedAt: Date;
@@ -323,25 +330,25 @@ export type PoiCategory = PoiCategoryBase & {
   public: boolean;
 };
 
-export type Geometry = {
+export type GeoJSONFeatureGeometry = {
   type: string;
   coordinates: [number, number];
 };
 
-export type Property = {
+export type GeoJSONFeatureProperty = {
   time: Date;
   yaw: number;
   localCoordinates: [number, number];
-  floorId: number;
-  buildingId: number;
+  floorId: ID;
+  buildingId: ID;
   levelHeight: number;
   accuracy: number;
 };
 
-export type Feature = {
+export type GeoJSONFeature = {
   type: string;
-  geometry: Geometry;
-  properties: Property;
+  geometry: GeoJSONFeatureGeometry;
+  properties: GeoJSONFeatureProperty;
   id: string;
 };
 
@@ -357,8 +364,6 @@ export type Device = {
 
 export type RealtimePositions = {
   type: string;
-  features: Feature[];
+  features: GeoJSONFeature[];
   devicesInfo: Device[];
 };
-
-export type SearchRealtime = { organizationId?: UUID } | { buildingId: number };

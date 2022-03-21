@@ -5,6 +5,16 @@ module.exports = {
   transform: {
     "^.+\\.tsx?$": "ts-jest",
   },
-  testRegex: "src(.*)((\\.|/)(test|spec))\\.(js?|ts?)$",
+  testRegex: "((\\.|/)(test|spec))\\.(js?|ts?)$",
   moduleFileExtensions: ["ts", "js"],
+  coveragePathIgnorePatterns: ["/node_modules/", "/test/"],
+  coverageThreshold: {
+    global: {
+      branches: 70,
+      functions: 90,
+      lines: 85,
+      statements: 85,
+    },
+  },
+  collectCoverageFrom: ["src/*.{js,ts}"],
 };

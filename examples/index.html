@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="https://unpkg.com/axios@0.26.1/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/@situm/sdk-js@0.0.6-beta5/dist/umd/situm-sdk.js"></script>
+    <pre id="dump"></pre>
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const situm = new SitumSDK({ auth: {
+            username: 'EXAMPLE',
+            apikey: 'EXAMPLE'
+        }});
+
+        document.getElementById('dump').innerHTML = JSON.stringify(await situm.cartography.getBuildings(), null, 2)
+      });
+    </script>
+  </body>

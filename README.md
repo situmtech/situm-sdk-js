@@ -18,7 +18,7 @@ A JavaScript library to interact with the Situm REST APIs to build your own appl
 
 ## Getting Started
 
-The SITUM SDK JS is Javascript library to create web applications using the REST API from Situm. This will allow you to fetch geospacial information and create your own js-based applications. We aim to make it easy to use for you and to keep your focus on creating your bussiness logic over our services.
+The SITUM SDK JS is Javascript library to create web applications using the REST API from Situm. This will allow you to fetch geospacial information and create your own js-based applications. We aim to make it easy to use for you and to keep your focus on creating your business logic over our services.
 
 The best way to get started is to navigate through the Situm SDK JS documentation site:
 
@@ -47,13 +47,13 @@ This project is licensed under the MIT - see the [LICENSE.txt](LICENSE.txt) file
 
 ### API Reference
 
-Run `npm run docs` to build the API reference documentation from jsdoc annotations.
+Run `npm run doc` to build the API reference documentation from jsdoc annotations.
 
 Once the task is done, you can visit `docs/public/index.html` to check the reference
 
 ### General documentation
 
-You can read the general documentation that is published at [https://situm.com/en/docs/sdk-js/](https://situm.com/en/docs/sdk-js/) also in this repo. They are written in Markdown.
+You can read the general documentation that is published at [https://situm.com/en/docs/sdk-js/](https://situm.com/en/docs/sdk-js/) also in this repo.
 
 Warning: internal links in these documents don't work. They are replaced when the documentation is published in [https://situm.com/](https://situm.com/en/docs/sdk-js/)
 
@@ -106,11 +106,13 @@ npm run docs
 ### Release version
 
 ```
-npm run bump
+npm run prepare-release
+npm pack
+npm publish
 ```
 
-To publish a release to the `CDN` and `npm`
+or for beta channel
 
 ```
-npm run release
+npm publish --tag beta
 ```

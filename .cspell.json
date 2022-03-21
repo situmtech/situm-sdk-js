@@ -12,7 +12,9 @@
     "geofences",
     "apikey",
     "georeferences",
-    "Cocina"
+    "Cocina",
+    "geospacial",
+    "Colour"
   ],
   "flagWords": ["hte"]
 }

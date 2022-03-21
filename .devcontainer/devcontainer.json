@@ -6,25 +6,27 @@
 	// Sets the run context to one level up instead of the .devcontainer folder.
 	"context": "..",
 	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-	"dockerFile": "../Dockerfile",
-	//Specify the target
-	// Set *default* container specific settings.json values on container create.
-	"settings": {
-		"terminal.integrated.defaultProfile.linux": "zsh"
-	},
-	"forwardPorts": [
-		9229
-	],
+	"dockerFile": "Dockerfile",
+	"remoteUser": "node",
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"dbaeumer.vscode-eslint",
-		"ms-azuretools.vscode-docker",
-		"vscode.git",
 		"esbenp.prettier-vscode",
-		"ms-vscode.vscode-typescript-next",
 		"hbenl.vscode-test-explorer",
+		"kavod-io.vscode-jest-test-adapter",
+		"ms-azuretools.vscode-docker",
+		"ms-vscode.vscode-typescript-next",
 		"orta.vscode-jest",
-		"kavod-io.vscode-jest-test-adapter"
+		"pflannery.vscode-versionlens",
+		"vscode.git",
 	],
+	"settings": {
+		"search.exclude": {
+			"**/node_modules": true,
+			"**/bower_components": true,
+			"**/*.code-search": true,
+			"dist": true,
+		}
+	},
 	"postCreateCommand": "npm install"
 }

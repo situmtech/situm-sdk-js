@@ -7,6 +7,13 @@
  */
 import { Geofence } from "../types";
 
+/**
+ * Adapts the server response to our common Floor object,
+ * cleaning deprecations, removing redundancies, and more.
+ *
+ * @param geofence The geofence object that returns the server api
+ * @returns Geofence the clean and normalized floor object
+ */
 export function getAdapter(geofence: Record<string, unknown>): Geofence {
   const geofenceToReturn = {
     ...geofence,
