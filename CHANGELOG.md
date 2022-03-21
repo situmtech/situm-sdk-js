@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.7 (2022-04-08)
+
+
+### Features
+
+* bump version to 0.0.4 ([03d1935](https://github.com/situmtech/situm-sdk-js/commit/03d1935634f937438c2f28d15999014c09b11e9a))
+
+### 0.0.6 (2022-04-07)
+
+
+### Features
+
+* bump version to 0.0.4 ([03d1935](https://github.com/situmtech/situm-sdk-js/commit/03d1935634f937438c2f28d15999014c09b11e9a))
+
+
+### Bug Fixes
+
+* ensure to pass base configuration in the SitumSDK main class ([ff8d74a](https://github.com/situmtech/situm-sdk-js/commit/ff8d74a10a1bd0f3c0b44e759f6748a197c58433))
+* Remove duplicated User-Agent headers check in apiBase ([6e3fe8e](https://github.com/situmtech/situm-sdk-js/commit/6e3fe8edb121a7276ad6fa1df7e6dd90ad7e80d1))
+
+## 0.0.6-beta3 (2022-04-07)
+
+- chore: Improve typing system by using generics in the base API
+- refactor: renamed getter methods
+  - getFloorsOfBuildingId to getFloors
+  - updatePath to patchPath
+  - getPoisOfBuiding to getPois, now supports filtering
+  - searchGeofences to getGeofences
+- doc: Added documentation for all domain methods
+- test: Improve test suite organization
+
+### Bug Fixes
+
+- fix: ensure to pass base configuration in the SitumSDK main class ([ff8d74a](https://github.com/situmtech/situm-sdk-js/commit/ff8d74a10a1bd0f3c0b44e759f6748a197c58433))
+
+* Remove duplicated User-Agent headers check in apiBase ([6e3fe8e](https://github.com/situmtech/situm-sdk-js/commit/6e3fe8edb121a7276ad6fa1df7e6dd90ad7e80d1))
+
+### Features
+
+- bump version to 0.0.4 ([03d1935](https://github.com/situmtech/situm-sdk-js/commit/03d1935634f937438c2f28d15999014c09b11e9a))
+
 ## 0.0.5 (2022-02-21)
 
 ### Improvements

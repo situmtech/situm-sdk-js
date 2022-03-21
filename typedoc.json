@@ -1,0 +1,13 @@
+{
+  "entryPoints": ["src/index.ts"],
+  "out": "docs/public",
+  "tsconfig": "tsconfig.json",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "readme": "../../README.md",
+  "name": "situm-sdk",
+  "customTitle": "Situm SDK JS",
+  "customDescription": "A JavaScript library to interact with the Situm REST APIs to build your own applications with the power of SITUM.",
+  "favicon": "https://situm.com/wp-content/uploads/2020/06/cropped-logo-situm-180x180.png"
+}

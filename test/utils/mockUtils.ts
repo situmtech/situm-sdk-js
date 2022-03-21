@@ -8,7 +8,7 @@
 import axios from "axios";
 import { expect } from "chai";
 
-import SitumError from "../../situmError";
+import SitumError from "../../src/utils/situmError";
 
 import mockData from "./mockData.json";
 

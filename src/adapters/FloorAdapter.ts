@@ -7,6 +7,13 @@
  */
 import { Floor } from "../types";
 
+/**
+ * Adapts the server response to our common Floor object,
+ * cleaning deprecations, removing redundancies, and more.
+ *
+ * @param floor The floor object that returns the server api
+ * @returns Floor the clean and normalized floor object
+ */
 export function getAdapter(floor: Record<string, unknown>): Floor {
   const floorToReturn = {
     ...floor,

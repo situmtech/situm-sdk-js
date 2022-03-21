@@ -12,6 +12,20 @@ export type AccessTokens = {
   readonly accessToken: string;
 };
 
+type AuthParams =
+  | {
+      authorization: {
+        username: string;
+        password: string;
+      };
+    }
+  | {
+      headers: {
+        "X-API-EMAIL": string;
+        "X-API-KEY": string;
+      };
+    };
+
 export default class AuthApi {
   private readonly auth: Auth;
   private readonly apiBase: ApiBase;
@@ -25,11 +39,23 @@ export default class AuthApi {
     return this.getJwt();
   }
 
+  /**
+   * Returns true if the auth configuration object is a BASIC digest
+   *
+   * @param auth The auth configuration to check from
+   * @returns boolean
+   */
   private isAuthBasic(auth: Auth) {
     return (<AuthBasic>auth).username !== undefined;
   }
 
-  private async getJwt() {
+  /**
+   * Returns a Promise wrapping the JWT string object provided from
+   * the authorization params already passed from the constructor
+   *
+   * @returns Promise<string>
+   */
+  private async getJwt(): Promise<string> {
     const authData = this.setAuthorizationParams(this.auth);
     try {
       const response = (await this.apiBase.post({
@@ -37,13 +63,20 @@ export default class AuthApi {
         notAuthenticated: true,
         ...authData,
       })) as AccessTokens;
+
       return response.accessToken;
     } catch (error) {
       throw await error;
     }
   }
 
-  private setAuthorizationParams(auth: Auth) {
+  /**
+   * Builds and returns the authentication params given a configuration
+   *
+   * @param auth Object containing the authentication params
+   * @returns AuthParams
+   */
+  private setAuthorizationParams(auth: Auth): AuthParams {
     if (this.isAuthBasic(auth)) {
       const authBasic = auth as AuthBasic;
       return {

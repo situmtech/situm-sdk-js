@@ -1,13 +1,12 @@
 import SitumSDK from "../src";
 
 (async function run() {
-  // Initialize the sdk specifying auth and base domain (later is optional)
+  // Initialize the sdk specifying auth
   const sdk = new SitumSDK({
     auth: {
       apiKey: "YOUR_API_KEY",
       email: "example@example.com",
     },
-    domain: "https://dashboard.situm.com",
   });
 
   // Fetching buildings

@@ -7,7 +7,7 @@
  */
 import { expect } from "chai";
 
-import SitumSDK from "../index";
+import SitumSDK from "../src";
 
 import {
   checkAuthenticationException,
@@ -16,14 +16,14 @@ import {
 } from "./utils/mockUtils";
 
 describe("SitumSDK", () => {
-  test("should have a version", () => {
+  it("should have a version", () => {
     const version = SitumSDK.version;
 
     expect(version).exist;
     expect(version).is.not.be.null;
   });
 
-  test("should have the user domain", () => {
+  it("should have the user domain", () => {
     const situmSDK = new SitumSDK({});
     const userApi = situmSDK.user;
 
@@ -31,7 +31,7 @@ describe("SitumSDK", () => {
     expect(userApi).is.not.be.null;
   });
 
-  test("should initialize with basic authentication", () => {
+  it("should initialize with basic authentication", () => {
     const situmSDK = new SitumSDK({
       auth: {
         username: "test@situm.com",
@@ -44,7 +44,7 @@ describe("SitumSDK", () => {
     expect(userApi).is.not.be.null;
   });
 
-  test("should initialize with api key authentication", () => {
+  it("should initialize with api key authentication", () => {
     const situmSDK = new SitumSDK({
       auth: {
         email: "test@situm.com",
@@ -57,7 +57,7 @@ describe("SitumSDK", () => {
     expect(userApi).is.not.be.null;
   });
 
-  test("should generate a jwt with apikey", () => {
+  it("should generate a jwt with apikey", () => {
     const situmSDK = new SitumSDK({
       auth: {
         email: "test@situm.com",
@@ -70,7 +70,7 @@ describe("SitumSDK", () => {
     expect(userApi).is.not.be.null;
   });
 
-  test("should raise auth exception with invalid basic authentication", async () => {
+  it("should raise auth exception with invalid basic authentication", async () => {
     const situmSDK = new SitumSDK({
       auth: {
         email: "test@situm.com",
@@ -101,7 +101,7 @@ describe("SitumSDK", () => {
     }
   });
 
-  test("should raise exception with invalid basic authentication", async () => {
+  it("should raise exception with invalid basic authentication", async () => {
     const situmSDK = new SitumSDK({
       auth: {
         username: "test@situm.com",
