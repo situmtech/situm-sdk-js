@@ -97,6 +97,15 @@ export default class ApiBase {
   }
 
   /**
+   * Gets the current domain
+   *
+   * @returns String
+   */
+  getDomain(): string {
+    return this.configuration.domain;
+  }
+
+  /**
    * Wrapper around axios that converts our domain HTTP request parameters
    * to the axios request requirements.
    *

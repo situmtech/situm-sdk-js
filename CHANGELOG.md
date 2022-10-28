@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.3.0 (2022-11-02)
+
+### Added
+- Handler for fetching the current organization info (activated modules, logos, accent colors)
+
+### Improvements
+- Add base domain to the poi categories icon urls. This fixes image urls pointing to wrong environment.
+
 ## 0.2.0 (2022-04-22)
 
 ## Fixed
