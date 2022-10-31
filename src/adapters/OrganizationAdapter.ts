@@ -19,9 +19,15 @@ export function getAdapter(
   organization: Record<string, unknown>,
   domain: string
 ): Organization {
-  organization.logoPath = organization?.logoPath ? domain + organization.logoPath : undefined;
-  organization.logoLoginPath = organization?.logoLoginPath ? domain + organization.logoLoginPath : undefined;
-  organization.logoFaviconPath = organization?.logoFaviconPath ? domain + organization.logoFaviconPath : undefined;
+  organization.logoPath = organization?.logoPath
+    ? domain + organization.logoPath
+    : undefined;
+  organization.logoLoginPath = organization?.logoLoginPath
+    ? domain + organization.logoLoginPath
+    : undefined;
+  organization.logoFaviconPath = organization?.logoFaviconPath
+    ? domain + organization.logoFaviconPath
+    : undefined;
 
   return organization as Organization;
 }

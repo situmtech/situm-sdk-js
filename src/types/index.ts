@@ -369,23 +369,23 @@ export type RealtimePositions = {
 };
 
 type Colors = {
-  primary: string,
-  secondary: string,
-  success: string,
-  warning: string,
-  danger: string,
-  info: string,
-  default: string
+  primary: string;
+  secondary: string;
+  success: string;
+  warning: string;
+  danger: string;
+  info: string;
+  default: string;
 };
 
 export type Organization = {
   id: UUID;
   name: string;
   logoPath: string;
-  logoLoginPath: string,
-  logoFaviconPath: string,
-  cookiesMessage: string,
-  support_email: string,
-  copyright: string,
-  colors: Colors
+  logoLoginPath: string;
+  logoFaviconPath: string;
+  cookiesMessage: string;
+  support_email: string;
+  copyright: string;
+  colors: Colors;
 };

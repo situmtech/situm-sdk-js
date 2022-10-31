@@ -16,10 +16,12 @@ import { PoiCategory } from "../types";
  * @returns Floor the clean and normalized floor object
  */
 export function getAdapter(
-  poiCategory: Record<string, unknown>,
+  poiCategory: PoiCategory,
   domain: string
 ): PoiCategory {
-  poiCategory.iconUrl = domain + poiCategory.iconUrl;
+  poiCategory.iconUrl = !poiCategory.iconUrl.includes("https")
+    ? domain + poiCategory.iconUrl
+    : poiCategory.iconUrl;
 
   return poiCategory as PoiCategory;
 }
