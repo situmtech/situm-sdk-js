@@ -92,7 +92,9 @@ export default class CartographyApi {
       .get<Organization>({
         url: "/api/v1/organizations/current_organization",
       })
-      .then((org) => getCurrentOrganizationAdapter(org, this.apiBase.getDomain()));
+      .then((org) =>
+        getCurrentOrganizationAdapter(org, this.apiBase.getDomain())
+      );
   }
 
   /**
