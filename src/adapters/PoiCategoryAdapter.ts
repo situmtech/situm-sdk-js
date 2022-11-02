@@ -13,7 +13,7 @@ import { PoiCategory } from "../types";
  *
  * @param poiCategory Not normalized POI Category
  * @param domain Current domain to get the icon picture url
- * @returns Floor the clean and normalized floor object
+ * @returns POI Category normalized object
  */
 export function getAdapter(
   poiCategory: PoiCategory,

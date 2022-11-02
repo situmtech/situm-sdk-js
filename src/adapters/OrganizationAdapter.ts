@@ -12,8 +12,8 @@ import { Organization } from "../types";
  * cleaning deprecations, removing redundancies, and more.
  *
  * @param Organization Not normalized organization
- * @param domain Current domain to get the icon picture url
- * @returns Floor the clean and normalized floor object
+ * @param domain Current domain to get the pictures urls
+ * @returns Organization normalized object
  */
 export function getAdapter(
   organization: Record<string, unknown>,
