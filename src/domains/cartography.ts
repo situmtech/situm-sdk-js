@@ -8,7 +8,7 @@
 import { getAdapter as getBuildingAdapter } from "../adapters/BuildingAdapter";
 import { getAdapter as getFloorAdapter } from "../adapters/FloorAdapter";
 import { getAdapter as getGeofenceAdapter } from "../adapters/GeofenceAdapter";
-import { getAdapter as getCurrentOrganization } from "../adapters/OrganizationAdapter";
+import { getAdapter as getCurrentOrganizationAdapter } from "../adapters/OrganizationAdapter";
 import {
   getAdapter as getPoiAdapter,
   postAdapter as postPoiAdapter,
@@ -78,7 +78,6 @@ export default class CartographyApi {
     return this.apiBase
       .get<Building>({
         url: "/api/v1/buildings/" + buildingId,
-        headers: { "Content-Type": "application/json" },
       })
       .then(getBuildingAdapter);
   }
@@ -93,7 +92,7 @@ export default class CartographyApi {
       .get<Organization>({
         url: "/api/v1/organizations/current_organization",
       })
-      .then((org) => getCurrentOrganization(org, this.apiBase.getDomain()));
+      .then((org) => getCurrentOrganizationAdapter(org, this.apiBase.getDomain()));
   }
 
   /**
