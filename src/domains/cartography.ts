@@ -8,11 +8,13 @@
 import { getAdapter as getBuildingAdapter } from "../adapters/BuildingAdapter";
 import { getAdapter as getFloorAdapter } from "../adapters/FloorAdapter";
 import { getAdapter as getGeofenceAdapter } from "../adapters/GeofenceAdapter";
+import { getAdapter as getCurrentOrganizationAdapter } from "../adapters/OrganizationAdapter";
 import {
   getAdapter as getPoiAdapter,
   postAdapter as postPoiAdapter,
   ServerPoiGet,
 } from "../adapters/PoiAdapter";
+import { getAdapter as getPoiCategoryAdapter } from "../adapters/PoiCategoryAdapter";
 import ApiBase from "../apiBase";
 import type {
   Building,
@@ -25,6 +27,7 @@ import type {
   GeofenceForm,
   GeofenceSearch,
   ID,
+  Organization,
   Paginated,
   Paths,
   PathSearch,
@@ -77,6 +80,19 @@ export default class CartographyApi {
         url: "/api/v1/buildings/" + buildingId,
       })
       .then(getBuildingAdapter);
+  }
+
+  /**
+   * Returns the user's current organization
+   *
+   * @returns Promise<Organization>
+   */
+  getCurrentOrganization(): Promise<Organization> {
+    return this.apiBase
+      .get<Organization>({
+        url: "/api/v1/organizations/current_organization",
+      })
+      .then((org) => getCurrentOrganizationAdapter(org, this.apiBase.getDomain()));
   }
 
   /**
@@ -382,9 +398,15 @@ export default class CartographyApi {
    * @returns Promise<PoiCategory[]>
    */
   getPoiCategories(): Promise<PoiCategory[]> {
-    return this.apiBase.get<PoiCategory[]>({
-      url: "/api/v1/poi_categories",
-    });
+    return this.apiBase
+      .get<PoiCategory[]>({
+        url: "/api/v1/poi_categories",
+      })
+      .then((poiCategories) =>
+        poiCategories.map((p) =>
+          getPoiCategoryAdapter(p, this.apiBase.getDomain())
+        )
+      );
   }
 
   /**
