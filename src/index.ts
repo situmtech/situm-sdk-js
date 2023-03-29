@@ -31,7 +31,7 @@ export default class SitumSDK {
    */
   readonly realtime: RealtimeApi;
 
-  static readonly version = "0.1.0";
+  static readonly version = "0.4.0";
 
   /**
    * Initializes the API configuration and services exported
