@@ -192,6 +192,7 @@ export default class ApiBase {
     let headersToReturn = {
       ...headers,
       "Content-Type": "application/json",
+      "Accept-Language": "en",
       // "X-API-CLIENT": "SitumJSSDK/" + this.configuration.version,
     } as Record<string, string>;
 
