@@ -18,6 +18,8 @@ import { parseJWT } from "./utils/jwt";
 import SitumError from "./utils/situmError";
 import { keysToCamel, keysToSnake } from "./utils/snakeCaseCamelCaseUtils";
 
+const ACCEPTED_HEADERS = ["Accept-Language"];
+
 type Jwt = {
   expiration: number;
   organizationId: UUID;
@@ -192,7 +194,6 @@ export default class ApiBase {
     let headersToReturn = {
       ...headers,
       "Content-Type": "application/json",
-      "Accept-Language": "en",
       // "X-API-CLIENT": "SitumJSSDK/" + this.configuration.version,
     } as Record<string, string>;
 
@@ -200,6 +201,22 @@ export default class ApiBase {
       headersToReturn = {
         ...headersToReturn,
         Authorization: "Bearer " + jwt,
+      };
+    }
+
+    if (this.configuration.httpHeaders) {
+      const filteredHttpHeaders = Object.keys(
+        this.configuration.httpHeaders
+      ).reduce((acc, key) => {
+        if (ACCEPTED_HEADERS.includes(key)) {
+          acc[key] = this.configuration.httpHeaders[key];
+        }
+        return acc;
+      }, {});
+
+      headersToReturn = {
+        ...headersToReturn,
+        ...filteredHttpHeaders,
       };
     }
 
