@@ -2,12 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.3.0 (2023-03-30)
+
+### Added
+
+- SDKConfiguration may include an optional _httpHeaders_ Record<string, string> to include custom HTTP headers. For now, accepted headers are: _Accept-Language_.
+
+  Usage example:
+
+```js
+const SitumSDK = require("@situm/sdk-js");
+
+const situmSDK = new SitumSDK({
+  auth: {
+    apiKey: "MY-API-KEY",
+    email: "MY-EMAIL",
+  },
+  domain: "https://dashboard.situm.com",
+  httpHeaders: {
+    "Accept-Language": "es",
+  },
+});
+```
+
 ## 0.3.0 (2022-11-02)
 
 ### Added
+
 - Handler for fetching the current organization info (activated modules, logos, accent colors)
 
 ### Improvements
+
 - Add base domain to the poi categories icon urls. This fixes image urls pointing to wrong environment.
 
 ## 0.2.0 (2022-04-22)
