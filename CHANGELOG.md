@@ -2,12 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.4.0 (2023-03-30)
+
+### Added
+
+- SDKConfiguration may include an optional _lang_ parameter to override the _Accept-Language_ HTTP header. Fallsback to "en" if no language is provided. This avoids known issues when retrieving translated entities (bad translations due to sending arbitrary Accept-Language headers).
+
+  Usage example:
+
+```js
+const SitumSDK = require("@situm/sdk-js");
+
+const situmSDK = new SitumSDK({
+  auth: {
+    apiKey: "MY-API-KEY",
+    email: "MY-EMAIL",
+  },
+  domain: "https://dashboard.situm.com",
+  lang: "es",
+});
+```
+
+Technically you could use any [standard Accept-Language values](https://www.rfc-editor.org/rfc/rfc9110.html#name-accept-encoding) but we recommend to stick to [ISO_639-1](https://en.wikipedia.org/wiki/ISO_639-1), avoiding language variants. For example, don't use "es-GB", use "es" instead.
+
 ## 0.3.0 (2022-11-02)
 
 ### Added
+
 - Handler for fetching the current organization info (activated modules, logos, accent colors)
 
 ### Improvements
+
 - Add base domain to the poi categories icon urls. This fixes image urls pointing to wrong environment.
 
 ## 0.2.0 (2022-04-22)

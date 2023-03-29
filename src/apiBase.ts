@@ -18,6 +18,8 @@ import { parseJWT } from "./utils/jwt";
 import SitumError from "./utils/situmError";
 import { keysToCamel, keysToSnake } from "./utils/snakeCaseCamelCaseUtils";
 
+const FALLBACK_LANGUAGE = "en";
+
 type Jwt = {
   expiration: number;
   organizationId: UUID;
@@ -189,9 +191,14 @@ export default class ApiBase {
     jwt: string | null,
     headers: Record<string, string> | undefined
   ): AxiosRequestHeaders | undefined {
+    const lang = this.configuration.lang
+      ? this.configuration.lang
+      : FALLBACK_LANGUAGE;
+
     let headersToReturn = {
       ...headers,
       "Content-Type": "application/json",
+      "Accept-Language": lang,
       // "X-API-CLIENT": "SitumJSSDK/" + this.configuration.version,
     } as Record<string, string>;
 

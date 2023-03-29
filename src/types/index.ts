@@ -42,6 +42,7 @@ export type SDKConfiguration = {
   auth?: Auth;
   timeouts?: Record<string, number>;
   version?: string;
+  lang?: string;
 };
 
 export type SitumSubError = {
