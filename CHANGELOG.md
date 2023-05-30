@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.5.0 (2023-05-26)
+
+### Added
+
+- Added cartesian coordinates to Poi instances.
+
 ## 0.4.0 (2023-03-30)
 
 ### Added
