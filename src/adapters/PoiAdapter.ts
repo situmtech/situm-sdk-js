@@ -42,7 +42,10 @@ export function getAdapter(serverPoi: ServerPoiGet): Poi {
   // if indoor, normalize response
   if (poi.position) {
     poi["floorId"] = poi.position.floorId;
-    poi["location"] = poi.position.georeferences;
+    poi["location"] = {
+      ...poi.position.georeferences,
+      ...poi.position.cartesians,
+    };
 
     delete poi.position;
   }

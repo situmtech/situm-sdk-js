@@ -224,6 +224,7 @@ export type Poi = PoiCreateForm & {
   categoryName: string;
   infoUnsafe: string;
   type: string;
+  location: Coordinate & Cartesians;
 };
 
 export type PoiSearch = { buildingId?: ID; type?: "indoor" | "outdoor" };
