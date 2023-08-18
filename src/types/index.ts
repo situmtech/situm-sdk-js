@@ -26,7 +26,6 @@ export type AuthBasic = {
 };
 
 export type AuthApiKey = {
-  email: string;
   apiKey: string;
 };
 
@@ -43,6 +42,7 @@ export type SDKConfiguration = {
   timeouts?: Record<string, number>;
   version?: string;
   lang?: string;
+  compact?: boolean;
 };
 
 export type SitumSubError = {
@@ -227,7 +227,11 @@ export type Poi = PoiCreateForm & {
   location: Coordinate & Cartesians;
 };
 
-export type PoiSearch = { buildingId?: ID; type?: "indoor" | "outdoor" };
+export type PoiSearch = {
+  buildingId?: ID;
+  type?: "indoor" | "outdoor";
+  view?: "compact";
+};
 
 export type Node = {
   id: number;

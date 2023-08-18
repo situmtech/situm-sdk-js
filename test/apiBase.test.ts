@@ -11,7 +11,6 @@ describe("apiBase", () => {
     const apiBase = new ApiBase(
       {
         auth: {
-          email: "whatever@situm.com",
           apiKey: "notvalid",
         },
       },
@@ -42,7 +41,6 @@ describe("apiBase", () => {
     const apiBase = new ApiBase(
       {
         auth: {
-          email: "whatever@situm.com",
           apiKey: "notvalid",
         },
       },
@@ -73,7 +71,6 @@ describe("apiBase", () => {
     const apiBase = new ApiBase(
       {
         auth: {
-          email: "whatever@situm.com",
           apiKey: "notvalid",
         },
       },
@@ -104,7 +101,6 @@ describe("apiBase", () => {
     const apiBase = new ApiBase(
       {
         auth: {
-          email: "whatever@situm.com",
           apiKey: "notvalid",
         },
       },
@@ -134,7 +130,6 @@ describe("apiBase", () => {
     const apiBase = new ApiBase(
       {
         auth: {
-          email: "whatever@situm.com",
           apiKey: "notvalid",
         },
       },
@@ -167,7 +162,6 @@ describe("apiBase", () => {
     const apiBase = new ApiBase(
       {
         auth: {
-          email: "whatever@situm.com",
           apiKey: "notvalid",
         },
         timeouts: {
@@ -201,7 +195,6 @@ describe("apiBase", () => {
     const apiBase = new ApiBase(
       {
         auth: {
-          email: "whatever@situm.com",
           apiKey: "notvalid",
         },
         timeouts: {

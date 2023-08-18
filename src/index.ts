@@ -44,6 +44,7 @@ export default class SitumSDK {
       domain: config.domain || "https://dashboard.situm.com",
       version: SitumSDK.version,
       auth: config.auth,
+      compact: config.compact,
     };
     this.apiBase = new ApiBase(
       this.configuration,

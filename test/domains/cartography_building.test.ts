@@ -58,6 +58,26 @@ describe("SitumSDK.cartography Building", () => {
     axiosMock.mockRestore();
   });
 
+  it("should retrieve all buildings with view=compact", async () => {
+    // Arrange
+    const situmSDK = new SitumSDK({ auth: getMockData("auth"), compact: true });
+    const mockBuildingList = [getMockData("buildingResponseMock1")];
+    const axiosMock = mockAxiosRequest([
+      { access_token: "fakeJWT" },
+      mockBuildingList,
+    ]);
+
+    // Execute
+    const buildingList = await situmSDK.cartography.getBuildings();
+
+    // Assert
+    const configuration = axiosMock.mock.calls[1][0];
+    expect(configuration.params).to.be.equals("view=compact");
+    expect(configuration.url).to.be.equals("/api/v1/buildings");
+    expect(buildingList).is.deep.equal([getMockData("buildingMock1")]);
+    axiosMock.mockClear();
+    axiosMock.mockRestore();
+  });
   it("should create a building", async () => {
     // Arrange
     const mockBuilding = getMockData("buildingMock1");

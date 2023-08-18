@@ -56,10 +56,19 @@ export default class CartographyApi {
    *
    * @returns Promise<BuildingListElement[]>
    */
-  getBuildings(): Promise<readonly BuildingListElement[]> {
+  getBuildings(
+    params: {
+      view?: "compact";
+    } = {}
+  ): Promise<readonly BuildingListElement[]> {
+    if (this.apiBase.getConfiguration().compact) {
+      params.view = "compact";
+    }
+
     return this.apiBase
       .get<BuildingListElement[]>({
         url: "/api/v1/buildings",
+        params,
       })
       .then((buildingList) =>
         buildingList.map((building: Record<string, unknown>) =>
@@ -74,10 +83,18 @@ export default class CartographyApi {
    * @param buildingId The building id to fetch
    * @returns Promise<Building>
    */
-  getBuildingById(buildingId: ID): Promise<Building> {
+  getBuildingById(
+    buildingId: ID,
+    params: { view?: "compact" } = {}
+  ): Promise<Building> {
+    if (this.apiBase.getConfiguration().compact) {
+      params.view = "compact";
+    }
+
     return this.apiBase
       .get<Building>({
         url: "/api/v1/buildings/" + buildingId,
+        params,
       })
       .then(getBuildingAdapter);
   }
@@ -340,6 +357,10 @@ export default class CartographyApi {
       params.buildingId && params.buildingId > 0
         ? `/api/v1/buildings/${params.buildingId}/pois`
         : `/api/v1/pois`;
+
+    if (this.apiBase.getConfiguration().compact) {
+      params.view = "compact";
+    }
 
     if (params.buildingId) {
       delete params.buildingId;
