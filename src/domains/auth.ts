@@ -21,7 +21,6 @@ type AuthParams =
     }
   | {
       headers: {
-        "X-API-EMAIL": string;
         "X-API-KEY": string;
       };
     };
@@ -92,7 +91,6 @@ export default class AuthApi {
     const authApiKey = auth as AuthApiKey;
     return {
       headers: {
-        "X-API-EMAIL": authApiKey.email,
         "X-API-KEY": authApiKey.apiKey,
       },
     };
