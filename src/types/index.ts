@@ -26,7 +26,6 @@ export type AuthBasic = {
 };
 
 export type AuthApiKey = {
-  email: string;
   apiKey: string;
 };
 

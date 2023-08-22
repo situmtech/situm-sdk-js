@@ -47,7 +47,6 @@ describe("SitumSDK", () => {
   it("should initialize with api key authentication", () => {
     const situmSDK = new SitumSDK({
       auth: {
-        email: "test@situm.com",
         apiKey: "topSecret",
       },
     });
@@ -60,7 +59,6 @@ describe("SitumSDK", () => {
   it("should generate a jwt with apikey", () => {
     const situmSDK = new SitumSDK({
       auth: {
-        email: "test@situm.com",
         apiKey: "topSecret",
       },
     });
@@ -73,7 +71,6 @@ describe("SitumSDK", () => {
   it("should raise auth exception with invalid basic authentication", async () => {
     const situmSDK = new SitumSDK({
       auth: {
-        email: "test@situm.com",
         apiKey: "topSecret",
       },
     });
@@ -93,7 +90,6 @@ describe("SitumSDK", () => {
       expect(url).to.be.equals("/api/v1/auth/access_tokens");
       expect(data).to.be.undefined;
       expect(headers["X-API-KEY"]).to.be.equals("topSecret");
-      expect(headers["X-API-EMAIL"]).to.be.equals("test@situm.com");
       // expect(headers["X-API-CLIENT"]).to.be.equals(
       //   "SitumJSSDK/" + SitumSDK.version
       // );

@@ -4,7 +4,6 @@ import SitumSDK from "../src";
 const sdkAPiKeyAuth = new SitumSDK({
   auth: {
     apiKey: "YOUR_API_KEY",
-    email: "example@example.com",
   },
 });
 
@@ -20,7 +19,6 @@ const sdkBasicAuth = new SitumSDK({
 const sdkWithTimeouts = new SitumSDK({
   auth: {
     apiKey: "YOUR_API_KEY",
-    email: "example@example.com",
   },
   timeouts: {
     default: 100, // ms
@@ -31,7 +29,6 @@ const sdkWithTimeouts = new SitumSDK({
 const sdkWithCustomDomain = new SitumSDK({
   auth: {
     apiKey: "YOUR_API_KEY",
-    email: "example@example.com",
   },
   domain: "http://dashboard.situm.com",
 });

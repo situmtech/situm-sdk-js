@@ -1,4 +1,4 @@
-.PHONY: build
+.PHONY: build test
 build:
 	@echo -e "Building service… \n"
 	npm install
