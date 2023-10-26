@@ -35,7 +35,12 @@ export type RequestInfo = {
 };
 
 export default class ApiBase {
-  private readonly configuration: SDKConfiguration;
+  private readonly configuration: SDKConfiguration = {
+    timeouts: {
+      default: 100,
+    },
+    compact: false,
+  };
   private readonly getAuthorization;
   private jwt: string | null;
 
@@ -43,9 +48,18 @@ export default class ApiBase {
     configuration: SDKConfiguration,
     getAuthorization: () => Promise<string>
   ) {
-    this.configuration = configuration;
+    this.configuration = { ...this.configuration, ...configuration };
     this.getAuthorization = getAuthorization;
     this.jwt = null;
+  }
+
+  /**
+   * Returns the configuration of the api
+   *
+   * @returns SDKConfiguration
+   */
+  getConfiguration() {
+    return this.configuration;
   }
 
   /**

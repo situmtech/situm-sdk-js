@@ -114,5 +114,6 @@ npm publish
 or for beta channel
 
 ```
+npm run prepare-release
 npm publish --tag beta
 ```
