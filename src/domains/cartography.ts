@@ -61,7 +61,7 @@ export default class CartographyApi {
       view?: "compact";
     } = {}
   ): Promise<readonly BuildingListElement[]> {
-    if (this.apiBase.getConfiguration().compact || params?.view == "compact") {
+    if (this.apiBase.getConfiguration().compact) {
       params.view = "compact";
     }
 
@@ -87,9 +87,10 @@ export default class CartographyApi {
     buildingId: ID,
     params: { view?: "compact" } = {}
   ): Promise<Building> {
-    if (this.apiBase.getConfiguration().compact || params?.view == "compact") {
+    if (this.apiBase.getConfiguration().compact) {
       params.view = "compact";
     }
+
     return this.apiBase
       .get<Building>({
         url: "/api/v1/buildings/" + buildingId,

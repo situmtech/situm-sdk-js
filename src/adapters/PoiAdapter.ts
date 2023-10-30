@@ -43,8 +43,10 @@ export function getAdapter(serverPoi: ServerPoiGet): Poi {
   if (poi.position) {
     poi["floorId"] = poi.position.floorId;
     poi["location"] = {
-      ...poi.position.georeferences,
-      ...poi.position.cartesians,
+      lat: poi.position.lat,
+      lng: poi.position.lng,
+      x: poi.position.x,
+      y: poi.position.y,
     };
 
     delete poi.position;
