@@ -56,10 +56,12 @@ export default class CartographyApi {
    *
    * @returns Promise<BuildingListElement[]>
    */
-  getBuildings(): Promise<readonly BuildingListElement[]> {
-    const params: { view?: "compact" } = {};
-
-    if (this.apiBase.getConfiguration().compact) {
+  getBuildings(
+    params: {
+      view?: "compact";
+    } = {}
+  ): Promise<readonly BuildingListElement[]> {
+    if (this.apiBase.getConfiguration().compact || params?.view == "compact") {
       params.view = "compact";
     }
     return this.apiBase
@@ -80,10 +82,11 @@ export default class CartographyApi {
    * @param buildingId The building id to fetch
    * @returns Promise<Building>
    */
-  getBuildingById(buildingId: ID): Promise<Building> {
-    const params: { view?: "compact" } = {};
-
-    if (this.apiBase.getConfiguration().compact) {
+  getBuildingById(
+    buildingId: ID,
+    params: { view?: "compact" } = {}
+  ): Promise<Building> {
+    if (this.apiBase.getConfiguration().compact || params?.view == "compact") {
       params.view = "compact";
     }
     return this.apiBase

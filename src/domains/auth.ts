@@ -10,6 +10,7 @@ import { Auth, AuthApiKey, AuthBasic } from "../types";
 
 export type AccessTokens = {
   readonly accessToken: string;
+  // readonly refreshToken: string;
 };
 
 type AuthParams =
