@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.7.0 (2023-XX-XX)
+
+### Fixed
+
+- Query params where not passed propertly
+
+### Added
+
+- Add new compact view support for the buildings and pois endpoints. This new view allow to save bandwidth while fetching information.
+
+
+## 0.6.1 (2023-08-18)
+
+### Improvements
+
+- Remove the email parameter in email/apikey authentication. Now you only need to specify a valid apikey.
+
+
 ## 0.5.0 (2023-05-26)
 
 ### Added
