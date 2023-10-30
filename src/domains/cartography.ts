@@ -64,6 +64,7 @@ export default class CartographyApi {
     if (this.apiBase.getConfiguration().compact || params?.view == "compact") {
       params.view = "compact";
     }
+
     return this.apiBase
       .get<BuildingListElement[]>({
         url: "/api/v1/buildings",

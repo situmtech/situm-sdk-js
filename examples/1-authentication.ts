@@ -21,7 +21,7 @@ const sdkWithTimeouts = new SitumSDK({
     apiKey: "YOUR_API_KEY",
   },
   timeouts: {
-    default: 100, // ms
+    default: 10000, // ms
   },
 });
 

@@ -11,7 +11,7 @@ import axios, {
   AxiosRequestHeaders,
   Method,
 } from "axios";
-import { stringify } from "qs";
+// import { stringify } from "qs";
 
 import { AuthBasic, SDKConfiguration, SitumErrorType, UUID } from "./types";
 import { parseJWT } from "./utils/jwt";
@@ -19,6 +19,7 @@ import SitumError from "./utils/situmError";
 import { keysToCamel, keysToSnake } from "./utils/snakeCaseCamelCaseUtils";
 
 const FALLBACK_LANGUAGE = "en";
+const DEFAULT_TIMEOUT = 0; // no timeout
 
 type Jwt = {
   expiration: number;
@@ -37,7 +38,7 @@ export type RequestInfo = {
 export default class ApiBase {
   private readonly configuration: SDKConfiguration = {
     timeouts: {
-      default: 100,
+      default: DEFAULT_TIMEOUT,
     },
     compact: false,
   };
@@ -168,7 +169,7 @@ export default class ApiBase {
       url: requestInfo.url,
       baseURL: this.configuration.domain,
       headers: this.addDefaultHeaders(jwt, requestInfo.headers),
-      params: stringify(keysToSnake(requestInfo.params)),
+      params: keysToSnake(requestInfo.params),
       data: keysToSnake(requestInfo.body),
     } as AxiosRequestConfig;
 
