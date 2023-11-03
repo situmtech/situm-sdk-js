@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.1](https://github.com/situmtech/situm-sdk-js/compare/v0.4.0...v0.7.1) (2023-11-03)
+
+
+### Features
+
+* add new compact mode to fetch less information from server ([ef52a06](https://github.com/situmtech/situm-sdk-js/commit/ef52a066077dce3fe18971de7c675fdc90afb4c9))
+* allow to pass view=compact in building and pois listing ([f083fcc](https://github.com/situmtech/situm-sdk-js/commit/f083fcc9f40b4c12f16a22850966e718fe458216))
+
+
+### Bug Fixes
+
+* change poiAdapter mapping so compact view doesnt crash ([4aa7d61](https://github.com/situmtech/situm-sdk-js/commit/4aa7d6153ec76359ff807466d26056b1616bf752))
+* query stringon apiBase.request was broken due to additional serialization ([bd96989](https://github.com/situmtech/situm-sdk-js/commit/bd96989b0411b8be321e55c61648ec0497ecadda))
+
 ## 0.7.0 (2023-XX-XX)
 
 ### Fixed
