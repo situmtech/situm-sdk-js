@@ -110,6 +110,27 @@ describe("SitumSDK.cartography POI", () => {
     axiosMock.mockRestore();
   });
 
+  it("should retrieve all pois with view=compact", async () => {
+    // Arrange
+    const situmSDK = new SitumSDK({ auth: getMockData("auth"), compact: true });
+    const mockPoi = getMockData("poiMock1");
+    const axiosMock = mockAxiosRequest([
+      { access_token: "fakeJWT" },
+      [getMockData("poiMock1")],
+    ]);
+
+    // Execute
+    const poiList = await situmSDK.cartography.getPois({});
+
+    // Arrange
+    const configuration = axiosMock.mock.calls[1][0];
+    expect(configuration.url).to.be.equals(`/api/v1/pois`);
+    expect(configuration.params).to.be.equals(`view=compact`);
+    expect(poiList).is.deep.equal([getAdapterPoi(mockPoi)]);
+    axiosMock.mockClear();
+    axiosMock.mockRestore();
+  });
+
   it("should create a poi", async () => {
     // Arrange
     const mockPoi = getMockData("poiMock1");
