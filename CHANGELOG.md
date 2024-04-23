@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.7.1 (2024-04-24)
+
+### Fixed
+
+- Fixed error on pois fetching duplicating pois when there were outdoor pois,
+
 ## 0.7.0 (2023-11-03)
 
 ### Fixed
@@ -12,13 +18,11 @@ All notable changes to this project will be documented in this file. See [standa
 
 - Add new compact view support for the buildings and pois endpoints. This new view allow to save bandwidth while fetching information.
 
-
 ## 0.6.1 (2023-08-18)
 
 ### Improvements
 
 - Remove the email parameter in email/apikey authentication. Now you only need to specify a valid apikey.
-
 
 ## 0.5.0 (2023-05-26)
 

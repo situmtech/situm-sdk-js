@@ -38,7 +38,7 @@ export function getAdapter(building: Record<string, unknown>): Building {
     building.outdoorPois &&
     (building.outdoorPois as Array<unknown>).length > 0
   ) {
-    (building.indoorPois as Array<ServerPoiGet>)
+    (building.outdoorPois as Array<ServerPoiGet>)
       .map(getAdapterPoi)
       .forEach((it) => {
         (buildingToReturn.pois as Array<Poi>).push(it);
