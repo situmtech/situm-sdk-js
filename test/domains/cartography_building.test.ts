@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { expect } from "chai";
 
 import SitumSDK from "../../src";
 import { BuildingForm } from "../../src/types";
@@ -23,15 +22,13 @@ describe("SitumSDK.cartography Building", () => {
 
     // Execute
     const building = await situmSDK.cartography.getBuildingById(
-      mockBuilding.id
+      mockBuilding.id,
     );
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(
-      `/api/v1/buildings/${mockBuilding.id}`
-    );
-    expect(building).is.deep.equal(mockBuilding);
+    expect(configuration.url).toEqual(`/api/v1/buildings/${mockBuilding.id}`);
+    expect(building).toEqual(mockBuilding);
 
     axiosMock.mockClear();
     axiosMock.mockRestore();
@@ -51,9 +48,9 @@ describe("SitumSDK.cartography Building", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.params).to.be.equals("");
-    expect(configuration.url).to.be.equals("/api/v1/buildings");
-    expect(buildingList).is.deep.equal([getMockData("buildingMock1")]);
+    expect(configuration.params).toEqual({});
+    expect(configuration.url).toBe("/api/v1/buildings");
+    expect(buildingList).toEqual([getMockData("buildingMock1")]);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -72,9 +69,9 @@ describe("SitumSDK.cartography Building", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.params).to.be.equals("view=compact");
-    expect(configuration.url).to.be.equals("/api/v1/buildings");
-    expect(buildingList).is.deep.equal([getMockData("buildingMock1")]);
+    expect(configuration.params).toEqual({ view: "compact" });
+    expect(configuration.url).toBe("/api/v1/buildings");
+    expect(buildingList).toEqual([getMockData("buildingMock1")]);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -105,7 +102,7 @@ describe("SitumSDK.cartography Building", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.data).to.be.deep.equals({
+    expect(configuration.data).toEqual({
       location: { lat: 42.8949622513438, lng: -8.49530134740083 },
       dimensions: {
         width: 282,
@@ -118,9 +115,9 @@ describe("SitumSDK.cartography Building", () => {
       name: "Test Fence",
       picture_id: "pictureId",
     });
-    expect(configuration.method).to.be.deep.equals("post");
-    expect(configuration.url).to.be.equals("/api/v1/buildings");
-    expect(building).is.deep.equal(mockBuilding);
+    expect(configuration.method).toBe("post");
+    expect(configuration.url).toBe("/api/v1/buildings");
+    expect(building).toEqual(mockBuilding);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -150,13 +147,14 @@ describe("SitumSDK.cartography Building", () => {
     // Execute
     const building = await situmSDK.cartography.patchBuilding(
       1111,
-      buildingForm
+      buildingForm,
     );
 
     // Assert
-    expect(building).is.deep.equal(mockBuilding);
+    expect(building).toEqual(mockBuilding);
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.method).to.be.equals("put");
+    expect(configuration.method).toBe("put");
+    expect(configuration.url).toBe(`/api/v1/buildings/1111`);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -173,8 +171,8 @@ describe("SitumSDK.cartography Building", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(`/api/v1/buildings/${buildId}`);
-    expect(configuration.method).to.be.equals("delete");
+    expect(configuration.url).toBe(`/api/v1/buildings/${buildId}`);
+    expect(configuration.method).toBe("delete");
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });

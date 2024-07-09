@@ -17,7 +17,7 @@ import { PoiCategory } from "../types";
  */
 export function getAdapter(
   poiCategory: PoiCategory,
-  domain: string
+  domain: string,
 ): PoiCategory {
   poiCategory.iconUrl = !poiCategory.iconUrl.includes("https")
     ? domain + poiCategory.iconUrl

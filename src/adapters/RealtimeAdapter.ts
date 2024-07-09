@@ -2,13 +2,13 @@ import { ResponseRealtimePosition } from "../domains/realtime";
 import { Device, RealtimePositions } from "../types";
 
 export function realtimePositionsMapper(
-  realtimePositions: ResponseRealtimePosition
+  realtimePositions: ResponseRealtimePosition,
 ): RealtimePositions {
   const realtimePositionsToReturn = {
     type: realtimePositions.type as string,
     features: realtimePositions.features,
     devicesInfo: realtimePositions.devicesInfo.map((device) =>
-      deviceMapper(device)
+      deviceMapper(device),
     ),
   };
 

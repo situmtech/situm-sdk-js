@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { expect } from "chai";
 
 import SitumSDK from "../../src";
 import { Paths } from "../../src/types";
@@ -27,10 +26,8 @@ describe("SitumSDK.cartography Path", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(
-      `/api/v1/buildings/${buildingId}/paths`
-    );
-    expect(path).is.deep.equal(mockPath);
+    expect(configuration.url).toBe(`/api/v1/buildings/${buildingId}/paths`);
+    expect(path).toEqual(mockPath);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -49,8 +46,8 @@ describe("SitumSDK.cartography Path", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(`/api/v1/paths`);
-    expect(pathList).is.deep.equal([mockPath]);
+    expect(configuration.url).toBe(`/api/v1/paths`);
+    expect(pathList).toEqual([mockPath]);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -69,8 +66,8 @@ describe("SitumSDK.cartography Path", () => {
 
     // Asert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(`/api/v1/paths`);
-    expect(pathList).is.deep.equal([mockPath]);
+    expect(configuration.url).toBe(`/api/v1/paths`);
+    expect(pathList).toEqual([mockPath]);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -120,7 +117,7 @@ describe("SitumSDK.cartography Path", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.data).to.be.deep.equals({
+    expect(configuration.data).toEqual({
       nodes: [
         {
           id: 1,
@@ -150,11 +147,9 @@ describe("SitumSDK.cartography Path", () => {
         },
       ],
     });
-    expect(configuration.method).to.be.equals("put");
-    expect(configuration.url).to.be.equals(
-      `/api/v1/buildings/${buildingId}/paths`
-    );
-    expect(path).is.deep.equal(mockPath);
+    expect(configuration.method).toBe("put");
+    expect(configuration.url).toBe(`/api/v1/buildings/${buildingId}/paths`);
+    expect(path).toEqual(mockPath);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });

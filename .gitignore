@@ -2,7 +2,6 @@
 coverage/
 dist
 node_modules/
-yarn.lock
 .nyc_output
 .rpt2_cache
 *.tgz

@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { expect } from "chai";
 
 import SitumSDK from "../../src";
 import { FloorForm } from "../../src/types";
@@ -24,8 +23,8 @@ describe("SitumSDK.cartography Floor", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(`/api/v1/floors/${mockFloor.id}`);
-    expect(floor).is.deep.equal(mockFloor);
+    expect(configuration.url).toBe(`/api/v1/floors/${mockFloor.id}`);
+    expect(floor).toEqual(mockFloor);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -44,9 +43,9 @@ describe("SitumSDK.cartography Floor", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.params).to.be.equals("");
-    expect(configuration.url).to.be.equals(`/api/v1/floors`);
-    expect(floorList).is.deep.equal([getMockData("floorMock1")]);
+    expect(configuration.params).toBe(undefined);
+    expect(configuration.url).toBe(`/api/v1/floors`);
+    expect(floorList).toEqual([getMockData("floorMock1")]);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -67,11 +66,11 @@ describe("SitumSDK.cartography Floor", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.params).to.be.equals("");
-    expect(configuration.url).to.be.equals(
-      `/api/v1/buildings/${mockFloorList[0].building_id}/floors`
+    expect(configuration.params).toBe(undefined);
+    expect(configuration.url).toBe(
+      `/api/v1/buildings/${mockFloorList[0].building_id}/floors`,
     );
-    expect(floorList).is.deep.equal([getMockData("floorMock1")]);
+    expect(floorList).toEqual([getMockData("floorMock1")]);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -98,7 +97,7 @@ describe("SitumSDK.cartography Floor", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.data).to.be.deep.equals({
+    expect(configuration.data).toEqual({
       custom_fields: [{ key: "key", value: "value" }],
       building_id: 5962,
       name: "Test floor",
@@ -106,9 +105,9 @@ describe("SitumSDK.cartography Floor", () => {
       level_height: 12,
       map_id: "mapId",
     });
-    expect(configuration.method).to.be.deep.equals("post");
-    expect(configuration.url).to.be.equals("/api/v1/floors");
-    expect(floor).is.deep.equal(mockFloor);
+    expect(configuration.method).toBe("post");
+    expect(configuration.url).toBe("/api/v1/floors");
+    expect(floor).toEqual(mockFloor);
 
     axiosMock.mockClear();
     axiosMock.mockRestore();
@@ -136,9 +135,10 @@ describe("SitumSDK.cartography Floor", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(building).is.deep.equal(mockFloor);
-    expect(configuration.url).to.be.equals(`/api/v1/floors/1111`);
-    expect(configuration.data).to.be.deep.equals({
+    expect(building).toEqual(mockFloor);
+    expect(configuration.method).toBe("put");
+    expect(configuration.url).toBe(`/api/v1/floors/1111`);
+    expect(configuration.data).toEqual({
       custom_fields: [{ key: "key", value: "value" }],
       building_id: 5962,
       name: "Test floor",
@@ -147,7 +147,6 @@ describe("SitumSDK.cartography Floor", () => {
       map_id: "mapId",
     });
 
-    expect(configuration.method).to.be.equals("put");
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -164,8 +163,8 @@ describe("SitumSDK.cartography Floor", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(`/api/v1/floors/${floorId}`);
-    expect(configuration.method).to.be.equals("delete");
+    expect(configuration.url).toBe(`/api/v1/floors/${floorId}`);
+    expect(configuration.method).toBe("delete");
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });

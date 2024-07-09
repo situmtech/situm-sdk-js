@@ -4,6 +4,6 @@ import SitumSDK from "../src";
 console.log("Version: ", { version: SitumSDK.version }, "\n");
 
 // The SDK is organized in domains
-const sdk = new SitumSDK({});
+const situm = new SitumSDK({});
 console.log("Domains: ");
-console.log({ user: sdk.user, cartography: sdk.cartography }, "\n");
+console.log({ user: situm.user, cartography: situm.cartography }, "\n");
