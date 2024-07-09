@@ -6,7 +6,7 @@
  *
  */
 import axios from "axios";
-import { expect } from "chai";
+import expect from "expect";
 
 import SitumError from "../../src/utils/situmError";
 
@@ -27,9 +27,9 @@ export const getAuthenticationException = () => {
 export const checkAuthenticationException = (error: SitumError) => {
   const authenticationException = getAuthenticationException();
 
-  expect(error.code).is.equal(authenticationException.code);
-  expect(error.status).is.equal(authenticationException.status);
-  expect(error.message).is.equal(authenticationException.message);
+  expect(error.code).toEqual(authenticationException.code);
+  expect(error.status).toEqual(authenticationException.status);
+  expect(error.message).toEqual(authenticationException.message);
 };
 
 export const mockAxiosRequest = (responses) => {

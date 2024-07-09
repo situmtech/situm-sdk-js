@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { expect } from "chai";
 
 import SitumSDK from "../../src";
 import { Role, UserForm } from "../../src/types";
@@ -40,8 +39,8 @@ describe("SitumSDK.user", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(`/api/v1/users/${mockUser.id}`);
-    expect(user).is.deep.equal(mockUser);
+    expect(configuration.url).toBe(`/api/v1/users/${mockUser.id}`);
+    expect(user).toEqual(mockUser);
   });
 
   it("should search users by name", async () => {
@@ -70,9 +69,9 @@ describe("SitumSDK.user", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.params).to.be.equals("full_name=test");
-    expect(configuration.url).to.be.equals("/api/v1/users");
-    expect(userList).is.deep.equal({
+    expect(configuration.params).toEqual({ full_name: "test" });
+    expect(configuration.url).toBe("/api/v1/users");
+    expect(userList).toEqual({
       ...mockUserList,
       data: [getMockData("userMock1")],
     });
@@ -97,7 +96,7 @@ describe("SitumSDK.user", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.data).to.be.deep.equals({
+    expect(configuration.data).toEqual({
       building_ids: [9727],
       email: "test@situm.dd",
       role: "USER",
@@ -105,9 +104,9 @@ describe("SitumSDK.user", () => {
       is_manager: false,
       is_staff: false,
     });
-    expect(configuration.method).to.be.deep.equals("post");
-    expect(configuration.url).to.be.equals("/api/v1/users");
-    expect(user).is.deep.equal(mockUser);
+    expect(configuration.method).toEqual("post");
+    expect(configuration.url).toBe("/api/v1/users");
+    expect(user).toEqual(mockUser);
   });
 
   it("should update a user", async () => {
@@ -128,13 +127,13 @@ describe("SitumSDK.user", () => {
     // Execute
     const user = await situmSDK.user.patchUser(
       "a41bddf3-db6b-4b8b-ab78-4caa22f9efc4",
-      userForm
+      userForm,
     );
 
     // Assert
-    expect(user).is.deep.equal(mockUser);
+    expect(user).toEqual(mockUser);
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.method).to.be.equals("put");
+    expect(configuration.method).toBe("put");
 
     axiosMock.mockRestore();
   });
@@ -149,7 +148,7 @@ describe("SitumSDK.user", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(`/api/v1/users/${uuid}`);
-    expect(configuration.method).to.be.equals("delete");
+    expect(configuration.url).toBe(`/api/v1/users/${uuid}`);
+    expect(configuration.method).toBe("delete");
   });
 });

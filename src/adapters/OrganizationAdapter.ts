@@ -17,7 +17,7 @@ import { Organization } from "../types";
  */
 export function getAdapter(
   organization: Record<string, unknown>,
-  domain: string
+  domain: string,
 ): Organization {
   organization.logoPath = organization?.logoPath
     ? domain + organization.logoPath

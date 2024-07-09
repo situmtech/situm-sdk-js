@@ -29,16 +29,18 @@ export type AuthApiKey = {
   apiKey: string;
 };
 
-export type Auth = AuthBasic | AuthApiKey;
+export type AuthJWT = {
+  jwt: string;
+};
 
+export type AuthConfiguration = AuthBasic | AuthApiKey | AuthJWT;
 export type Jwt = string;
-
 export type UUID = string;
 export type ID = number;
 
 export type SDKConfiguration = {
   domain?: string;
-  auth?: Auth;
+  auth?: AuthConfiguration;
   timeouts?: Record<string, number>;
   version?: string;
   lang?: string;
@@ -205,19 +207,30 @@ export type Cartesians = {
 };
 
 export type PoiUpdateForm = {
-  floorId: ID;
-  name: string;
-  info: string;
-  categoryId: number;
-  location: Coordinate;
-  customFields: CustomField[];
-};
-
-export type PoiCreateForm = PoiUpdateForm & {
   buildingId: ID;
+  name?: string;
+  info?: string;
+  categoryId?: number;
+  customFields?: CustomField[];
+  position: {
+    floorId: ID;
+    georeferences: Coordinate;
+  };
 };
 
-export type Poi = PoiCreateForm & {
+export type PoiCreateForm = {
+  buildingId: ID;
+  name?: string;
+  info?: string;
+  categoryId?: number;
+  customFields?: CustomField[];
+  position: {
+    floorId: ID;
+    georeferences: Coordinate;
+  };
+};
+
+export type Poi = Required<PoiCreateForm> & {
   id: ID;
   createdAt: Date;
   updatedAt: Date;
@@ -283,17 +296,24 @@ export type Floor = FloorBase & {
 export type FloorSearch = { buildingId?: ID };
 
 export type BuildingBase = {
-  name: string;
-  location: Coordinate;
-  dimensions: Dimensions;
-  description?: string;
-  info?: string;
-  rotation: number;
   customFields?: CustomField[];
+  description?: string;
+  dimensions: Dimensions;
+  info?: string;
+  location: Coordinate;
+  name: string;
+  rotation: number;
 };
 
-export type BuildingForm = BuildingBase & {
+export type BuildingForm = {
+  customFields?: CustomField[];
+  description?: string;
+  dimensions: Dimensions;
+  info?: string;
+  location: Coordinate;
+  name: string;
   pictureId?: string;
+  rotation?: number;
 };
 
 export type BuildingListElement = BuildingBase & {

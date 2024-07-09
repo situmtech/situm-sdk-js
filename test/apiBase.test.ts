@@ -1,5 +1,4 @@
 import ApiBase from "../src/apiBase";
-import SitumError from "../src/utils/situmError";
 
 describe("apiBase", () => {
   it("should call request when calling get", async () => {
@@ -8,16 +7,11 @@ describe("apiBase", () => {
     spy.mockImplementation(async () => {
       return { fakeResponse: "" };
     });
-    const apiBase = new ApiBase(
-      {
-        auth: {
-          apiKey: "notvalid",
-        },
+    const apiBase = new ApiBase({
+      auth: {
+        apiKey: "notvalid",
       },
-      async () => {
-        return "invalid_JwT";
-      }
-    );
+    });
 
     // Execute
     const response = await apiBase.get({ url: "/api/v1/whatever" });
@@ -38,16 +32,11 @@ describe("apiBase", () => {
     spy.mockImplementation(async () => {
       return { fakeResponse: "" };
     });
-    const apiBase = new ApiBase(
-      {
-        auth: {
-          apiKey: "notvalid",
-        },
+    const apiBase = new ApiBase({
+      auth: {
+        apiKey: "notvalid",
       },
-      async () => {
-        return "invalid_JwT";
-      }
-    );
+    });
 
     // Execute
     const response = await apiBase.post({ url: "/api/v1/whatever" });
@@ -68,16 +57,11 @@ describe("apiBase", () => {
     spy.mockImplementation(async () => {
       return { fakeResponse: "" };
     });
-    const apiBase = new ApiBase(
-      {
-        auth: {
-          apiKey: "notvalid",
-        },
+    const apiBase = new ApiBase({
+      auth: {
+        apiKey: "notvalid",
       },
-      async () => {
-        return "invalid_JwT";
-      }
-    );
+    });
 
     // Execute
     const response = await apiBase.delete({ url: "/api/v1/whatever" });
@@ -98,16 +82,11 @@ describe("apiBase", () => {
     spy.mockImplementation(async () => {
       return { fakeResponse: "" };
     });
-    const apiBase = new ApiBase(
-      {
-        auth: {
-          apiKey: "notvalid",
-        },
+    const apiBase = new ApiBase({
+      auth: {
+        apiKey: "notvalid",
       },
-      async () => {
-        return "invalid_JwT";
-      }
-    );
+    });
 
     // Execute
     const response = await apiBase.put({ url: "/api/v1/whatever" });
@@ -127,16 +106,11 @@ describe("apiBase", () => {
     spy.mockImplementation(async () => {
       return { fakeResponse: "" };
     });
-    const apiBase = new ApiBase(
-      {
-        auth: {
-          apiKey: "notvalid",
-        },
+    const apiBase = new ApiBase({
+      auth: {
+        apiKey: "notvalid",
       },
-      async () => {
-        return "invalid_JwT";
-      }
-    );
+    });
 
     // Execute
     const response = await apiBase.patch({ url: "/api/v1/whatever" });
@@ -159,19 +133,14 @@ describe("apiBase", () => {
     });
 
     // Execute
-    const apiBase = new ApiBase(
-      {
-        auth: {
-          apiKey: "notvalid",
-        },
-        timeouts: {
-          default: 100, // ms
-        },
+    const apiBase = new ApiBase({
+      auth: {
+        apiKey: "notvalid",
       },
-      async () => {
-        return "invalid_JwT";
-      }
-    );
+      timeouts: {
+        default: 100, // ms
+      },
+    });
     const response = await apiBase.get({ url: "/api/v1/whatever" });
 
     // Assert
@@ -192,19 +161,14 @@ describe("apiBase", () => {
     });
 
     // Execute
-    const apiBase = new ApiBase(
-      {
-        auth: {
-          apiKey: "notvalid",
-        },
-        timeouts: {
-          "/api/v1/whatver": 100, // ms
-        },
+    const apiBase = new ApiBase({
+      auth: {
+        apiKey: "notvalid",
       },
-      async () => {
-        return "invalid_JwT";
-      }
-    );
+      timeouts: {
+        "/api/v1/whatver": 100, // ms
+      },
+    });
     const response = await apiBase.get({ url: "/api/v1/whatever" });
 
     // Assert
@@ -225,13 +189,7 @@ describe("apiBase", () => {
     });
 
     // Execute
-    const apiBase = new ApiBase({}, async () => {
-      throw new SitumError({
-        status: 401,
-        code: "invalid",
-        message: "Invalid",
-      });
-    });
+    const apiBase = new ApiBase({});
     const response = await apiBase.get({ url: "/api/v1/whatever" });
 
     // Assert

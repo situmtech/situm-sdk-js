@@ -5,18 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { expect } from "chai";
+import { describe, expect } from "@jest/globals";
 
 import SitumSDK from "../../src";
 import { getAdapter as getAdapterPoi } from "../../src/adapters/PoiAdapter";
 import { PoiCategoryForm, PoiCreateForm, PoiUpdateForm } from "../../src/types";
 import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 
+import { keysToSnake } from "./../../src/utils/snakeCaseCamelCaseUtils";
+
 describe("SitumSDK.cartography POI", () => {
   it("should retrieve all pois with no params", async () => {
     // Arrange
     const situmSDK = new SitumSDK({ auth: getMockData("auth") });
     const mockPoi = getMockData("poiMock1");
+
     const axiosMock = mockAxiosRequest([
       { access_token: "fakeJWT" },
       [getMockData("poiMock1")],
@@ -27,8 +30,8 @@ describe("SitumSDK.cartography POI", () => {
 
     // Arrange
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(`/api/v1/pois`);
-    expect(poiList).is.deep.equal([getAdapterPoi(mockPoi)]);
+    expect(configuration.url).toBe(`/api/v1/pois`);
+    expect(poiList).toEqual([getAdapterPoi(mockPoi)]);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -49,11 +52,11 @@ describe("SitumSDK.cartography POI", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(
-      `/api/v1/buildings/${mockPoi.buildingId}/pois`
+    expect(configuration.url).toBe(
+      `/api/v1/buildings/${mockPoi.buildingId}/pois`,
     );
-    expect(configuration.params).to.be.equals(``);
-    expect(poiList).is.deep.equal([getAdapterPoi(mockPoi)]);
+    expect(configuration.params).toEqual({});
+    expect(poiList).toEqual([getAdapterPoi(mockPoi)]);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -75,11 +78,11 @@ describe("SitumSDK.cartography POI", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(
-      `/api/v1/buildings/${mockPoi.buildingId}/pois`
+    expect(configuration.url).toEqual(
+      `/api/v1/buildings/${mockPoi.buildingId}/pois`,
     );
-    expect(configuration.params).to.be.equals(`type=outdoor`);
-    expect(poiList).is.deep.equal([getAdapterPoi(mockPoi)]);
+    expect(configuration.params).toEqual({ type: "outdoor" });
+    expect(poiList).toEqual([getAdapterPoi(mockPoi)]);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -101,11 +104,11 @@ describe("SitumSDK.cartography POI", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(
-      `/api/v1/buildings/${mockPoi.buildingId}/pois`
+    expect(configuration.url).toBe(
+      `/api/v1/buildings/${mockPoi.buildingId}/pois`,
     );
-    expect(configuration.params).to.be.equals(`type=indoor`);
-    expect(poiList).is.deep.equal([getAdapterPoi(mockPoi)]);
+    expect(configuration.params).toEqual({ type: "indoor" });
+    expect(poiList).toEqual([getAdapterPoi(mockPoi)]);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -116,7 +119,7 @@ describe("SitumSDK.cartography POI", () => {
     const mockPoi = getMockData("poiMock1");
     const axiosMock = mockAxiosRequest([
       { access_token: "fakeJWT" },
-      [getMockData("poiMock1")],
+      [mockPoi],
     ]);
 
     // Execute
@@ -124,9 +127,9 @@ describe("SitumSDK.cartography POI", () => {
 
     // Arrange
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(`/api/v1/pois`);
-    expect(configuration.params).to.be.equals(`view=compact`);
-    expect(poiList).is.deep.equal([getAdapterPoi(mockPoi)]);
+    expect(configuration.url).toBe(`/api/v1/pois`);
+    expect(configuration.params).toEqual({ view: "compact" });
+    expect(poiList).toEqual([getAdapterPoi(mockPoi)]);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -146,10 +149,12 @@ describe("SitumSDK.cartography POI", () => {
       info: "info",
       categoryId: 1234,
       customFields: [{ key: "key", value: "value" }],
-      floorId: 12917,
-      location: {
-        lat: 25.2289190880612,
-        lng: 55.4029336723872,
+      position: {
+        floorId: 12917,
+        georeferences: {
+          lat: 25.2289190880612,
+          lng: 55.4029336723872,
+        },
       },
     };
     axiosMock.mockClear();
@@ -157,7 +162,7 @@ describe("SitumSDK.cartography POI", () => {
     // Execute
     const poi = await situmSDK.cartography.createPoi(poiForm);
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.data).to.be.deep.equals({
+    expect(configuration.data).toEqual({
       building_id: 5962,
       name: "Test Fence",
       info: "info",
@@ -173,9 +178,9 @@ describe("SitumSDK.cartography POI", () => {
     });
 
     // Assert
-    expect(configuration.method).to.be.deep.equals("post");
-    expect(configuration.url).to.be.equals("/api/v1/pois");
-    expect(poi).is.deep.equal(getAdapterPoi(mockPoi));
+    expect(configuration.method).toBe("post");
+    expect(configuration.url).toBe("/api/v1/pois");
+    expect(poi).toEqual(getAdapterPoi(mockPoi));
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -189,14 +194,17 @@ describe("SitumSDK.cartography POI", () => {
     ]);
     const situmSDK = new SitumSDK({ auth: getMockData("auth") });
     const poiForm: PoiUpdateForm = {
+      buildingId: 6349,
       name: "Test Fence",
       info: "info",
       categoryId: 1234,
       customFields: [{ key: "key", value: "value" }],
-      floorId: 12917,
-      location: {
-        lat: 25.2289190880612,
-        lng: 55.4029336723872,
+      position: {
+        floorId: 12917,
+        georeferences: {
+          lat: 25.2289190880612,
+          lng: 55.4029336723872,
+        },
       },
     };
 
@@ -204,9 +212,11 @@ describe("SitumSDK.cartography POI", () => {
     const poi = await situmSDK.cartography.patchPoi(1234, poiForm);
 
     // Assert
-    expect(poi).is.deep.equal(getAdapterPoi(mockPoi));
+    expect(poi).toEqual(getAdapterPoi(mockPoi));
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.method).to.be.equals("put");
+    expect(configuration.method).toBe("put");
+    expect(configuration.data).toEqual(keysToSnake(poiForm));
+
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -222,8 +232,9 @@ describe("SitumSDK.cartography POI", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(`/api/v1/pois/${id}`);
-    expect(configuration.method).to.be.equals("delete");
+    expect(configuration.url).toBe(`/api/v1/pois/${id}`);
+    expect(configuration.method).toBe("delete");
+
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -244,8 +255,9 @@ describe("SitumSDK.cartography POI category", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(`/api/v1/poi_categories`);
-    expect(poiCategories).is.deep.equal([mockPoiCategory]);
+    expect(configuration.url).toBe(`/api/v1/poi_categories`);
+    expect(poiCategories).toEqual([mockPoiCategory]);
+
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -267,22 +279,22 @@ describe("SitumSDK.cartography POI category", () => {
       icon: "iconId",
       selectedIcon: "selectedIcon",
     };
-    const poiCategory = await situmSDK.cartography.createPoiCategory(
-      poiCategoryForm
-    );
+    const poiCategory =
+      await situmSDK.cartography.createPoiCategory(poiCategoryForm);
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.data).to.be.deep.equals({
+    expect(configuration.data).toEqual({
       name_en: "Kitchen",
       name_es: "Cocina",
       code: "kitchen_situm",
       icon: "iconId",
       selected_icon: "selectedIcon",
     });
-    expect(configuration.method).to.be.deep.equals("post");
-    expect(configuration.url).to.be.equals("/api/v1/poi_categories");
-    expect(poiCategory).is.deep.equal(mockPoiCategory);
+    expect(configuration.method).toBe("post");
+    expect(configuration.url).toBe("/api/v1/poi_categories");
+    expect(poiCategory).toEqual(mockPoiCategory);
+
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -306,13 +318,13 @@ describe("SitumSDK.cartography POI category", () => {
     // Execute
     const poiCategory = await situmSDK.cartography.patchPoiCategory(
       1111,
-      poiCategoryForm
+      poiCategoryForm,
     );
 
     // Assert
-    expect(poiCategory).is.deep.equal(mockPoiCategory);
+    expect(poiCategory).toEqual(mockPoiCategory);
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.method).to.be.equals("put");
+    expect(configuration.method).toBe("put");
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -328,8 +340,8 @@ describe("SitumSDK.cartography POI category", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(`/api/v1/poi_categories/${id}`);
-    expect(configuration.method).to.be.equals("delete");
+    expect(configuration.url).toBe(`/api/v1/poi_categories/${id}`);
+    expect(configuration.method).toBe("delete");
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });

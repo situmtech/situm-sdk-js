@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.8.0 (2024-07-18)
+
+### Added
+
+- Implement new auth mechanism by direct pass of a JWT string
+- Add method to renew expired JWT
+
+### Improvements
+
+- Migrate all tests to raw jest expectations, removed chai and mocha
+- Improve all JSDoc comments
+- Updated almost all dependencies to latest versions (important to fix a CVE from axios)
+
+### Fixed
+
+- Fix createPoi and patchPoi methods broken due to invalid types
+
 ## 0.7.1 (2024-04-24)
 
 ### Fixed

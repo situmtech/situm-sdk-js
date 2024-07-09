@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -8,16 +8,22 @@
   </head>
   <body>
     <script src="https://unpkg.com/axios@0.26.1/dist/axios.min.js"></script>
-    <script src="https://unpkg.com/@situm/sdk-js@0.0.6-beta5/dist/umd/situm-sdk.js"></script>
+    <script src="https://unpkg.com/@situm/sdk-js@0.8.0/dist/umd/situm-sdk.js"></script>
     <pre id="dump"></pre>
     <script>
       document.addEventListener("DOMContentLoaded", async () => {
-        const situm = new SitumSDK({ auth: {
-            username: 'EXAMPLE',
-            apikey: 'EXAMPLE'
-        }});
+        const situm = new SitumSDK({
+          auth: {
+            apiKey: "EXAMPLE",
+          },
+        });
 
-        document.getElementById('dump').innerHTML = JSON.stringify(await situm.cartography.getBuildings(), null, 2)
+        document.getElementById("dump").innerHTML = JSON.stringify(
+          await situm.cartography.getBuildings(),
+          null,
+          2,
+        );
       });
     </script>
   </body>
+</html>

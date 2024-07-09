@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { expect } from "chai";
 
 import SitumSDK from "../../src";
 import { GeofenceForm } from "../../src/types";
@@ -23,15 +22,13 @@ describe("SitumSDK.cartography Geofence", () => {
 
     // Execute
     const geofence = await situmSDK.cartography.getGeofenceById(
-      mockGeofence.id
+      mockGeofence.id,
     );
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(
-      `/api/v1/geofences/${mockGeofence.id}`
-    );
-    expect(geofence).is.deep.equal(mockGeofence);
+    expect(configuration.url).toBe(`/api/v1/geofences/${mockGeofence.id}`);
+    expect(geofence).toEqual(mockGeofence);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -63,11 +60,12 @@ describe("SitumSDK.cartography Geofence", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.params).to.be.equals(
-      "name=test&organization_id=0a5d0ff4-cd76-4e08-bcdc-e36e0182fd78"
-    );
-    expect(configuration.url).to.be.equals("/api/v1/geofences");
-    expect(geofenceList).is.deep.equal({
+    expect(configuration.params).toEqual({
+      name: "test",
+      organization_id: "0a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
+    });
+    expect(configuration.url).toBe("/api/v1/geofences");
+    expect(geofenceList).toEqual({
       ...mockGeofenceList,
       data: [getMockData("geofenceMock1")],
     });
@@ -100,7 +98,7 @@ describe("SitumSDK.cartography Geofence", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.data).to.be.deep.equals({
+    expect(configuration.data).toEqual({
       custom_fields: [{ key: "key", value: "value" }],
       building_id: "5962",
       code: "code",
@@ -111,9 +109,9 @@ describe("SitumSDK.cartography Geofence", () => {
       organization_id: "0a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
       type: "POLYGON",
     });
-    expect(configuration.method).to.be.deep.equals("post");
-    expect(configuration.url).to.be.equals("/api/v1/geofences");
-    expect(geofence).is.deep.equal(mockGeofence);
+    expect(configuration.method).toBe("post");
+    expect(configuration.url).toBe("/api/v1/geofences");
+    expect(geofence).toEqual(mockGeofence);
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -141,13 +139,13 @@ describe("SitumSDK.cartography Geofence", () => {
     };
     const geofence = await situmSDK.cartography.patchGeofence(
       "16d0ab76-d23a-486d-99b6-08d8e1a995a5",
-      geofenceForm
+      geofenceForm,
     );
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(geofence).is.deep.equal(mockGeofence);
-    expect(configuration.method).to.be.equals("put");
+    expect(geofence).toEqual(mockGeofence);
+    expect(configuration.method).toBe("put");
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });
@@ -163,8 +161,8 @@ describe("SitumSDK.cartography Geofence", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(`/api/v1/geofences/${uuid}`);
-    expect(configuration.method).to.be.equals("delete");
+    expect(configuration.url).toBe(`/api/v1/geofences/${uuid}`);
+    expect(configuration.method).toBe("delete");
     axiosMock.mockClear();
     axiosMock.mockRestore();
   });

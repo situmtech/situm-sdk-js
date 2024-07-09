@@ -67,13 +67,5 @@ export function postAdapter(serverPoi: PoiCreateForm): ServerPoiPost {
     ...serverPoi,
   } as ServerPoiPost;
 
-  // If indoor, de-normalize response
-  poi["position"] = {
-    floorId: poi.floorId,
-    georeferences: poi.location,
-  };
-  delete poi.location;
-  delete poi.floorId;
-
   return poi as ServerPoiPost;
 }

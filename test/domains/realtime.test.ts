@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import SitumSDK from "../../src";
 import { UUID } from "../../src/types";
 import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
@@ -35,10 +33,10 @@ describe("SitumSDK.realtime", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(
-      `/api/v1/realtime/organization/${organizationId}`
+    expect(configuration.url).toBe(
+      `/api/v1/realtime/organization/${organizationId}`,
     );
-    expect(realtimePositions).is.deep.equal(mockRealtime);
+    expect(realtimePositions).toEqual(mockRealtime);
   });
 
   it("should retrieve realtime positions by building id", async () => {
@@ -56,10 +54,8 @@ describe("SitumSDK.realtime", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(
-      `/api/v1/realtime/building/${buildingId}`
-    );
-    expect(realtimePositions).is.deep.equal(mockRealtime);
+    expect(configuration.url).toBe(`/api/v1/realtime/building/${buildingId}`);
+    expect(realtimePositions).toEqual(mockRealtime);
   });
 
   it("should retrieve realtime positions by organization id but without pass organization", async () => {
@@ -75,9 +71,9 @@ describe("SitumSDK.realtime", () => {
 
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).to.be.equals(
-      `/api/v1/realtime/organization/${organizationId}`
+    expect(configuration.url).toBe(
+      `/api/v1/realtime/organization/${organizationId}`,
     );
-    expect(realtimePositions).is.deep.equal(mockRealtime);
+    expect(realtimePositions).toEqual(mockRealtime);
   });
 });

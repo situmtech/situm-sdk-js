@@ -11,7 +11,6 @@ import { getAdapter as getGeofenceAdapter } from "../adapters/GeofenceAdapter";
 import { getAdapter as getCurrentOrganizationAdapter } from "../adapters/OrganizationAdapter";
 import {
   getAdapter as getPoiAdapter,
-  postAdapter as postPoiAdapter,
   ServerPoiGet,
 } from "../adapters/PoiAdapter";
 import { getAdapter as getPoiCategoryAdapter } from "../adapters/PoiCategoryAdapter";
@@ -40,6 +39,12 @@ import type {
   UUID,
 } from "../types";
 
+/**
+ * Service that exposes the cartography domain.
+ *
+ * Represents the CartographyAPI class that provides methods for
+ * listing/creating/updating/deleting buildings, floors, geofences, POIs, paths, and POI categories.
+ **/
 export default class CartographyApi {
   private readonly apiBase: ApiBase;
 
@@ -52,14 +57,16 @@ export default class CartographyApi {
   }
 
   /**
-   * Returns a list of buildings
+   * Retrieves a list of buildings.
    *
-   * @returns Promise<BuildingListElement[]>
+   * @param {Object} params - The parameters for the request.
+   * @param {string} [params.view="compact"] - The view of the buildings.
+   * @returns {Promise<readonly BuildingListElement[]>} - A promise that resolves to a list of building list elements.
    */
   getBuildings(
     params: {
       view?: "compact";
-    } = {}
+    } = {},
   ): Promise<readonly BuildingListElement[]> {
     if (this.apiBase.getConfiguration().compact) {
       params.view = "compact";
@@ -72,20 +79,22 @@ export default class CartographyApi {
       })
       .then((buildingList) =>
         buildingList.map((building: Record<string, unknown>) =>
-          getBuildingAdapter(building)
-        )
+          getBuildingAdapter(building),
+        ),
       );
   }
 
   /**
-   * Returns the building information for a given ID
+   * Returns the building information for a given ID.
    *
-   * @param buildingId The building id to fetch
-   * @returns Promise<Building>
+   * @param {ID} buildingId - The ID of the building to fetch.
+   * @param {Object} [params] - The parameters for the request.
+   * @param {string} [params.view="compact"] - The view of the building.
+   * @returns {Promise<Building>} - A promise that resolves to the building information.
    */
   getBuildingById(
     buildingId: ID,
-    params: { view?: "compact" } = {}
+    params: { view?: "compact" } = {},
   ): Promise<Building> {
     if (this.apiBase.getConfiguration().compact) {
       params.view = "compact";
@@ -100,9 +109,9 @@ export default class CartographyApi {
   }
 
   /**
-   * Returns the user's current organization
+   * Retrieves the current organization from the API.
    *
-   * @returns Promise<Organization>
+   * @return {Promise<Organization>} A promise that resolves to the current organization.
    */
   getCurrentOrganization(): Promise<Organization> {
     return this.apiBase
@@ -110,20 +119,20 @@ export default class CartographyApi {
         url: "/api/v1/organizations/current_organization",
       })
       .then((org) =>
-        getCurrentOrganizationAdapter(org, this.apiBase.getDomain())
+        getCurrentOrganizationAdapter(org, this.apiBase.getDomain()),
       );
   }
 
   /**
    * Updates a building given its id and the information to update
    *
-   * @param buildingId the building id to update
-   * @param buildingForm the building information to use
-   * @returns Promise<BuildingListElement>
+   * @param {ID} buildingId - the building id to update
+   * @param {Partial<BuildingForm>} buildingForm - the building information to use
+   * @return {Promise<BuildingListElement>} A promise that resolves to the updated building
    */
   patchBuilding(
     buildingId: ID,
-    buildingForm: Partial<BuildingForm>
+    buildingForm: BuildingForm,
   ): Promise<BuildingListElement> {
     return this.apiBase
       .put<Building>({
@@ -132,12 +141,11 @@ export default class CartographyApi {
       })
       .then(getBuildingAdapter);
   }
-
   /**
-   * Creates a new building in your organization
+   * Creates a new building in the API.
    *
-   * @param buildingForm The building information used to create it
-   * @return Promise<BuildingListElement>
+   * @param {BuildingForm} buildingForm - The building information used to create it.
+   * @return {Promise<BuildingListElement>} A promise that resolves to the created building.
    */
   createBuilding(buildingForm: BuildingForm): Promise<BuildingListElement> {
     return this.apiBase
@@ -151,8 +159,8 @@ export default class CartographyApi {
   /**
    * Deletes a building given its id
    *
-   * @param buildingId The building id to delete
-   * @returns void
+   * @param {ID} buildingId - The building id to delete
+   * @return {Promise<void>} A promise that resolves after deleting the building
    */
   deleteBuilding(buildingId: ID): Promise<void> {
     return this.apiBase.delete({
@@ -163,8 +171,8 @@ export default class CartographyApi {
   /**
    * Returns a list of floors given a search criteria
    *
-   * @param params the list of parameters to filter the response
-   * @returns Promise<Floor[]>
+   * @param {FloorSearch} params - the list of parameters to filter the response
+   * @return {Promise<readonly Floor[]>} A promise that resolves to a list of floors
    */
   getFloors(params: FloorSearch = {}): Promise<readonly Floor[]> {
     const url =
@@ -175,15 +183,15 @@ export default class CartographyApi {
     return this.apiBase
       .get<Floor[]>({ url })
       .then((buildingFloors) =>
-        buildingFloors.map((floor) => getFloorAdapter(floor))
+        buildingFloors.map((floor) => getFloorAdapter(floor)),
       );
   }
 
   /**
-   * Returns a floor given its id
+   * Retrieves a floor by its ID.
    *
-   * @param floorId The floor id to fetch
-   * @return Promise<Floor>
+   * @param {ID} floorId - The ID of the floor to retrieve
+   * @return {Promise<Floor>} A promise that resolves to the retrieved floor
    */
   getFloorById(floorId: ID): Promise<Floor> {
     return this.apiBase
@@ -196,11 +204,11 @@ export default class CartographyApi {
   /**
    * Updates a floor given its id and the information to update
    *
-   * @param floorId the floor id to update
-   * @param floorForm the floor information to use
-   * @returns Promise<Floor>
+   * @param {ID} floorId - the floor id to update
+   * @param {Partial<FloorForm>} floorForm - the floor information to use
+   * @returns {Promise<Floor>} Promise that resolves to the updated floor
    */
-  patchFloor(floorId: ID, floorForm: Partial<FloorForm>): Promise<Floor> {
+  patchFloor(floorId: ID, floorForm: FloorForm): Promise<Floor> {
     return this.apiBase
       .put<Floor>({
         url: "/api/v1/floors/" + floorId,
@@ -212,8 +220,8 @@ export default class CartographyApi {
   /**
    * Creates a new floor
    *
-   * @param floorForm The floor information used to create it
-   * @return Promise<Floor>
+   * @param {FloorForm} floorForm - The floor information used to create it
+   * @return {Promise<Floor>} Promise that resolves to the created floor
    */
   createFloor(floorForm: FloorForm): Promise<Floor> {
     return this.apiBase
@@ -225,23 +233,24 @@ export default class CartographyApi {
   }
 
   /**
-   * Deletes a floor given its id
+   * Deletes a floor given its ID.
    *
-   * @param floorId The floor id to delete
-   * @returns void
+   * @param {ID} floorId - The ID of the floor to delete
+   * @return {Promise<void>} Promise that resolves once the floor is deleted
    */
   deleteFloor(floorId: ID) {
     return this.apiBase.delete({ url: "/api/v1/floors/" + floorId });
   }
 
   /**
-   * Returns a list of geofences given a search criteria
+   * Retrieves a paginated list of geofences based on the provided search parameters.
+   * If no organizationId is provided in the search parameters, it retrieves the organizationId from the JWT.
    *
-   * @param params the list of geofences to filter the response
-   * @returns Promise<Floor[]>
+   * @param {GeofenceSearch} [params={}] - The search parameters for the geofences.
+   * @returns {Promise<Paginated<Geofence>>} A promise that resolves to a paginated list of geofences.
    */
   async getGeofences(
-    params: GeofenceSearch = {}
+    params: GeofenceSearch = {},
   ): Promise<Paginated<Geofence>> {
     if (!params.organizationId) {
       params.organizationId = await this.apiBase.getJwtOrganizationId();
@@ -255,16 +264,16 @@ export default class CartographyApi {
       .then((result) => ({
         metadata: result.metadata,
         data: result.data.map((geofence: Record<string, unknown>) =>
-          getGeofenceAdapter(geofence)
+          getGeofenceAdapter(geofence),
         ),
       }));
   }
 
   /**
-   * Returns a geofence given its id
+   * Retrieves a geofence by its ID.
    *
-   * @param geofenceId The geofence id to fetch
-   * @return Promise<Geofence>
+   * @param {UUID} geofenceId - The ID of the geofence to retrieve.
+   * @return {Promise<Geofence>} A Promise that resolves to the retrieved geofence.
    */
   getGeofenceById(geofenceId: UUID): Promise<Geofence> {
     return this.apiBase
@@ -275,15 +284,15 @@ export default class CartographyApi {
   }
 
   /**
-   * Updates a geofence given its id and the information to update
+   * Updates a geofence with the specified ID using the provided data.
    *
-   * @param geofenceId the geofence id to update
-   * @param geofenceForm the geofence information to use
-   * @returns Promise<Geofence>
+   * @param {UUID} geofenceId - The ID of the geofence to update.
+   * @param {Partial<GeofenceForm>} geofenceForm - The partial data to update the geofence with.
+   * @return {Promise<Geofence>} A Promise that resolves to the updated geofence.
    */
   patchGeofence(
     geofenceId: UUID,
-    geofenceForm: Partial<GeofenceForm>
+    geofenceForm: Partial<GeofenceForm>,
   ): Promise<Geofence> {
     return this.apiBase
       .put<Geofence>({
@@ -294,10 +303,10 @@ export default class CartographyApi {
   }
 
   /**
-   * Creates a new geofence
+   * Creates a new geofence.
    *
-   * @param geofenceForm The geofence information used to create it
-   * @return Promise<Geofence>
+   * @param {GeofenceForm} geofenceForm - The geofence information used to create it.
+   * @return {Promise<Geofence>} A Promise that resolves to the created geofence.
    */
   createGeofence(geofenceForm: GeofenceForm): Promise<Geofence> {
     return this.apiBase
@@ -309,20 +318,20 @@ export default class CartographyApi {
   }
 
   /**
-   * Deletes a geofence given its id
+   * Deletes a geofence by its ID.
    *
-   * @param geofenceId The geofence id to delete
-   * @returns Promise<void>
+   * @param {UUID} geofenceId - The ID of the geofence to delete.
+   * @return {Promise<void>}
    */
   deleteGeofence(geofenceId: UUID) {
     return this.apiBase.delete({ url: "/api/v1/geofences/" + geofenceId });
   }
 
   /**
-   * Returns a list of paths given a search criteria
+   * Retrieves paths based on the provided parameters.
    *
-   * @param params the list of geofences to filter the response
-   * @returns Promise<Paths[]>
+   * @param {PathSearch} params - The search parameters for fetching paths.
+   * @return {Promise<Paths[]>} A Promise that resolves to an array of paths.
    */
   getPaths(params: PathSearch = {}): Promise<Paths[]> {
     const url = params.buildingId
@@ -335,9 +344,9 @@ export default class CartographyApi {
   /**
    * Updates a path given its id and the information to update
    *
-   * @param buildingId the building id to update paths from
-   * @param pathForm the path information to use
-   * @returns Promise<Paths>
+   * @param {number} buildingId - the building id to update paths from
+   * @param {Paths} pathForm - the path information to use
+   * @returns {Promise<Paths>}
    */
   patchPath(buildingId: number, pathForm: Paths): Promise<Paths> {
     return this.apiBase.put<Paths>({
@@ -347,10 +356,10 @@ export default class CartographyApi {
   }
 
   /**
-   * Returns a list of pois given a search criteria
+   * Retrieves a list of Poi objects based on the provided search parameters.
    *
-   * @param params the criteria to filter pois with
-   * @returns Array<Poi>
+   * @param {PoiSearch} [params] - Optional search parameters to filter the Poi objects.
+   * @returns {Promise<Poi[]>} - A Promise that resolves to an array of Poi objects.
    */
   async getPois(params: PoiSearch = {}): Promise<Poi[]> {
     const url =
@@ -372,13 +381,13 @@ export default class CartographyApi {
   }
 
   /**
-   * Updates a POI given its id and the information to update
+   * Updates a POI (Point of Interest) with the given ID using the provided form data.
    *
-   * @param poiId the poi id to update
-   * @param poiForm the poi information to use
-   * @returns Promise<Poi>
+   * @param {number} poiId - The ID of the POI to update.
+   * @param {PoiUpdateForm} poiForm - The form data containing the updated POI information.
+   * @return {Promise<Poi>} A Promise that resolves to the updated POI object.
    */
-  patchPoi(poiId: number, poiForm: Partial<PoiUpdateForm>): Promise<Poi> {
+  patchPoi(poiId: number, poiForm: PoiUpdateForm): Promise<Poi> {
     return this.apiBase
       .put<Poi>({
         url: "/api/v1/pois/" + poiId,
@@ -390,35 +399,82 @@ export default class CartographyApi {
   /**
    * Creates a new POI
    *
-   * @param poiForm The poi information used to create it
-   * @return Promise<Poi>
+   * @param {PoiCreateForm} poiForm - The poi information used to create it
+   * @return {Promise<Poi>} A Promise that resolves to the created POI object.
    */
-  createPoi(poiCreateForm: PoiCreateForm): Promise<Poi> {
-    const poiCreateFormAdapted = postPoiAdapter(poiCreateForm);
-
+  createPoi(poiForm: PoiCreateForm): Promise<Poi> {
     return this.apiBase
       .post<Poi>({
         url: "/api/v1/pois",
-        body: poiCreateFormAdapted,
+        body: poiForm,
       })
       .then(getPoiAdapter);
   }
 
   /**
-   * Deletes a POI given its id
+   * Deletes a POI given its id.
    *
-   * @param poiId The POI id to delete
-   * @returns Promise<void>
+   * @param {number} poiId - The POI id to delete.
+   * @return {Promise<void>} A Promise that resolves to void.
    */
-  deletePoi(poiId: number): Promise<unknown> {
+  deletePoi(poiId: number): Promise<void> {
     return this.apiBase.delete({ url: "/api/v1/pois/" + poiId });
   }
 
   /**
-   * Returns a list of POI categories
+   * Creates an array of POIs in bulk.
    *
-   * @param buildingId the building id to filter from
-   * @returns Promise<PoiCategory[]>
+   * @param {PoiCreateForm[]} pois - An array of POI objects to create.
+   * @return {Promise<Poi[]>} A Promise that resolves to an array of created POIs.
+   */
+  createPoisBulk(pois: PoiCreateForm[]): Promise<Poi[]> {
+    return this.apiBase
+      .post<Poi[]>({
+        url: "/api/v1/pois_bulk",
+        body: pois,
+      })
+      .then((createdPois) => createdPois.map(getPoiAdapter));
+  }
+
+  /**
+   * Updates an array of POIs in bulk.
+   *
+   * @param {PoiUpdateForm[]} poiUpdateForms - An array of POI update forms.
+   * @return {Promise<Poi[]>} An array of Promises that resolves to an array of
+   *                          updated POIs or reject if the update has failed.
+   */
+  patchPoisBulk(
+    poiUpdateForms: (PoiUpdateForm & { id: number })[],
+  ): Promise<Poi[]> {
+    const updates = poiUpdateForms.map((form) => {
+      const id = form.id;
+      delete form.id;
+      const info = form;
+
+      return this.patchPoi(id, info);
+    });
+
+    return Promise.all(updates);
+  }
+
+  /**
+   * Deletes an array of POIs in batch.
+   *
+   * @param {number[]} poiIds - An array of POI ids to delete.
+   * @return {Promise<void[]>} A Promise that resolves to void.
+   */
+  deletePoisBulk(poiIds: number[]): Promise<void[]> {
+    const deletions = poiIds.map((poiId) =>
+      this.apiBase.delete({ url: "/api/v1/pois/" + poiId }),
+    );
+
+    return Promise.all(deletions);
+  }
+
+  /**
+   * Retrieves a list of POI categories.
+   *
+   * @return {Promise<PoiCategory[]>} A Promise that resolves to an array of POICategory objects.
    */
   getPoiCategories(): Promise<PoiCategory[]> {
     return this.apiBase
@@ -427,21 +483,21 @@ export default class CartographyApi {
       })
       .then((poiCategories) =>
         poiCategories.map((p) =>
-          getPoiCategoryAdapter(p, this.apiBase.getDomain())
-        )
+          getPoiCategoryAdapter(p, this.apiBase.getDomain()),
+        ),
       );
   }
 
   /**
-   * Updates a POI category given its id and the information to update
+   * Patches a POI category.
    *
-   * @param poiCategoryId the poi category id to update
-   * @param poiCategoryForm the poi category information to use
-   * @returns Promise<PoiCategory>
+   * @param {number} poiCategoryId - The ID of the POI category to patch.
+   * @param {Partial<PoiCategoryForm>} poiCategoryForm - The partial POI category form.
+   * @return {Promise<PoiCategory>} A promise that resolves to the updated POI category.
    */
   patchPoiCategory(
     poiCategoryId: number,
-    poiCategoryForm: Partial<PoiCategoryForm>
+    poiCategoryForm: Partial<PoiCategoryForm>,
   ): Promise<PoiCategory> {
     return this.apiBase.put<PoiCategory>({
       url: "/api/v1/poi_categories/" + poiCategoryId,
@@ -450,10 +506,10 @@ export default class CartographyApi {
   }
 
   /**
-   * Creates a new POI category
+   * Creates a new POI category.
    *
-   * @param poiCategoryForm The poi category information used to create it
-   * @return Promise<PoiCategory>
+   * @param {PoiCategoryForm} poiCategoryForm - The form data for the POI category to be created.
+   * @return {Promise<PoiCategory>} A promise that resolves to the created POI category.
    */
   createPoiCategory(poiCategoryForm: PoiCategoryForm): Promise<PoiCategory> {
     return this.apiBase.post<PoiCategory>({
@@ -463,10 +519,10 @@ export default class CartographyApi {
   }
 
   /**
-   * Deletes a POI category given its id
+   * Deletes a POI category.
    *
-   * @param poiCategoryId The POI category id to delete
-   * @returns Promise<void>
+   * @param {number} poiCategoryId - The ID of the POI category to delete.
+   * @return {void} A Promise that resolves when the deletion is successful.
    */
   deletePoiCategory(poiCategoryId: number) {
     return this.apiBase.delete({

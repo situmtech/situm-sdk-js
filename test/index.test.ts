@@ -1,3 +1,5 @@
+import expect from "expect";
+
 /**
  * Copyright (c) Situm Technologies. and its affiliates.
  *
@@ -5,8 +7,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { expect } from "chai";
-
 import SitumSDK from "../src";
 
 import {
@@ -19,16 +19,16 @@ describe("SitumSDK", () => {
   it("should have a version", () => {
     const version = SitumSDK.version;
 
-    expect(version).exist;
-    expect(version).is.not.be.null;
+    expect(version).toBeDefined();
+    expect(version).not.toBeNull();
   });
 
   it("should have the user domain", () => {
     const situmSDK = new SitumSDK({});
     const userApi = situmSDK.user;
 
-    expect(userApi).exist;
-    expect(userApi).is.not.be.null;
+    expect(userApi).toBeDefined();
+    expect(userApi).not.toBeNull();
   });
 
   it("should initialize with basic authentication", () => {
@@ -40,8 +40,8 @@ describe("SitumSDK", () => {
     });
     const userApi = situmSDK.user;
 
-    expect(userApi).exist;
-    expect(userApi).is.not.be.null;
+    expect(userApi).toBeDefined();
+    expect(userApi).not.toBeNull();
   });
 
   it("should initialize with api key authentication", () => {
@@ -52,8 +52,8 @@ describe("SitumSDK", () => {
     });
     const userApi = situmSDK.user;
 
-    expect(userApi).exist;
-    expect(userApi).is.not.be.null;
+    expect(userApi).toBeDefined();
+    expect(userApi).not.toBeNull();
   });
 
   it("should generate a jwt with apikey", () => {
@@ -64,8 +64,8 @@ describe("SitumSDK", () => {
     });
     const userApi = situmSDK.user;
 
-    expect(userApi).exist;
-    expect(userApi).is.not.be.null;
+    expect(userApi).toBeDefined();
+    expect(userApi).not.toBeNull();
   });
 
   it("should raise auth exception with invalid basic authentication", async () => {
@@ -80,16 +80,16 @@ describe("SitumSDK", () => {
     try {
       await situmSDK.user.getUserById("test-uuid");
 
-      expect(true).is.equal(false);
+      expect(true).toBe(false);
     } catch (error) {
       checkAuthenticationException(error);
       const configuration = axiosMock.mock.calls[0][0];
 
       const { url, data, headers } = configuration;
 
-      expect(url).to.be.equals("/api/v1/auth/access_tokens");
-      expect(data).to.be.undefined;
-      expect(headers["X-API-KEY"]).to.be.equals("topSecret");
+      expect(url).toBe("/api/v1/auth/access_tokens");
+      expect(data).toBeUndefined();
+      expect(headers["X-API-KEY"]).toBe("topSecret");
       // expect(headers["X-API-CLIENT"]).to.be.equals(
       //   "SitumJSSDK/" + SitumSDK.version
       // );
@@ -110,20 +110,20 @@ describe("SitumSDK", () => {
     try {
       await situmSDK.user.getUserById("test-uuid");
 
-      expect(true).is.equal(false);
+      expect(true).toBe(false);
     } catch (error) {
       checkAuthenticationException(error);
       const configuration = axiosMock.mock.calls[0][0];
 
       const { url, data, auth, headers } = configuration;
 
-      expect(url).to.be.equals("/api/v1/auth/access_tokens");
-      expect(data).to.be.undefined;
-      expect(auth?.password).to.be.equals("topSecret");
-      expect(auth?.username).to.be.equals("test@situm.com");
-      expect(headers).contain({ "Content-Type": "application/json" });
+      expect(url).toBe("/api/v1/auth/access_tokens");
+      expect(data).toBeUndefined();
+      expect(auth?.password).toBe("topSecret");
+      expect(auth?.username).toBe("test@situm.com");
+      expect(headers).toMatchObject({ "Content-Type": "application/json" });
 
-      expect(headers).not.haveOwnProperty("X-API-KEY");
+      expect(headers["X-API-KEY"]).toBeUndefined();
       // expect(headers["X-API-CLIENT"]).to.be.equals(
       //   "SitumJSSDK/" + SitumSDK.version
       // );

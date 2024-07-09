@@ -1,31 +1,30 @@
 import SitumSDK from "../src";
 
 (async function run() {
-  // Initialize the sdk specifying auth
-  const sdk = new SitumSDK({
+  // Initialize the situm specifying auth
+  const situm = new SitumSDK({
     auth: {
       apiKey: "YOUR_API_KEY",
-      email: "example@example.com",
     },
   });
 
   // Fetching buildings
-  const buildings = await sdk.cartography.getBuildings();
+  const buildings = await situm.cartography.getBuildings();
 
   console.log("Fetching buildings: ");
   buildings.forEach((building) => {
     console.log(
-      `Info for building ${building.id}: ${JSON.stringify(building)}`
+      `Info for building ${building.id}: ${JSON.stringify(building)}`,
     );
   });
 
   // Fetching info from a building
-  await sdk.cartography.getBuildingById(5962).then((data) => {
+  await situm.cartography.getBuildingById(5962).then((data) => {
     console.log(data);
   });
 
   // We've got functions to performa CRUD operations for buildings
-  await sdk.cartography.createBuilding({
+  await situm.cartography.createBuilding({
     name: "",
     pictureId: "1",
     location: { lat: 123, lng: 1234 },
@@ -37,7 +36,7 @@ import SitumSDK from "../src";
   });
 
   // Updating/patching a building
-  await sdk.cartography.patchBuilding(23423, {
+  await situm.cartography.patchBuilding(23423, {
     rotation: 12,
     pictureId: "123",
     dimensions: { length: 12, width: 123 },
@@ -46,5 +45,34 @@ import SitumSDK from "../src";
   });
 
   // Deleting a building
-  await sdk.cartography.deleteBuilding(23423);
+  await situm.cartography.deleteBuilding(23423);
+
+  const newpoi = await situm.cartography
+    .createPoi({
+      name: "My POI " + new Date().toDateString(),
+      position: {
+        floorId: 15517,
+        georeferences: { lat: 42.86972460874978, lng: -8.515350926595511 },
+      },
+      info: "the building info",
+      customFields: [],
+      buildingId: 7277,
+      categoryId: 148,
+    })
+    .then((poi) => {
+      console.log(poi);
+      return poi;
+    });
+
+  situm.cartography
+    .patchPoi(newpoi.id, {
+      buildingId: 7277,
+      name: "My POI " + new Date().toDateString(),
+      position: {
+        floorId: 15517,
+        georeferences: { lat: 42.86972460874978, lng: -8.515350926595511 },
+      },
+    })
+    .then(console.log)
+    .catch(console.error);
 })();

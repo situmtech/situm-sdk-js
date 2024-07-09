@@ -41,7 +41,7 @@ You will need to sign a Contributor License Agreement (CLA) before making a subm
 
 ## License
 
-This project is licensed under the MIT - see the [LICENSE.txt](LICENSE.txt) file for details.
+This project is licensed under the MIT - see the [LICENSE](LICENSE) file for details.
 
 ## Documentation
 
@@ -68,6 +68,11 @@ The folder `docs/guides` contains general information about the Situm SDK JS lib
 #### Examples
 
 In the folder `examples/` you can find several folders with example for every feature of Situm SDK JS.
+
+Run them with:
+```
+npx tsx examples/filename.ts
+```
 
 #### Reference topics
 

@@ -6,7 +6,6 @@
  *
  */
 import ApiBase from "./apiBase";
-import AuthApi from "./domains/auth";
 import CartographyApi from "./domains/cartography";
 import RealtimeApi from "./domains/realtime";
 import UserApi from "./domains/user";
@@ -17,7 +16,6 @@ export default class SitumSDK {
   private readonly apiBase: ApiBase;
 
   // Domains
-  private auth: AuthApi;
   /**
    * Gives access to the user domain with its operations
    */
@@ -31,12 +29,13 @@ export default class SitumSDK {
    */
   readonly realtime: RealtimeApi;
 
-  static readonly version = "0.5.0";
+  static readonly version = "0.8.0";
 
   /**
-   * Initializes the API configuration and services exported
+   * Initializes a new instance of the SitumSDK class with its exported domains.
    *
-   * @param config The configuration
+   * @param {SDKConfiguration} config - The configuration object for the SDK.
+   * @return {void}
    */
   constructor(config: SDKConfiguration) {
     this.configuration = {
@@ -46,24 +45,12 @@ export default class SitumSDK {
       auth: config.auth,
       compact: config.compact,
     };
-    this.apiBase = new ApiBase(
-      this.configuration,
-      (): Promise<string> => this.getAuthApi().getAuthorization()
-    );
+    // Wrapper for the axios instance, and utility methods for the rest of the domains
+    this.apiBase = new ApiBase(this.configuration);
 
+    // Domains initialization
     this.user = new UserApi(this.apiBase);
     this.cartography = new CartographyApi(this.apiBase);
     this.realtime = new RealtimeApi(this.apiBase);
-  }
-
-  /**
-   * Returns the AuthAPI initialized
-   * @returns Returns the Auth API wrapper
-   */
-  private getAuthApi() {
-    if (!this.auth) {
-      this.auth = new AuthApi(this.configuration.auth, this.apiBase);
-    }
-    return this.auth;
   }
 }
