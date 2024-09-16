@@ -13,10 +13,10 @@ import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 describe("SitumSDK.cartography Floor", () => {
   it("should retrieve a floor by id", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const mockFloor = getMockData("floorMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("floorResponseMock1"),
     ]);
     const floor = await situmSDK.cartography.getFloorById(mockFloor.id);
@@ -31,10 +31,10 @@ describe("SitumSDK.cartography Floor", () => {
 
   it("should retrieve all floors", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const mockFloorList = [getMockData("floorResponseMock1")];
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       mockFloorList,
     ]);
 
@@ -52,10 +52,10 @@ describe("SitumSDK.cartography Floor", () => {
 
   it("should retrieve all floors by its building id", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const mockFloorList = [getMockData("floorResponseMock1")];
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       mockFloorList,
     ]);
 
@@ -79,10 +79,10 @@ describe("SitumSDK.cartography Floor", () => {
     // Arrange
     const mockFloor = getMockData("floorMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("floorResponseMock1"),
     ]);
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const floorForm: FloorForm = {
       customFields: [{ key: "key", value: "value" }],
       buildingId: 5962,
@@ -115,10 +115,10 @@ describe("SitumSDK.cartography Floor", () => {
 
   it("should update a floor", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const mockFloor = getMockData("floorMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("floorResponseMock1"),
     ]);
 
@@ -153,8 +153,11 @@ describe("SitumSDK.cartography Floor", () => {
 
   it("should delete a floor", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
-    const axiosMock = mockAxiosRequest([{ access_token: "fakeJWT" }, null]);
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
+    const axiosMock = mockAxiosRequest([
+      { access_token: getMockData("jwtMock") },
+      null,
+    ]);
     axiosMock.mockClear();
     const floorId = 1111;
 

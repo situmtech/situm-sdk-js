@@ -16,7 +16,7 @@ describe("SitumSDK.user", () => {
   let mockUser = null;
 
   beforeEach(() => {
-    situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     mockUser = getMockData("userMock1");
   });
 
@@ -28,9 +28,9 @@ describe("SitumSDK.user", () => {
 
   it("should retrieve a user by its id", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("userResponseMock1"),
     ]);
 
@@ -58,7 +58,7 @@ describe("SitumSDK.user", () => {
       },
     };
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       mockUserList,
     ]);
 
@@ -81,7 +81,7 @@ describe("SitumSDK.user", () => {
     // Arrange
     const mockUser = getMockData("userMock1");
     axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("userResponseMock1"),
     ]);
     const userForm: UserForm = {
@@ -111,10 +111,10 @@ describe("SitumSDK.user", () => {
 
   it("should update a user", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const mockUser = getMockData("userMock1");
     axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("userResponseMock1"),
     ]);
     const userForm: UserForm = {
@@ -140,7 +140,10 @@ describe("SitumSDK.user", () => {
 
   it("should delete a user", async () => {
     // Arrange
-    axiosMock = mockAxiosRequest([{ access_token: "fakeJWT" }, null]);
+    axiosMock = mockAxiosRequest([
+      { access_token: getMockData("jwtMock") },
+      null,
+    ]);
     const uuid = "a41bddf3-db6b-4b8b-ab78-4caa22f9efc4";
 
     // Execute

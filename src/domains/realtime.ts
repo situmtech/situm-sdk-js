@@ -18,7 +18,7 @@ export type ResponseRealtimePosition = {
 type SearchRealtime = { organizationId?: UUID } | { buildingId: number };
 
 /**
- * Service that exposes the cartography domain.
+ * Service that exposes the realtime domain.
  *
  * Represents the RealtimeApi class that provides methods for getting positions.
  **/
@@ -33,21 +33,20 @@ export default class RealtimeApi {
    * Retrieves real-time positions based on the provided search criteria.
    *
    * @param {SearchRealtime} [searchRealtime] - Optional search criteria for real-time positions.
-   * @param {UUID} [searchRealtime.organizationId] - The ID of the organization for which to retrieve real-time positions.
-   * @param {number} [searchRealtime.buildingId] - The ID of the building for which to retrieve real-time positions.
-   * @return {Promise<RealtimePositions>} A promise that resolves to the retrieved real-time positions.
+   * @returns {Promise<RealtimePositions>} A promise that resolves to the retrieved real-time positions.
    */
   async getPositions(
     searchRealtime?: SearchRealtime,
   ): Promise<RealtimePositions> {
     let url = "";
+    const authSession = await this.apiBase.getAuthSession();
     if (searchRealtime && "buildingId" in searchRealtime) {
       url = "/api/v1/realtime/building/" + searchRealtime.buildingId;
     } else {
       const organizationId =
         searchRealtime && "organizationId" in searchRealtime
           ? searchRealtime.organizationId
-          : await this.apiBase.getJwtOrganizationId();
+          : authSession.organizationId;
 
       url = "/api/v1/realtime/organization/" + organizationId;
     }

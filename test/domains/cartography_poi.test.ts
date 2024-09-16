@@ -17,11 +17,11 @@ import { keysToSnake } from "./../../src/utils/snakeCaseCamelCaseUtils";
 describe("SitumSDK.cartography POI", () => {
   it("should retrieve all pois with no params", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const mockPoi = getMockData("poiMock1");
 
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       [getMockData("poiMock1")],
     ]);
 
@@ -38,10 +38,10 @@ describe("SitumSDK.cartography POI", () => {
 
   it("should retrieve pois when asking by building ID", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const mockPoi = getMockData("poiMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       [getMockData("poiResponseMock1")],
     ]);
 
@@ -63,10 +63,10 @@ describe("SitumSDK.cartography POI", () => {
 
   it("should retrieve pois when asking by building ID and type outdoor", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const mockPoi = getMockData("poiMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       [getMockData("poiResponseMock1")],
     ]);
 
@@ -89,10 +89,10 @@ describe("SitumSDK.cartography POI", () => {
 
   it("should retrieve pois when asking by building ID and type indoor", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const mockPoi = getMockData("poiMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       [getMockData("poiResponseMock1")],
     ]);
 
@@ -115,10 +115,13 @@ describe("SitumSDK.cartography POI", () => {
 
   it("should retrieve all pois with view=compact", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth"), compact: true });
+    const situmSDK = new SitumSDK({
+      auth: getMockData("jwtMock"),
+      compact: true,
+    });
     const mockPoi = getMockData("poiMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       [mockPoi],
     ]);
 
@@ -138,10 +141,10 @@ describe("SitumSDK.cartography POI", () => {
     // Arrange
     const mockPoi = getMockData("poiMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("poiResponseMock1"),
     ]);
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
 
     const poiForm: PoiCreateForm = {
       buildingId: 5962,
@@ -189,10 +192,10 @@ describe("SitumSDK.cartography POI", () => {
     // Arrange
     const mockPoi = getMockData("poiMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("poiResponseMock1"),
     ]);
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const poiForm: PoiUpdateForm = {
       buildingId: 6349,
       name: "Test Fence",
@@ -223,8 +226,11 @@ describe("SitumSDK.cartography POI", () => {
 
   it("should delete a poi", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
-    const axiosMock = mockAxiosRequest([{ access_token: "fakeJWT" }, null]);
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
+    const axiosMock = mockAxiosRequest([
+      { access_token: getMockData("jwtMock") },
+      null,
+    ]);
     const id = 1234;
 
     // Execute
@@ -243,10 +249,10 @@ describe("SitumSDK.cartography POI", () => {
 describe("SitumSDK.cartography POI category", () => {
   it("should retrieve poi category", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const mockPoiCategory = getMockData("poiCategoryMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       [getMockData("poiCategoryResponseMock1")],
     ]);
 
@@ -266,10 +272,10 @@ describe("SitumSDK.cartography POI category", () => {
     // Arrange
     const mockPoiCategory = getMockData("poiCategoryMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("poiCategoryResponseMock1"),
     ]);
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
 
     // Execute
     const poiCategoryForm: PoiCategoryForm = {
@@ -303,10 +309,10 @@ describe("SitumSDK.cartography POI category", () => {
     // Arrange
     const mockPoiCategory = getMockData("poiCategoryMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("poiCategoryResponseMock1"),
     ]);
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const poiCategoryForm: PoiCategoryForm = {
       nameEn: "Kitchen2",
       nameEs: "Cocina2",
@@ -331,8 +337,11 @@ describe("SitumSDK.cartography POI category", () => {
 
   it("should delete Poi Category", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
-    const axiosMock = mockAxiosRequest([{ access_token: "fakeJWT" }, null]);
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
+    const axiosMock = mockAxiosRequest([
+      { access_token: getMockData("jwtMock") },
+      null,
+    ]);
     const id = 1111;
 
     // Execute

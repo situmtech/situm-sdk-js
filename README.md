@@ -24,7 +24,7 @@ The best way to get started is to navigate through the Situm SDK JS documentatio
 
 - [Guide](https://situm.com/docs/01-quickstart-guide/) will give you a good overview of the library.
 - [API Reference](https://situm.com/docs/01-quickstart-guide/) will help you use a particular class or method.
-- [Examples](./examples) will demo some specific features.
+- [Examples](./examples/index.html) will demo some specific features.
 - [Support](https://situm.com/en/docs/sdk-js/support/) might answer some of your questions.
 
 ## Versioning
@@ -70,6 +70,7 @@ The folder `docs/guides` contains general information about the Situm SDK JS lib
 In the folder `examples/` you can find several folders with example for every feature of Situm SDK JS.
 
 Run them with:
+
 ```
 npx tsx examples/filename.ts
 ```

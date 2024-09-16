@@ -20,8 +20,8 @@ import {
   AuthJWT,
   SDKConfiguration,
   SitumErrorType,
-  UUID,
 } from "./types";
+import AuthSession from "./utils/authSession";
 import SitumError from "./utils/situmError";
 import { keysToCamel, keysToSnake } from "./utils/snakeCaseCamelCaseUtils";
 
@@ -34,7 +34,7 @@ const DEFAULT_TIMEOUT = 0; // no timeout
  * @param {SDKConfiguration} configuration - The SDK configuration object.
  * @param {string | null} jwt - The JWT token.
  * @param {RawAxiosRequestHeaders | AxiosHeaders} headers - The headers object.
- * @return {RawAxiosRequestHeaders | AxiosHeaders} The calculated HTTP request headers.
+ * @returns {RawAxiosRequestHeaders | AxiosHeaders} The calculated HTTP request headers.
  */
 const calculateHTTPRequestHeaders = (
   configuration: SDKConfiguration,
@@ -120,12 +120,12 @@ export type AuthParams =
       headers: {
         "X-API-KEY": string;
       };
+    }
+  | {
+      headers: {
+        Authorization: string;
+      };
     };
-
-type Jwt = {
-  expiration: number;
-  organizationId: UUID;
-};
 
 export type RequestInfo = {
   readonly url: string;
@@ -143,20 +143,18 @@ export default class ApiBase {
     },
     compact: false,
   };
-  private jwt: string | null;
-  private refreshToken: string | null;
+  private _authSession: AuthSession | null;
 
   constructor(configuration: SDKConfiguration) {
     this.configuration = { ...this.configuration, ...configuration };
-    this.jwt = null;
   }
 
   /**
    * Wrapper around axios that converts our domain HTTP request parameters
    * to the axios request requirements.
    *
-   * @param method the HTTP verb to use
-   * @param requestInfo Parameters to use while performing the request
+   * @param {string} method - the HTTP verb to use
+   * @param {RequestInfo} requestInfo - Parameters to use while performing the request
    * @returns Promise
    */
   private async request<T>(
@@ -184,7 +182,7 @@ export default class ApiBase {
   /**
    * Performs an HTTP GET request given a parameters hash
    *
-   * @param requestInfo Parameters to use while performing the request
+   * @param {RequestInfo} requestInfo - Parameters to use while performing the request
    * @returns Promise
    */
   get<T>(requestInfo: RequestInfo): Promise<T> {
@@ -204,7 +202,7 @@ export default class ApiBase {
   /**
    * Performs an HTTP POST request given a parameters hash
    *
-   * @param requestInfo Parameters to use while performing the request
+   * @param {RequestInfo} requestInfo - Parameters to use while performing the request
    * @returns Promise
    */
   put<T>(requestInfo: RequestInfo): Promise<T> {
@@ -224,7 +222,7 @@ export default class ApiBase {
   /**
    * Performs an HTTP DELETE request given a parameters hash
    *
-   * @param requestInfo Parameters to use while performing the request
+   * @param {RequestInfo} requestInfo - Parameters to use while performing the request
    * @returns Promise
    */
   delete(requestInfo: RequestInfo): Promise<void> {
@@ -234,7 +232,7 @@ export default class ApiBase {
   /**
    * Gets the current domain
    *
-   * @returns String
+   * @returns {SDKConfiguration}
    */
   getDomain(): string {
     return this.configuration.domain;
@@ -243,25 +241,17 @@ export default class ApiBase {
   /**
    * Returns the configuration of the api
    *
-   * @returns SDKConfiguration
+   * @returns {SDKConfiguration}
    */
   getConfiguration() {
     return this.configuration;
   }
 
   /**
-   * Retrieves the organization id from the JWT
-   */
-  async getJwtOrganizationId(): Promise<UUID> {
-    const jwt = await this.getJwt();
-
-    return this.parseJwt(jwt).organizationId;
-  }
-
-  /**
    * Converts An AxiosError to SitumError
    *
-   * @param error The AxiosError to parse
+   * @param {AxiosError<SitumErrorType>} error - The AxiosError to parse
+   * @returns {SitumError}
    */
   private parseRequestException(error: AxiosError<SitumErrorType>): SitumError {
     if (error instanceof SitumError) {
@@ -269,6 +259,16 @@ export default class ApiBase {
     }
 
     if (error.response) {
+      if (error.response.data.code === "invalid_credentials") {
+        return new SitumError({
+          status: error.response.data.status,
+          code: error.response.data.code,
+          message:
+            "Invalid credentials, please check your authentication params.",
+          errors: error.response.data.errors,
+        });
+      }
+
       return new SitumError({
         status: error.response.data.status,
         code: error.response.data.code,
@@ -285,41 +285,18 @@ export default class ApiBase {
   }
 
   /**
-   * Checks if the given JWT parameter is expired or not
-   * @param token The JWT to validate
-   * @returns boolean
-   */
-  private isJWTExpired(): boolean {
-    const parsedJwt = this.parseJwt(this.jwt);
-
-    return (parsedJwt.expiration - 500) * 1000 < Date.now();
-  }
-
-  /**
-   * Decodes the given JWT string and returns it as an object
-   * @param token The JWT token string to parse
-   * @returns The JWT object
-   */
-  private parseJwt(token: string | null): Jwt {
-    let jwt: Record<string, unknown>;
-    try {
-      jwt = JSON.parse(atob(token.split(".")[1]));
-    } catch (e) {
-      jwt = null;
-    }
-
-    return {
-      expiration: jwt.exp as number,
-      organizationId: jwt.organization_uuid as UUID,
-    };
-  }
-
-  /**
    * Proxy to get the JWT
-   * @returns Promise<string> Returns the JWT calculated
+   * @returns {Promise<string>} - the JWT calculated
    */
   getAuthorization() {
     return this.getJwt();
+  }
+
+  getAuthSession() {
+    if (!this._authSession) {
+      this.getJwt();
+    }
+    return this._authSession;
   }
 
   /**
@@ -344,16 +321,17 @@ export default class ApiBase {
    */
   private async getJwt(): Promise<string> {
     // If we had previously fetched the jwt and it's not expired, return it
-    if (this.jwt) {
-      if (this.isJWTExpired() && this.refreshToken) {
+    if (this._authSession?.jwt) {
+      if (this._authSession.isExpired() && this._authSession.refreshToken) {
         const newTokens = await this.renewJwt();
 
-        this.jwt = newTokens.accessToken;
-        this.refreshToken = newTokens.refreshToken;
-
-        return this.jwt;
+        this._authSession = new AuthSession(
+          newTokens.accessToken,
+          newTokens.refreshToken,
+        );
       }
-      return this.jwt;
+
+      return this._authSession.jwt;
     }
 
     // If no auth configuration provided, throw an error
@@ -363,7 +341,10 @@ export default class ApiBase {
 
     // If authentication is using JWT auth, assume it and return it
     if (this.isAuthJwt(this.configuration.auth)) {
-      this.jwt = (<AuthJWT>this.configuration.auth).jwt;
+      this._authSession = new AuthSession(
+        (<AuthJWT>this.configuration.auth).jwt,
+        null,
+      );
 
       // TODO: maybe we need to fetch a refreshToken for future expirations.
 
@@ -379,10 +360,12 @@ export default class ApiBase {
         ...authData,
       })) as AccessTokens;
 
-      this.jwt = response.accessToken;
-      this.refreshToken = response.refreshToken;
+      this._authSession = new AuthSession(
+        response.accessToken,
+        response.refreshToken,
+      );
 
-      return this.jwt;
+      return this._authSession.jwt;
     } catch (error) {
       throw await error;
     }
@@ -400,7 +383,10 @@ export default class ApiBase {
         url: "/api/v1/auth/refresh_access_tokens",
         notAuthenticated: true,
         ...authData,
-        body: { accessToken: this.jwt, refreshToken: this.refreshToken },
+        body: {
+          accessToken: this._authSession.jwt,
+          refreshToken: this._authSession.refreshToken,
+        },
       })) as AccessTokens;
 
       return response;
@@ -412,7 +398,7 @@ export default class ApiBase {
   /**
    * Builds and returns the authentication params given a configuration
    *
-   * @param auth Object containing the authentication params
+   * @param {AuthConfiguration} - auth Object containing the authentication params
    * @returns AuthParams
    */
   private getAuthorizationHeaders(auth: AuthConfiguration): AuthParams {
@@ -421,6 +407,15 @@ export default class ApiBase {
       return {
         authorization: {
           ...authBasic,
+        },
+      };
+    }
+
+    if (this.isAuthJwt(auth)) {
+      const authJwt = auth as AuthJWT;
+      return {
+        headers: {
+          Authorization: "Bearer " + authJwt.jwt,
         },
       };
     }

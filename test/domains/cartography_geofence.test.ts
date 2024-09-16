@@ -13,10 +13,10 @@ import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 describe("SitumSDK.cartography Geofence", () => {
   it("should retrieve a geofence by its id", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const mockGeofence = getMockData("geofenceMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("geofenceResponseMock1"),
     ]);
 
@@ -62,7 +62,7 @@ describe("SitumSDK.cartography Geofence", () => {
     const configuration = axiosMock.mock.calls[1][0];
     expect(configuration.params).toEqual({
       name: "test",
-      organization_id: "0a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
+      organization_id: "fakefakefa-fake-fake-fake-fakefakefake",
     });
     expect(configuration.url).toBe("/api/v1/geofences");
     expect(geofenceList).toEqual({
@@ -77,7 +77,7 @@ describe("SitumSDK.cartography Geofence", () => {
     // Arrange
     const mockGeofence = getMockData("geofenceMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("geofenceResponseMock1"),
     ]);
     const situmSDK = new SitumSDK({ auth: getMockData("auth") });
@@ -120,10 +120,10 @@ describe("SitumSDK.cartography Geofence", () => {
     // Arrange
     const mockGeofence = getMockData("geofenceMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("geofenceResponseMock1"),
     ]);
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
 
     // Execute
     const geofenceForm: GeofenceForm = {
@@ -152,8 +152,11 @@ describe("SitumSDK.cartography Geofence", () => {
 
   it("should delete a geofence", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
-    const axiosMock = mockAxiosRequest([{ access_token: "fakeJWT" }, null]);
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
+    const axiosMock = mockAxiosRequest([
+      { access_token: getMockData("jwtMock") },
+      null,
+    ]);
 
     // Execute
     const uuid = "a41bddf3-db6b-4b8b-ab78-4caa22f9efc4";

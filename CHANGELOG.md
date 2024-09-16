@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.8.2 (2024-10-11)
+
+### Added
+
+- Move all the auth session logic to its own domain, this allows third
+  integrators to query for session information, specifically permission access level
+- Lazy load all internal domain (cartography, auth, realtime, user). This
+  improves code maintability.
+
+
+### Improved
+
+- Improved documentation
+
 ## 0.8.1 (2024-07-19)
 
 ### Fixed

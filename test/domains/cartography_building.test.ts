@@ -13,10 +13,10 @@ import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 describe("SitumSDK.cartography Building", () => {
   it("should retrieve a building by id", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const mockBuilding = getMockData("buildingMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("buildingResponseMock1"),
     ]);
 
@@ -36,10 +36,10 @@ describe("SitumSDK.cartography Building", () => {
 
   it("should retrieve all buildings", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const mockBuildingList = [getMockData("buildingResponseMock1")];
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       mockBuildingList,
     ]);
 
@@ -57,10 +57,13 @@ describe("SitumSDK.cartography Building", () => {
 
   it("should retrieve all buildings with view=compact", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth"), compact: true });
+    const situmSDK = new SitumSDK({
+      auth: getMockData("jwtMock"),
+      compact: true,
+    });
     const mockBuildingList = [getMockData("buildingResponseMock1")];
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       mockBuildingList,
     ]);
 
@@ -79,10 +82,10 @@ describe("SitumSDK.cartography Building", () => {
     // Arrange
     const mockBuilding = getMockData("buildingMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("buildingResponseMock1"),
     ]);
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const buildingForm: BuildingForm = {
       location: { lat: 42.8949622513438, lng: -8.49530134740083 },
       dimensions: {
@@ -126,10 +129,10 @@ describe("SitumSDK.cartography Building", () => {
     // Arrange
     const mockBuilding = getMockData("buildingMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("buildingResponseMock1"),
     ]);
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const buildingForm: BuildingForm = {
       location: { lat: 42.8949622513438, lng: -8.49530134740083 },
       dimensions: {
@@ -161,8 +164,11 @@ describe("SitumSDK.cartography Building", () => {
 
   it("should delete a building", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
-    const axiosMock = mockAxiosRequest([{ access_token: "fakeJWT" }, null]);
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
+    const axiosMock = mockAxiosRequest([
+      { access_token: getMockData("jwtMock") },
+      null,
+    ]);
     axiosMock.mockClear();
     const buildId = 1111;
 

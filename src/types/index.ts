@@ -415,3 +415,24 @@ export type Organization = {
   copyright: string;
   colors: Colors;
 };
+
+export enum SitumApiPermissionLevel {
+  "positioning" = "positioning",
+  "read-only" = "read-only",
+  "cartography-read-write" = " cartography-read-write",
+  "read-write" = "read-write",
+}
+
+export interface SitumJWTPayload {
+  sub?: string | undefined;
+  email: string;
+  organization_uuid: UUID;
+  role: "ADMIN_ORG" | "ADMIN" | "USER";
+  api_permission: SitumApiPermissionLevel;
+  iss?: string | undefined;
+  aud?: string | string[] | undefined;
+  exp?: number | undefined;
+  nbf?: number | undefined;
+  iat?: number | undefined;
+  jti?: string | undefined;
+}

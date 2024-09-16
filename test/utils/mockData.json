@@ -1,9 +1,8 @@
 {
   "auth": {
-    "username": "sdkjs@situm.es",
-    "password": "sdkjs@situm.es"
+    "jwt": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYWtlIiwiZW1haWwiOiJmYWtlQHNpdHVtLmNvbSIsIm9yZ2FuaXphdGlvbl91dWlkIjoiZmFrZWZha2VmYS1mYWtlLWZha2UtZmFrZS1mYWtlZmFrZWZha2UiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MjM0NjM1MjQsImV4cCI6MTcyMzU0OTkyNH0.9Rfnrc0pe9wEMRtAtPYy8XKPuw0pTe73juqi3kpNQDc"
   },
-  "jwtMock": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZGJkNWVmZC0zNTBhLTRlMGQtOGZiOC1kMDA0ZmFjNDI1ZjYiLCJlbWFpbCI6InRlc3RAc2l0dW0uZXMiLCJvcmdhbml6YXRpb25fdXVpZCI6IjBhNWQwZmY0LWNkNzYtNGUwOC1iY2RjLWUzNmUwMTgyZmQ3OCIsImlhdCI6MTYzODE0MjExNCwiaW1wZXJzb25hdGUiOiJiZjBkZWE2OS0yMDcxLTQzYzItYmVmZi03Yjk5MzI5MmRlMTIiLCJleHAiOjE2Mzg3NDY5MTQwMH0.yDOOv6MyQLhmYPBcqJa5f6LxszFbTe91nKsk4q4eG_M",
+  "jwtMock": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYWtlIiwiZW1haWwiOiJmYWtlQHNpdHVtLmNvbSIsIm9yZ2FuaXphdGlvbl91dWlkIjoiZmFrZWZha2VmYS1mYWtlLWZha2UtZmFrZS1mYWtlZmFrZWZha2UiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MjM0NjM1MjQsImV4cCI6MTcyMzU0OTkyNH0.9Rfnrc0pe9wEMRtAtPYy8XKPuw0pTe73juqi3kpNQDc",
   "userMock1": {
     "locale": null,
     "id": "29fa9286-bd95-4cb3-a4e5-6aee8e544539",

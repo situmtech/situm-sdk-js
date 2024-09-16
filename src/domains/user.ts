@@ -10,7 +10,7 @@ import ApiBase from "../apiBase";
 import { Paginated, User, UserForm, UserSearch, UUID } from "../types";
 
 /**
- * Service that exposes the cartography domain.
+ * Service that exposes the user domain.
  *
  * Represents the UserAPi class that provides methods for
  * listing/creating/updating/deleting users.
@@ -26,7 +26,7 @@ export default class UserApi {
    * Retrieves a list of users based on the search criteria.
    *
    * @param {UserSearch | undefined} searchUser - Optional search criteria for filtering users.
-   * @return {Promise<Paginated<User>>} A promise that resolves with paginated user data.
+   * @returns {Promise<Paginated<User>>} A promise that resolves with paginated user data.
    */
   getUsers(searchUser?: UserSearch): Promise<Paginated<User>> {
     return this.apiBase
@@ -46,7 +46,7 @@ export default class UserApi {
    * Retrieves a user by their ID.
    *
    * @param {UUID} userId - The ID of the user to retrieve.
-   * @return {Promise<User>} A promise that resolves with the user data.
+   * @returns {Promise<User>} A promise that resolves with the user data.
    */
   getUserById(userId: UUID): Promise<User> {
     return this.apiBase
@@ -61,7 +61,7 @@ export default class UserApi {
    *
    * @param {UUID} userId - The unique identifier of the user to be updated.
    * @param {UserForm} userForm - The form containing the updated user information.
-   * @return {Promise<User>} A promise that resolves with the updated user data.
+   * @returns {Promise<User>} A promise that resolves with the updated user data.
    */
   patchUser(userId: UUID, userForm: UserForm): Promise<User> {
     return this.apiBase
@@ -76,7 +76,7 @@ export default class UserApi {
    * Creates a new user.
    *
    * @param {UserForm} userForm - The user form containing the user information.
-   * @return {Promise<User>} A promise that resolves with the created user.
+   * @returns {Promise<User>} A promise that resolves with the created user.
    */
   createUser(userForm: UserForm): Promise<User> {
     return this.apiBase
@@ -91,7 +91,7 @@ export default class UserApi {
    * Deletes a user based on the provided userId.
    *
    * @param {UUID} userId - The ID of the user to delete.
-   * @return {Promise<void>} A promise that resolves after deleting the user.
+   * @returns {Promise<void>} A promise that resolves after deleting the user.
    */
   deleteUser(userId: UUID): Promise<unknown> {
     return this.apiBase.delete({ url: "/api/v1/users/" + userId });

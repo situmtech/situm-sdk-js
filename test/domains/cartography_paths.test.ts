@@ -13,11 +13,11 @@ import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 describe("SitumSDK.cartography Path", () => {
   it("should retrieve the path by building", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const mockPath = getMockData("pathMock1");
     const buildingId = 1111;
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("pathResponseMock1"),
     ]);
 
@@ -34,10 +34,10 @@ describe("SitumSDK.cartography Path", () => {
 
   it("should retrieve all the paths", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const mockPath = getMockData("pathMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       [getMockData("pathResponseMock1")],
     ]);
 
@@ -54,10 +54,10 @@ describe("SitumSDK.cartography Path", () => {
 
   it("should retrieve all the paths", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const mockPath = getMockData("pathMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       [getMockData("pathResponseMock1")],
     ]);
 
@@ -74,10 +74,10 @@ describe("SitumSDK.cartography Path", () => {
 
   it("should update/create a path", async () => {
     // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("auth") });
+    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const mockPath = getMockData("pathMock1");
     const axiosMock = mockAxiosRequest([
-      { access_token: "fakeJWT" },
+      { access_token: getMockData("jwtMock") },
       getMockData("pathResponseMock1"),
     ]);
     const buildingId = 1111;

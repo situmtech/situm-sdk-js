@@ -17,6 +17,12 @@ const sdkAPiKeyAuth = new SitumSDK({
   },
 });
 
+(async () => {
+  let auth = await sdkAPiKeyAuth.cartography.getBuildings();
+  let authSession = await sdkAPiKeyAuth.authSession;
+  console.log(auth, authSession?.apiPermissionLevel);
+})();
+
 // Initialize the sdk specifying basic auth
 const sdkBasicAuth = new SitumSDK({
   auth: {

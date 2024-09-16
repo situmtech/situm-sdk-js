@@ -5,37 +5,50 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import { version } from "../package.json";
+
 import ApiBase from "./apiBase";
 import CartographyApi from "./domains/cartography";
 import RealtimeApi from "./domains/realtime";
 import UserApi from "./domains/user";
 import { SDKConfiguration } from "./types";
 
+/**
+ * Main class that exports different domains from the Situm REST APIs,
+ * to initialize it just pass your authentication parameters.
+ *
+ * To fetch information just use any of the domains (cartography,
+ * realtime, user, ...) and use the methods available in it.
+ * @example
+ * ```typescript
+ *import Situm from '@situm/sdk-js';
+ *
+ *const situm = new SitumSDK({
+ *  auth: {
+ *    apikey: 'your-api-key',
+ *  },
+ * };
+ *
+ * const buildings: Promise<readonly BuildingListElement[]> = situm.cartography.getBuildings();
+ * ```
+ * @param {SDKConfiguration} config - The configuration object for the SDK.
+ */
 export default class SitumSDK {
   private readonly configuration: SDKConfiguration;
   private readonly apiBase: ApiBase;
 
   // Domains
-  /**
-   * Gives access to the user domain with its operations
-   */
-  readonly user: UserApi;
-  /**
-   * Gives access to the user domain with its operations
-   */
-  readonly cartography: CartographyApi;
-  /**
-   * Gives access to the user domain with its operations
-   */
-  readonly realtime: RealtimeApi;
+  private _user: UserApi;
+  private _cartography: CartographyApi;
+  private _realtime: RealtimeApi;
 
-  static readonly version = "0.8.0";
+  static readonly version = version;
 
   /**
    * Initializes a new instance of the SitumSDK class with its exported domains.
    *
    * @param {SDKConfiguration} config - The configuration object for the SDK.
-   * @return {void}
+   * @returns {void}
    */
   constructor(config: SDKConfiguration) {
     this.configuration = {
@@ -47,10 +60,43 @@ export default class SitumSDK {
     };
     // Wrapper for the axios instance, and utility methods for the rest of the domains
     this.apiBase = new ApiBase(this.configuration);
+  }
 
-    // Domains initialization
-    this.user = new UserApi(this.apiBase);
-    this.cartography = new CartographyApi(this.apiBase);
-    this.realtime = new RealtimeApi(this.apiBase);
+  /**
+   * Gives access to the user domain with its operations
+   */
+  public get user() {
+    return this._user || (this._user = new UserApi(this.apiBase));
+  }
+
+  /**
+   * Returns the cartography API instance.
+   *
+   * @returns {CartographyApi} The cartography API instance.
+   */
+  public get cartography() {
+    return (
+      this._cartography ||
+      (this._cartography = new CartographyApi(this.apiBase))
+    );
+  }
+
+  /**
+   * Gives access to the realtime domain with its operations.
+   *
+   * @returns {RealtimeApi} The realtime API instance.
+   */
+  public get realtime() {
+    return this._realtime || (this._realtime = new RealtimeApi(this.apiBase));
+  }
+
+  /**
+   * Returns the authorization object from the API base. This gives access to the
+   * user privileges, email, and organization ID.
+   *
+   * @returns {AuthSession} The authorization object.
+   */
+  public get authSession() {
+    return this.apiBase.getAuthSession();
   }
 }

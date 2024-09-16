@@ -30,7 +30,7 @@ export function getAdapter(user: Record<string, unknown>): User {
   delete userToReturn.declareEmergency;
   delete userToReturn.isStaff;
   delete userToReturn.roleId;
-  delete (userToReturn.license as Record<string, unknown>).uuid;
+  delete (userToReturn.license as Record<string, unknown>)?.uuid;
   delete userToReturn.organizationUuid;
   delete userToReturn.seeAlarms;
   delete userToReturn.seeEmergency;

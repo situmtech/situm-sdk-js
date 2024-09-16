@@ -20,7 +20,7 @@ export const getAuthenticationException = () => {
   return new SitumError({
     status: 401,
     code: "invalid_credentials",
-    message: "Authentication credentials are not valid.",
+    message: "Invalid credentials, please check your authentication params.",
   });
 };
 
