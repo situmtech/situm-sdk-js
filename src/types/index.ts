@@ -419,7 +419,7 @@ export type Organization = {
 export enum SitumApiPermissionLevel {
   "positioning" = "positioning",
   "read-only" = "read-only",
-  "cartography-read-write" = " cartography-read-write",
+  "cartography-read-write" = "cartography-read-write",
   "read-write" = "read-write",
 }
 

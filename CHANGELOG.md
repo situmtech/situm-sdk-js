@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.8.3 (2024-10-17)
+
+### Fixed
+
+- Fix typo in SitumApiPermissionLevel typing enum
+
 ## 0.8.2 (2024-10-11)
 
 ### Added
@@ -10,7 +16,6 @@ All notable changes to this project will be documented in this file. See [standa
   integrators to query for session information, specifically permission access level
 - Lazy load all internal domain (cartography, auth, realtime, user). This
   improves code maintability.
-
 
 ### Improved
 
