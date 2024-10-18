@@ -2,13 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## 0.8.3 (2024-10-17)
+## 0.8.4 (2024-10-18)
+
+### Improved
+
+- Improve build process to export types so third-party can use them
+- Improve GeofenceForm.geometric type
+
+## 0.8.3 (2024-09-17)
 
 ### Fixed
 
 - Fix typo in SitumApiPermissionLevel typing enum
 
-## 0.8.2 (2024-10-11)
+## 0.8.2 (2024-09-11)
 
 ### Added
 
