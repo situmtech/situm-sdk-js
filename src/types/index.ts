@@ -171,7 +171,7 @@ export type GeofenceForm = {
   code?: string;
   customFields?: CustomField[];
   floorId: ID;
-  geometric: [[number, number]];
+  geometric: [number, number][];
   info?: string;
   name: string;
   organizationId?: UUID;

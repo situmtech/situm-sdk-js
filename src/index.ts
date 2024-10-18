@@ -13,6 +13,8 @@ import RealtimeApi from "./domains/realtime";
 import UserApi from "./domains/user";
 import { SDKConfiguration } from "./types";
 
+export * from "./types";
+
 /**
  * Main class that exports different domains from the Situm REST APIs,
  * to initialize it just pass your authentication parameters.
