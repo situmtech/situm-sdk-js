@@ -19,8 +19,6 @@
   "files": [
     "dist",
     "!dist/dts",
-    "docs",
-    "examples",
     "!**/*.spec.*",
     "!**/*.json",
     "CHANGELOG.md",
@@ -77,7 +75,7 @@
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^8.10.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
-    "eslint-plugin-functional": "^4.2.1",
+    "eslint-plugin-functional": "^7.1.0",
     "eslint-plugin-import": "^2.26.0",
     "husky": "^9.0.11",
     "jest": "^29.7.0",
