@@ -212,6 +212,8 @@ export type PoiUpdateForm = {
   info?: string;
   categoryId?: number;
   customFields?: CustomField[];
+  icon?: string;
+  selectedIcon?: string;
   position: {
     floorId: ID;
     georeferences: Coordinate;
