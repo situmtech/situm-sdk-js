@@ -96,4 +96,22 @@ export default class UserApi {
   deleteUser(userId: UUID): Promise<unknown> {
     return this.apiBase.delete({ url: "/api/v1/users/" + userId });
   }
+
+  /**
+   * Retrieves a list of apikeys attached to current user
+   *
+   * @param {undefined} queryParams - Optional search criteria for filtering apikeys.
+   * @returns {Promise<any>} A promise that resolves with apikeys.
+   */
+  getApikeys(queryParams?: Record<string, string>): Promise<any> {
+    return this.apiBase
+      .get({
+        url: "/api/v1/auth/apikeys",
+        params: queryParams,
+      })
+      .then((apikeys: Record<string, unknown>) => {
+        return apikeys;
+      })
+      .catch((err) => console.error(err));
+  }
 }
