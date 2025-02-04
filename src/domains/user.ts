@@ -7,7 +7,7 @@
  */
 import { getAdapter, postAdapter } from "../adapters/UserAdapter";
 import ApiBase from "../apiBase";
-import { Paginated, User, UserForm, UserSearch, UUID } from "../types";
+import { Apikey, Paginated, User, UserForm, UserSearch, UUID } from "../types";
 
 /**
  * Service that exposes the user domain.
@@ -100,18 +100,20 @@ export default class UserApi {
   /**
    * Retrieves a list of apikeys attached to current user
    *
-   * @param {undefined} queryParams - Optional search criteria for filtering apikeys.
-   * @returns {Promise<any>} A promise that resolves with apikeys.
+   * @returns {Promise<Apikey>} A promise that resolves with apikeys array.
    */
-  getApikeys(queryParams?: Record<string, string>): Promise<any> {
+  getApikeys(): Promise<Apikey[]> {
     return this.apiBase
       .get({
         url: "/api/v1/auth/apikeys",
-        params: queryParams,
+        params: { permissions: "positioning,read-only" },
       })
-      .then((apikeys: Record<string, unknown>) => {
+      .then((apikeys: Apikey[]) => {
         return apikeys;
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        return [];
+      });
   }
 }

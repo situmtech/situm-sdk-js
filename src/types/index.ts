@@ -438,3 +438,10 @@ export interface SitumJWTPayload {
   iat?: number | undefined;
   jti?: string | undefined;
 }
+
+export type Apikey = {
+  id: UUID;
+  apikey: string;
+  permission: "read-only" | "positioning";
+  description: string;
+};
