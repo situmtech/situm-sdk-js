@@ -260,7 +260,7 @@ export type Link = {
   target: number;
   origin: string;
   tags: string[];
-  accesible?: boolean;
+  accessible?: boolean;
 };
 
 export type PathSearch = { buildingId?: ID };
