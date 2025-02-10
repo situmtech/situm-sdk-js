@@ -2,11 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.8.6 (2025-02-10)
+
+### Added
+
+- New function to fetch user's positioning and read-only apikeys
+
+### Fixed
+
+- Typos fixing
+
 ## 0.8.5 (2024-11-12)
 
 ### Added
 
-- Added icon and selectedIcon as optional props to PoiUpdateForm 
+- Added icon and selectedIcon as optional props to PoiUpdateForm
 
 ## 0.8.4 (2024-10-18)
 
