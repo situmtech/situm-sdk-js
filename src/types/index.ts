@@ -260,7 +260,7 @@ export type Link = {
   target: number;
   origin: string;
   tags: string[];
-  accesible?: boolean;
+  accessible?: boolean;
 };
 
 export type PathSearch = { buildingId?: ID };
@@ -438,3 +438,10 @@ export interface SitumJWTPayload {
   iat?: number | undefined;
   jti?: string | undefined;
 }
+
+export type Apikey = {
+  id: UUID;
+  apikey: string;
+  permission: "read-only" | "positioning";
+  description: string;
+};

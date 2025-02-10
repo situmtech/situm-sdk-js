@@ -7,7 +7,7 @@
  */
 import { getAdapter, postAdapter } from "../adapters/UserAdapter";
 import ApiBase from "../apiBase";
-import { Paginated, User, UserForm, UserSearch, UUID } from "../types";
+import { Apikey, Paginated, User, UserForm, UserSearch, UUID } from "../types";
 
 /**
  * Service that exposes the user domain.
@@ -95,5 +95,25 @@ export default class UserApi {
    */
   deleteUser(userId: UUID): Promise<unknown> {
     return this.apiBase.delete({ url: "/api/v1/users/" + userId });
+  }
+
+  /**
+   * Retrieves a list of apikeys attached to current user
+   *
+   * @returns {Promise<Apikey>} A promise that resolves with apikeys array.
+   */
+  getApikeys(): Promise<Apikey[]> {
+    return this.apiBase
+      .get({
+        url: "/api/v1/auth/apikeys",
+        params: { permissions: "positioning,read-only" },
+      })
+      .then((apikeys: Apikey[]) => {
+        return apikeys;
+      })
+      .catch((err) => {
+        console.error(err);
+        return [];
+      });
   }
 }
