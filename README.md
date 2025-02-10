@@ -88,38 +88,38 @@ The folder `docs/support` contains several document with support documentation: 
 ### Run the tests
 
 ```
-npm test
+yarn test
 ```
 
 ### Build the library
 
 ```
-npm run build
+yarn build
 ```
 
 To watch the files
 
 ```
-npm run build:watch
+yarn build:watch
 ```
 
 ### Generate the docs
 
 ```
-npm run docs
+yarn docs
 ```
 
 ### Release version
 
 ```
-npm run prepare-release
-npm pack
+yarn prepare-release
+yarn pack
 npm publish
 ```
 
 or for beta channel
 
 ```
-npm run prepare-release
+yarn prepare-release
 npm publish --tag beta
 ```
