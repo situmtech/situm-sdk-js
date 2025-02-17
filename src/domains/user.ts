@@ -98,15 +98,15 @@ export default class UserApi {
   }
 
   /**
-   * Retrieves a list of apikeys attached to current user
+   * Retrieves a list of 'positioning' apikeys attached to current user.
    *
    * @returns {Promise<Apikey>} A promise that resolves with apikeys array.
    */
-  getApikeys(): Promise<Apikey[]> {
+  getPositioningApikeys(): Promise<Apikey[]> {
     return this.apiBase
       .get({
         url: "/api/v1/auth/apikeys",
-        params: { permissions: "positioning,read-only" },
+        params: { permissions: "positioning" },
       })
       .then((apikeys: Apikey[]) => {
         return apikeys;
