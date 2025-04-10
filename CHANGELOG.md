@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.9.1 (2025-04-09)
+
+### Internal
+
+- Bump JS dependencies.
+
 ## 0.9.0 (2025-04-09)
 
 ### Added

@@ -1,7 +1,7 @@
 {
   "author": "Situm Technologies",
   "name": "@situm/sdk-js",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "A Javascript client to Situm services, supporting Node and browser.",
   "repository": "https://github.com/situmtech/situm-sdk-js",
   "main": "dist/cjs/situm-sdk.js",
@@ -52,19 +52,20 @@
     "node": ">=18"
   },
   "dependencies": {
-    "axios": "^1.7.7"
+    "axios": "^1.8.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
+    "@eslint/compat": "^1.2.8",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-typescript": "^12.1.0",
     "@sentry/vite-plugin": "^2.22.5",
     "@types/jest": "^29.5.13",
     "@types/node": "^22.7.4",
     "@types/qs": "^6.9.16",
-    "@typescript-eslint/eslint-plugin": "^8.8.1",
-    "@typescript-eslint/parser": "^8.8.1",
+    "@typescript-eslint/eslint-plugin": "^8.29.1",
+    "@typescript-eslint/parser": "^8.29.1",
     "codecov": "^3.8.3",
     "colors": "^1.4.0",
     "commitizen": "^4.3.1",
@@ -72,10 +73,10 @@
     "cross-env": "^7.0.3",
     "cspell": "^8.14.4",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^8.10.0",
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-eslint-comments": "^3.2.0",
-    "eslint-plugin-functional": "^7.1.0",
+    "eslint-plugin-functional": "^9.0.1",
     "eslint-plugin-import": "^2.26.0",
     "husky": "^9.0.11",
     "jest": "^29.7.0",
@@ -85,7 +86,7 @@
     "lodash.camelcase": "^4.3.0",
     "npm-run-all": "^4.1.5",
     "open-cli": "^8.0.0",
-    "prettier": "^3.3.3",
+    "prettier": "^3.5.3",
     "replace-in-file": "^8.1.0",
     "rimraf": "^6.0.1",
     "rollup": "^4.21.3",
@@ -112,7 +113,8 @@
     "typedoc-plugin-extras": "^3.1.0",
     "typedoc-plugin-missing-exports": "^3.0.0",
     "typedoc-plugin-rename-defaults": "^0.7.1",
-    "typescript": "5.5.4"
+    "typescript": "5.8.3",
+    "typescript-eslint": "^8.29.1"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
