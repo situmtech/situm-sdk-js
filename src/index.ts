@@ -9,6 +9,7 @@ import { version } from "../package.json";
 
 import ApiBase from "./apiBase";
 import CartographyApi from "./domains/cartography";
+import ImagesApi from "./domains/images";
 import RealtimeApi from "./domains/realtime";
 import UserApi from "./domains/user";
 import { SDKConfiguration } from "./types";
@@ -43,6 +44,7 @@ export default class SitumSDK {
   private _user: UserApi;
   private _cartography: CartographyApi;
   private _realtime: RealtimeApi;
+  private _images: ImagesApi;
 
   static readonly version = version;
 
@@ -90,6 +92,15 @@ export default class SitumSDK {
    */
   public get realtime() {
     return this._realtime || (this._realtime = new RealtimeApi(this.apiBase));
+  }
+
+  /**
+   * Gives access to the images domain with its operations.
+   *
+   * @returns {ImagesApi} The images API instance.
+   */
+  public get images() {
+    return this._images || (this._images = new ImagesApi(this.apiBase));
   }
 
   /**

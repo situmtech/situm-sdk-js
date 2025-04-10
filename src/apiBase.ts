@@ -44,9 +44,9 @@ const calculateHTTPRequestHeaders = (
   const lang = configuration.lang ? configuration.lang : FALLBACK_LANGUAGE;
 
   let headersToReturn = {
-    ...headers,
     "Content-Type": "application/json",
     "Accept-Language": lang,
+    ...headers,
     // "x-api-client": "SitumJSSDK/" + configuration.version,
   };
 
@@ -84,7 +84,7 @@ const transformRequestInfoToAxiosRequestConfig = (
       requestInfo.headers,
     ),
     params: keysToSnake(requestInfo.params),
-    data: keysToSnake(requestInfo.body),
+    data: requestInfo.formData ?? keysToSnake(requestInfo.body),
   } as AxiosRequestConfig;
 
   if (requestInfo.authorization) {
@@ -127,14 +127,29 @@ export type AuthParams =
       };
     };
 
-export type RequestInfo = {
+interface BaseRequestInfo {
   readonly url: string;
-  readonly body?: unknown;
   readonly params?: Record<string, unknown>;
   readonly headers?: RawAxiosRequestHeaders | AxiosHeaders;
   readonly authorization?: AuthBasic;
   readonly notAuthenticated?: boolean;
-};
+}
+
+interface WithBody extends BaseRequestInfo {
+  readonly body: unknown;
+  readonly formData?: never;
+}
+
+interface WithFormData extends BaseRequestInfo {
+  readonly formData: FormData;
+  readonly body?: never;
+}
+interface WithoutFormDataOrBody extends BaseRequestInfo {
+  readonly formData?: never;
+  readonly body?: never;
+}
+
+export type RequestInfo = WithFormData | WithBody | WithoutFormDataOrBody;
 
 export default class ApiBase {
   private readonly configuration: SDKConfiguration = {

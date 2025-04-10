@@ -220,17 +220,7 @@ export type PoiUpdateForm = {
   };
 };
 
-export type PoiCreateForm = {
-  buildingId: ID;
-  name?: string;
-  info?: string;
-  categoryId?: number;
-  customFields?: CustomField[];
-  position: {
-    floorId: ID;
-    georeferences: Coordinate;
-  };
-};
+export type PoiCreateForm = PoiUpdateForm;
 
 export type Poi = Required<PoiCreateForm> & {
   id: ID;
