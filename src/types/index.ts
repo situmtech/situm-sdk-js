@@ -248,9 +248,9 @@ export type Node = {
 export type Link = {
   source: number;
   target: number;
-  origin: string;
+  origin: "both" | "source" | "target";
   tags: string[];
-  accessible?: boolean;
+  accessible: boolean;
 };
 
 export type PathSearch = { buildingId?: ID };

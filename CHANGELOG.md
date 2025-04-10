@@ -8,6 +8,12 @@ All notable changes to this project will be documented in this file. See [standa
 
 - New `uploadImage` method for uploading images to Situm services
 
+## 0.8.10 (2025-02-19)
+
+### Fixed
+
+- Fixed typo in path link types
+
 ## 0.8.9 (2025-02-17)
 
 - Rename getApiKeys to getPositioningApiKeys, and limit api key
