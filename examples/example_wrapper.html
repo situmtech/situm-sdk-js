@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Situm SDK Viewer Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center space-y-6 p-6">
+
+  <h1 class="text-2xl font-bold text-gray-800">Situm SDK Viewer Demo</h1>
+
+  <!-- Viewers -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+    <div id="viewer1" class="w-full h-[400px] md:h-[700px] border-2 border-gray-300 rounded-xl shadow-lg"></div>
+    <div id="viewer2" class="w-full h-[400px] md:h-[700px] border-2 border-gray-300 rounded-xl shadow-lg"></div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="flex flex-wrap gap-4 justify-center">
+    <button id="playBtn" class="px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition">
+      ▶ Start RT
+    </button>
+    <button id="pauseBtn" class="px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700 transition">
+      ⏸ Stop RT
+    </button>
+    <button id="trajBtn" class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">
+      📈 Load Trajectory
+    </button>
+    <button id="cleantrajBtn" class="px-4 py-2 bg-gray-600 text-white rounded-lg shadow hover:bg-gray-700 transition">
+      🧹 Clean Trajectory
+    </button>
+  </div>
+
+  <!-- Bundle UMD -->
+  <script src="https://unpkg.com/axios@0.26.1/dist/axios.min.js"></script>
+  <script src="../dist/umd/situm-sdk.js"></script>
+
+  <script>
+    // Initialize the sdk specifying auth and base domain (later is optional)
+    let options = {
+      auth: {
+        apiKey: "ASDF",
+      },
+    }
+
+    const SDKClass = window.SitumSDK.default;
+    const sdk = new SDKClass(options);
+    const { ViewerEventType } = window.SitumSDK;
+
+    const viewer = sdk.viewer.create({
+      domElement: document.querySelector('#viewer1'),
+      profile: 'demo'
+    });
+    viewer.on(ViewerEventType.MAP_IS_READY, () => console.log("viewer1 map is ready"));
+
+    const viewer2 = sdk.viewer.create({
+      domElement: document.querySelector('#viewer2'),
+      profile: 'demo'
+    });
+    viewer2.on(ViewerEventType.MAP_IS_READY, () => console.log("viewer2 map is ready"));
+
+    let trajectoryFilter = {
+      fromDate: new Date("2025-09-14T10:59:14.710Z"),
+      toDate: new Date("2025-09-15T10:59:14.710Z"),
+      userId: "QWERT",
+      buildingId: 1234,
+    }
+
+    document.getElementById("playBtn").onclick = function () {
+      viewer.loadRealtimePositions({ organizationId: "ZXCVB" });
+    };
+    document.getElementById("pauseBtn").onclick = function () {
+      viewer.clearRealtimePositions();
+    };
+    document.getElementById("trajBtn").onclick = function () {
+      viewer2.loadTrajectory(trajectoryFilter);
+    };
+    document.getElementById("cleantrajBtn").onclick = function () {
+      viewer2.cleanTrajectory();
+    };
+  </script>
+</body>
+
+</html>

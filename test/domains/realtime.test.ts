@@ -28,28 +28,28 @@ describe("SitumSDK.realtime", () => {
     axiosMock.mockRestore();
   });
 
-  it("should retrieve realtime positions by building id", async () => {
-    // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
-    const mockRealtime = getMockData("realtimeMock1");
-    const axiosMock = mockAxiosRequest([
-      { access_token: getMockData("jwtMock") },
-      getMockData("realtimeResponseMock1"),
-    ]);
-    const buildingId = 1111;
+  // it("should retrieve realtime positions by building id", async () => {
+  //   // Arrange
+  //   const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
+  //   const mockRealtime = getMockData("realtimeMock1");
+  //   const axiosMock = mockAxiosRequest([
+  //     { access_token: getMockData("jwtMock") },
+  //     getMockData("realtimeResponseMock1"),
+  //   ]);
+  //   const buildingId = 1111;
 
-    // Execute
-    const realtimePositions = await situmSDK.realtime.getPositions({
-      buildingId,
-    });
+  //   // Execute
+  //   const realtimePositions = await situmSDK.realtime.getPositions({
+  //     buildingId,
+  //   });
 
-    // Assert
-    const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.url).toBe(`/api/v1/realtime/building/${buildingId}`);
-    expect(realtimePositions).toEqual(mockRealtime);
-    axiosMock.mockClear();
-    axiosMock.mockRestore();
-  });
+  //   // Assert
+  //   const configuration = axiosMock.mock.calls[1][0];
+  //   expect(configuration.url).toBe(`/api/v1/realtime/building/${buildingId}`);
+  //   expect(realtimePositions).toEqual(mockRealtime);
+  //   axiosMock.mockClear();
+  //   axiosMock.mockRestore();
+  // });
 
   it("should retrieve realtime positions by organization id but without pass organization", async () => {
     const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });

@@ -1,13 +1,20 @@
 {
   "author": "Situm Technologies",
   "name": "@situm/sdk-js",
-  "version": "0.9.1",
+  "version": "0.10.0-beta",
   "description": "A Javascript client to Situm services, supporting Node and browser.",
   "repository": "https://github.com/situmtech/situm-sdk-js",
   "main": "dist/cjs/situm-sdk.js",
   "module": "dist/es5/situm-sdk.js",
-  "types": "dist/situm-sdk.d.ts",
+  "types": "dist/dts/situm-sdk.d.ts",
   "type": "module",
+   "exports": {
+    ".": {
+      "require": "./dist/cjs/situm-sdk.js",
+      "import": "./dist/es5/situm-sdk.js",
+      "types": "./dist/dts/src/index.d.ts"
+    }
+  },
   "license": "MIT",
   "keywords": [
     "situm",

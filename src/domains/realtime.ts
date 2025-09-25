@@ -15,7 +15,7 @@ export type ResponseRealtimePosition = {
   type: string;
 };
 
-type SearchRealtime = { organizationId?: UUID } | { buildingId: number };
+type SearchRealtime = { organizationId?: UUID; buildingIds?: number[] };
 
 /**
  * Service that exposes the realtime domain.
@@ -40,11 +40,11 @@ export default class RealtimeApi {
   ): Promise<RealtimePositions> {
     let url = "";
     const authSession = await this.apiBase.getAuthSession();
-    if (searchRealtime && "buildingId" in searchRealtime) {
-      url = "/api/v1/realtime/building/" + searchRealtime.buildingId;
+    if (searchRealtime && searchRealtime?.buildingIds?.length > 0) {
+      url = "/api/v1/realtime/building/" + searchRealtime.buildingIds?.at(0);
     } else {
       const organizationId =
-        searchRealtime && "organizationId" in searchRealtime
+        searchRealtime && searchRealtime.organizationId != undefined
           ? searchRealtime.organizationId
           : authSession.organizationId;
 

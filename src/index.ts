@@ -11,7 +11,9 @@ import ApiBase from "./apiBase";
 import CartographyApi from "./domains/cartography";
 import ImagesApi from "./domains/images";
 import RealtimeApi from "./domains/realtime";
+import ReportsApi from "./domains/reports";
 import UserApi from "./domains/user";
+import { Viewer } from "./domains/viewer";
 import { SDKConfiguration } from "./types";
 
 export * from "./types";
@@ -44,6 +46,7 @@ export default class SitumSDK {
   private _user: UserApi;
   private _cartography: CartographyApi;
   private _realtime: RealtimeApi;
+  private _reports: ReportsApi;
   private _images: ImagesApi;
 
   static readonly version = version;
@@ -57,7 +60,7 @@ export default class SitumSDK {
   constructor(config: SDKConfiguration) {
     this.configuration = {
       ...config,
-      domain: config.domain || "https://dashboard.situm.com",
+      domain: config.domain || "https://api.situm.com",
       version: SitumSDK.version,
       auth: config.auth,
       compact: config.compact,
@@ -95,6 +98,15 @@ export default class SitumSDK {
   }
 
   /**
+   * Gives access to the reports domain with its operations.
+   *
+   * @returns {ReportsApi} The reports API instance.
+   */
+  public get reports() {
+    return this._reports || (this._reports = new ReportsApi(this.apiBase));
+  }
+
+  /**
    * Gives access to the images domain with its operations.
    *
    * @returns {ImagesApi} The images API instance.
@@ -112,4 +124,13 @@ export default class SitumSDK {
   public get authSession() {
     return this.apiBase.getAuthSession();
   }
+
+  /**
+   * Viewers' Factory
+   */
+  public viewer = {
+    create: (opts: { domElement: HTMLElement; profile?: string }) => {
+      return new Viewer(this.realtime, this.reports, opts);
+    },
+  };
 }

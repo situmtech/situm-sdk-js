@@ -435,3 +435,79 @@ export type Apikey = {
   permission: "read-only" | "positioning";
   description: string;
 };
+
+export enum ViewerEventType {
+  //app
+  MAP_IS_READY = "app.map_is_ready",
+  APP_ERROR = "app.error",
+  //cartography
+  POI_SELECTED = "cartography.poi_selected",
+  POI_DESELECTED = "cartography.poi_deselected",
+  BUILDING_SELECTED = "cartography.building_selected",
+  FLOOR_SELECTED = "cartography.floor_selected",
+  //UI
+  FAV_POIS_UPDATED = "ui.favorite_pois_updated",
+}
+
+export interface ViewerEventPayloads {
+  // app
+  [ViewerEventType.MAP_IS_READY]: void;
+  [ViewerEventType.APP_ERROR]: unknown;
+
+  // cartography
+  [ViewerEventType.POI_SELECTED]: {
+    identifier: number;
+    buildingIdentifier: number;
+  };
+  [ViewerEventType.POI_DESELECTED]: {
+    identifier: number;
+    buildingIdentifier: number;
+  };
+  [ViewerEventType.FLOOR_SELECTED]: {
+    identifier: number;
+    buildingIdentifier: number;
+  };
+  [ViewerEventType.BUILDING_SELECTED]: { identifier: number | null };
+
+  // ui
+  [ViewerEventType.FAV_POIS_UPDATED]: {
+    currentPoiIdentifiers: number[];
+    favoritePois: number[];
+  };
+}
+
+export enum ViewerActionType {
+  //auth
+  SET_AUTH = "app.set_auth",
+
+  //camera
+  FOLLOW_USER = "camera.follow_user",
+  CAMERA_SET = "camera.set",
+
+  //cartography
+  SELECT_POI = "cartography.select_poi",
+  SELECT_CAR = "cartography.select_car",
+  DESELECT_POI = "cartography.deselect_poi",
+  BUILDING_SELECT = "cartography.select_building",
+  FLOOR_SELECT = "cartography.select_floor",
+  SELECT_POI_CATEGORY = "cartography.select_poi_category",
+
+  // map
+  MAP_EXTERNAL_FEATURES = "map.update_external_features",
+
+  //directions
+  DIRECTIONS_START = "directions.start",
+  DIRECTIONS_UPDATE = "directions.update",
+  DIRECTIONS_SET_OPTIONS = "directions.set_options",
+
+  //ui
+  INITIAL_CONFIG = "ui.initial_configuration", // no constructor
+  LANGUAGE_CONFIG = "ui.set_language",
+  SET_FAV_POIS = "ui.set_favorite_pois",
+  SET_SEARCH_FILTER = "ui.set_search_filter",
+  SET_UI_MODE = "ui.set_mode",
+  SPEAK_ALOUD_TEXT = "ui.speak_aloud_text",
+  SHOW_USER_SETTINGS = "ui.show_user_settings",
+  TOGGLE_USER_SETTINGS = "ui.toggle_user_settings",
+  FONT_SIZE_UPDATE = "ui.font_size_update",
+}
