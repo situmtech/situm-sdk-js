@@ -55,21 +55,21 @@ export default class RealtimeApi {
     const base = "/api/v1/realtime/positions";
     const params = new URLSearchParams();
 
-    if (searchRealTime.buildingIds?.length) {
-      params.set("building_ids", searchRealTime.buildingIds.join(","));
+    if (searchRealTime?.buildingIds?.length > 0) {
+      params.set("building_ids", searchRealTime?.buildingIds.join(","));
     }
-    if (searchRealTime.userIds?.length) {
+    if (searchRealTime?.userIds?.length > 0) {
       params.set("user_ids", searchRealTime.userIds.join(","));
     }
-    if (searchRealTime.deviceIds?.length) {
+    if (searchRealTime?.deviceIds?.length > 0) {
       params.set("device_ids", searchRealTime.deviceIds.join(","));
     }
 
-    if (typeof searchRealTime.indoor === "boolean") {
+    if (typeof searchRealTime?.indoor === "boolean") {
       params.set("indoor", String(searchRealTime.indoor));
     }
 
-    if (typeof searchRealTime.max_sec_threshold === "number") {
+    if (typeof searchRealTime?.max_sec_threshold === "number") {
       params.set(
         "max_sec_threshold",
         searchRealTime.max_sec_threshold.toString(),
