@@ -485,5 +485,91 @@
         "building_ids": []
       }
     ]
+  },
+  "trajectoryReportMock1": {
+    "meta": [
+      {
+        "requestId": "req-8f3c2a7b",
+        "generatedAt": "2024-01-02T00:00:01.000Z"
+      }
+    ],
+    "statistics": {
+      "rows": 3
+    },
+    "data": [
+      {
+        "timestamp": "2024-01-01T09:00:00.000Z",
+        "sessionMark": 1,
+        "buildingId": 1234,
+        "floorId": 10,
+        "userId": "user-uuid-123",
+        "deviceId": "device-abc-001",
+        "lat": 40.416775,
+        "lng": -3.70379
+      },
+      {
+        "timestamp": "2024-01-01T09:05:00.000Z",
+        "sessionMark": 1,
+        "buildingId": 1234,
+        "floorId": 10,
+        "userId": "user-uuid-123",
+        "deviceId": "device-abc-001",
+        "lat": 40.41695,
+        "lng": -3.7036
+      },
+      {
+        "timestamp": "2024-01-01T09:10:00.000Z",
+        "sessionMark": 1,
+        "buildingId": 1234,
+        "floorId": 11,
+        "userId": "user-uuid-123",
+        "deviceId": "device-abc-001",
+        "lat": 40.41715,
+        "lng": -3.70342
+      }
+    ]
+  },
+  "trajectoryReportResponseMock1": {
+    "meta": [
+      {
+        "request_id": "req-8f3c2a7b",
+        "generated_at": "2024-01-02T00:00:01.000Z"
+      }
+    ],
+    "statistics": {
+      "rows": 3
+    },
+    "data": [
+      {
+        "timestamp": "2024-01-01T09:00:00.000Z",
+        "session_mark": 1,
+        "building_id": 1234,
+        "floor_id": 10,
+        "user_id": "user-uuid-123",
+        "device_id": "device-abc-001",
+        "lat": 40.416775,
+        "lng": -3.70379
+      },
+      {
+        "timestamp": "2024-01-01T09:05:00.000Z",
+        "session_mark": 1,
+        "building_id": 1234,
+        "floor_id": 10,
+        "user_id": "user-uuid-123",
+        "device_id": "device-abc-001",
+        "lat": 40.41695,
+        "lng": -3.7036
+      },
+      {
+        "timestamp": "2024-01-01T09:10:00.000Z",
+        "session_mark": 1,
+        "building_id": 1234,
+        "floor_id": 11,
+        "user_id": "user-uuid-123",
+        "device_id": "device-abc-001",
+        "lat": 40.41715,
+        "lng": -3.70342
+      }
+    ]
   }
 }

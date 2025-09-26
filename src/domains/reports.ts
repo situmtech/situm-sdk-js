@@ -41,6 +41,13 @@ export default class ReportsApi {
   async getTrajectory(
     searchReport?: SearchTrajectoryReport,
   ): Promise<TrajectoryReportPosition[]> {
+    if (
+      !searchReport?.fromDate ||
+      !searchReport?.toDate ||
+      !searchReport?.buildingId
+    ) {
+      throw new Error("fromDate, toDate, and buildingId are required");
+    }
     const url = this.buildReportUrl(searchReport);
 
     const response = await this.apiBase
