@@ -52,6 +52,8 @@ export class Viewer {
 
   private _attachGlobalListener() {
     window.addEventListener("message", (e: MessageEvent) => {
+      if (e.source !== this.iframe?.contentWindow) return;
+
       let data = e.data;
       if (typeof data === "string") {
         try {
@@ -60,6 +62,7 @@ export class Viewer {
           return;
         }
       }
+
       const type = data?.type;
       if (!type) return;
 
