@@ -10,9 +10,7 @@ import { UUID, ViewerEventPayloads, ViewerEventType } from "../types";
 import RealtimeApi from "./realtime";
 import ReportsApi from "./reports";
 
-// const VIEWER_URL = "https://maps.situm.com";
-const VIEWER_URL = "https://pro-4174.map-viewer.situm.com";
-// const VIEWER_URL = "http://localhost:5173";
+const VIEWER_URL = "https://maps.situm.com";
 
 type ViewerEventCallback<T extends ViewerEventType> = (
   payload: ViewerEventPayloads[T],
@@ -96,13 +94,11 @@ export class Viewer {
 
   async loadRealtimePositions(
     {
-      organizationId,
       buildingIds,
     }: {
-      organizationId?: UUID;
       buildingIds?: number[];
     },
-    refreshMs: number = 2000,
+    refreshMs: number = 1000,
   ) {
     if (!this.iframe?.contentWindow)
       throw new Error("Viewer iframe not initialized");
@@ -111,7 +107,6 @@ export class Viewer {
     const fetchAndSend = async () => {
       try {
         const realtimePositions = await this.rtApi.getPositions({
-          organizationId,
           buildingIds,
         });
         const data = realtimePositions.features.map((feature) => ({
@@ -143,7 +138,7 @@ export class Viewer {
     this.realtimeInterval = setInterval(fetchAndSend, refreshMs);
   }
 
-  async clearRealtimePositions() {
+  async cleanRealtimePositions() {
     if (!this.iframe?.contentWindow)
       throw new Error("Viewer iframe not initialized");
     if (this.realtimeInterval) clearInterval(this.realtimeInterval);

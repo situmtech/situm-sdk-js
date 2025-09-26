@@ -15,7 +15,13 @@ export type ResponseRealtimePosition = {
   type: string;
 };
 
-type SearchRealtime = { organizationId?: UUID; buildingIds?: number[] };
+type SearchRealtime = {
+  buildingIds?: number[];
+  userIds?: UUID[];
+  deviceIds?: string[];
+  indoor?: boolean;
+  max_sec_threshold?: number;
+};
 
 /**
  * Service that exposes the realtime domain.
@@ -35,24 +41,41 @@ export default class RealtimeApi {
    * @param {SearchRealtime} [searchRealtime] - Optional search criteria for real-time positions.
    * @returns {Promise<RealtimePositions>} A promise that resolves to the retrieved real-time positions.
    */
+
   async getPositions(
     searchRealtime?: SearchRealtime,
   ): Promise<RealtimePositions> {
-    let url = "";
-    const authSession = await this.apiBase.getAuthSession();
-    if (searchRealtime && searchRealtime?.buildingIds?.length > 0) {
-      url = "/api/v1/realtime/building/" + searchRealtime.buildingIds?.at(0);
-    } else {
-      const organizationId =
-        searchRealtime && searchRealtime.organizationId != undefined
-          ? searchRealtime.organizationId
-          : authSession.organizationId;
+    const url = this.buildRealtimetUrl(searchRealtime);
+    return this.apiBase
+      .get<RealtimePositions>({ url })
+      .then(realtimePositionsMapper);
+  }
 
-      url = "/api/v1/realtime/organization/" + organizationId;
+  private buildRealtimetUrl(searchRealTime: SearchRealtime): string {
+    const base = "/api/v1/realtime/positions";
+    const params = new URLSearchParams();
+
+    if (searchRealTime.buildingIds?.length) {
+      params.set("building_ids", searchRealTime.buildingIds.join(","));
+    }
+    if (searchRealTime.userIds?.length) {
+      params.set("user_ids", searchRealTime.userIds.join(","));
+    }
+    if (searchRealTime.deviceIds?.length) {
+      params.set("device_ids", searchRealTime.deviceIds.join(","));
     }
 
-    return this.apiBase
-      .get<RealtimePositions>({ url, params: searchRealtime })
-      .then(realtimePositionsMapper);
+    if (typeof searchRealTime.indoor === "boolean") {
+      params.set("indoor", String(searchRealTime.indoor));
+    }
+
+    if (typeof searchRealTime.max_sec_threshold === "number") {
+      params.set(
+        "max_sec_threshold",
+        searchRealTime.max_sec_threshold.toString(),
+      );
+    }
+    const queryString = params.toString();
+    return queryString ? `${base}?${queryString}` : base;
   }
 }

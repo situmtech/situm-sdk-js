@@ -39,9 +39,10 @@
 
   <script>
     // Initialize the sdk specifying auth and base domain (later is optional)
+    const BUILDING_ID = 1234;
     let options = {
       auth: {
-        apiKey: "ASDF",
+        apiKey: "APIKEY",
       },
     }
 
@@ -61,18 +62,24 @@
     });
     viewer2.on(ViewerEventType.MAP_IS_READY, () => console.log("viewer2 map is ready"));
 
+    let rtFilter = {
+      buildingIds: [BUILDING_ID],
+      // userIds: [],
+      // deviceIds: [] 
+    };
+
     let trajectoryFilter = {
       fromDate: new Date("2025-09-14T10:59:14.710Z"),
       toDate: new Date("2025-09-15T10:59:14.710Z"),
-      userId: "QWERT",
-      buildingId: 1234,
+      userId: "USER_ID",
+      buildingId: BUILDING_ID,
     }
 
     document.getElementById("playBtn").onclick = function () {
-      viewer.loadRealtimePositions({ organizationId: "ZXCVB" });
+      viewer.loadRealtimePositions(rtFilter);
     };
     document.getElementById("pauseBtn").onclick = function () {
-      viewer.clearRealtimePositions();
+      viewer.cleanRealtimePositions();
     };
     document.getElementById("trajBtn").onclick = function () {
       viewer2.loadTrajectory(trajectoryFilter);
