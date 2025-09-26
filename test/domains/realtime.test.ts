@@ -20,7 +20,6 @@ describe("SitumSDK.realtime", () => {
     expect(configuration.url).toBe(
       `/api/v1/realtime/positions?building_ids=${buildingId}`,
     );
-    console.log(realtimePositions);
     expect(realtimePositions).toEqual(mockRealtime);
     axiosMock.mockClear();
     axiosMock.mockRestore();
