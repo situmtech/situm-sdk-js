@@ -40,6 +40,7 @@
   <script>
     // Initialize the sdk specifying auth and base domain (later is optional)
     const BUILDING_ID = 1234;
+    const USER_ID = "USER_UUID";
     let options = {
       auth: {
         apiKey: "APIKEY",
@@ -71,7 +72,7 @@
     let trajectoryFilter = {
       fromDate: new Date("2025-09-14T10:59:14.710Z"),
       toDate: new Date("2025-09-15T10:59:14.710Z"),
-      userId: "USER_ID",
+      userId: USER_ID,
       buildingId: BUILDING_ID,
     }
 
