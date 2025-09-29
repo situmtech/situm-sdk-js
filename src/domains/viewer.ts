@@ -16,15 +16,17 @@ type ViewerEventCallback<T extends ViewerEventType> = (
   payload: ViewerEventPayloads[T],
 ) => void;
 
-interface ViewerOptions {
+export interface ViewerOptions {
   domElement: HTMLElement;
   profile?: string;
+  apiKey?: string;
 }
 
 export class Viewer {
   private iframe?: HTMLIFrameElement;
   private readonly rtApi: RealtimeApi;
   private readonly reportsApi: ReportsApi;
+  private apiKey?: string;
   private profile?: string;
   private realtimeInterval?: ReturnType<typeof setInterval>;
   private listeners: {
@@ -34,6 +36,7 @@ export class Viewer {
   constructor(rtApi: RealtimeApi, reportsApi: ReportsApi, opts: ViewerOptions) {
     this.rtApi = rtApi;
     this.reportsApi = reportsApi;
+    this.apiKey = opts.apiKey;
     this.profile = opts.profile;
 
     this._initIframe(opts.domElement);
@@ -42,7 +45,7 @@ export class Viewer {
 
   private _initIframe(container: HTMLElement) {
     const iframe = document.createElement("iframe");
-    iframe.src = this.profile ? `${VIEWER_URL}/${this.profile}` : VIEWER_URL;
+    iframe.src = this.profile ? `${VIEWER_URL}/${this.profile}` :this.apiKey ? `${VIEWER_URL}?apikey=${this.apiKey}`: VIEWER_URL;
     iframe.style.width = "100%";
     iframe.style.height = "100%";
     iframe.style.border = "none";

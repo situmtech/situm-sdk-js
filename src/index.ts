@@ -13,7 +13,7 @@ import ImagesApi from "./domains/images";
 import RealtimeApi from "./domains/realtime";
 import ReportsApi from "./domains/reports";
 import UserApi from "./domains/user";
-import { Viewer } from "./domains/viewer";
+import { Viewer, ViewerOptions } from "./domains/viewer";
 import { SDKConfiguration } from "./types";
 
 export * from "./types";
@@ -129,7 +129,7 @@ export default class SitumSDK {
    * Viewers' Factory
    */
   public viewer = {
-    create: (opts: { domElement: HTMLElement; profile?: string }) => {
+    create: (opts: ViewerOptions) => {
       return new Viewer(this.realtime, this.reports, opts);
     },
   };

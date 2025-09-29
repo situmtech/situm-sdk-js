@@ -53,9 +53,12 @@
 
     const viewer = sdk.viewer.create({
       domElement: document.querySelector('#viewer1'),
-      profile: 'demo'
+      // either profile or apikey to authenticate on viewer
+      // profile: 'demo' 
+      // apiKey: "APIKEY",
     });
     viewer.on(ViewerEventType.MAP_IS_READY, () => console.log("viewer1 map is ready"));
+    viewer.on(ViewerEventType.POI_SELECTED, (e) => console.log(e));
 
     const viewer2 = sdk.viewer.create({
       domElement: document.querySelector('#viewer2'),
