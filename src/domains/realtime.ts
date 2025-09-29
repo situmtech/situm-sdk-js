@@ -45,13 +45,13 @@ export default class RealtimeApi {
   async getPositions(
     searchRealtime?: SearchRealtime,
   ): Promise<RealtimePositions> {
-    const url = this.buildRealtimetUrl(searchRealtime);
+    const url = this.buildRealtimeUrl(searchRealtime);
     return this.apiBase
       .get<RealtimePositions>({ url })
       .then(realtimePositionsMapper);
   }
 
-  private buildRealtimetUrl(searchRealTime: SearchRealtime): string {
+  private buildRealtimeUrl(searchRealTime: SearchRealtime): string {
     const base = "/api/v1/realtime/positions";
     const params = new URLSearchParams();
 
