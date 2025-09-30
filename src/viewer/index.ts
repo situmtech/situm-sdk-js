@@ -7,8 +7,8 @@
  */
 
 import { UUID, ViewerEventPayloads, ViewerEventType } from "../types";
-import RealtimeApi from "./realtime";
-import ReportsApi from "./reports";
+import RealtimeApi from "../domains/realtime";
+import ReportsApi from "../domains/reports";
 
 const VIEWER_URL = "https://maps.situm.com";
 
@@ -43,9 +43,25 @@ export class Viewer {
     this._attachGlobalListener();
   }
 
+  private async sendDataToViewer(type: string, payload) {
+    if (!this.iframe?.contentWindow)
+      throw new Error("Viewer iframe not initialized");
+    this.iframe.contentWindow.postMessage(
+      {
+        type: type,
+        payload: payload,
+      },
+      "*",
+    );
+  }
+
   private _initIframe(container: HTMLElement) {
     const iframe = document.createElement("iframe");
-    iframe.src = this.profile ? `${VIEWER_URL}/${this.profile}` :this.apiKey ? `${VIEWER_URL}?apikey=${this.apiKey}`: VIEWER_URL;
+    iframe.src = this.profile
+      ? `${VIEWER_URL}/${this.profile}`
+      : this.apiKey
+        ? `${VIEWER_URL}?apikey=${this.apiKey}`
+        : VIEWER_URL;
     iframe.style.width = "100%";
     iframe.style.height = "100%";
     iframe.style.border = "none";
@@ -87,15 +103,7 @@ export class Viewer {
   }
 
   async selectPoiById(id: number) {
-    if (!this.iframe?.contentWindow)
-      throw new Error("Viewer iframe not initialized");
-    this.iframe.contentWindow.postMessage(
-      {
-        type: "cartography.select_poi",
-        payload: { identifier: id },
-      },
-      "*",
-    );
+    this.sendDataToViewer("cartography.select_poi", { identifier: id });
   }
 
   async loadRealtimePositions(
@@ -104,10 +112,8 @@ export class Viewer {
     }: {
       buildingIds?: number[];
     },
-    refreshMs: number = 1000,
+    refreshRateMs: number = 1000,
   ) {
-    if (!this.iframe?.contentWindow)
-      throw new Error("Viewer iframe not initialized");
     if (this.realtimeInterval) clearInterval(this.realtimeInterval);
 
     const fetchAndSend = async () => {
@@ -131,28 +137,19 @@ export class Viewer {
             accuracy: feature.properties.accuracy,
           },
         }));
-        this.iframe!.contentWindow!.postMessage(
-          { type: "map.update_external_features", payload: data },
-          "*",
-        );
+        this.sendDataToViewer("map.update_external_features", data);
       } catch (err) {
         console.error("Error fetching/parsing realtime positions", err);
       }
     };
 
     await fetchAndSend();
-    this.realtimeInterval = setInterval(fetchAndSend, refreshMs);
+    this.realtimeInterval = setInterval(fetchAndSend, refreshRateMs);
   }
 
   async cleanRealtimePositions() {
-    if (!this.iframe?.contentWindow)
-      throw new Error("Viewer iframe not initialized");
     if (this.realtimeInterval) clearInterval(this.realtimeInterval);
-
-    this.iframe.contentWindow.postMessage(
-      { type: "map.update_external_features", payload: [] },
-      "*",
-    );
+    this.sendDataToViewer("map.update_external_features", []);
   }
 
   async loadTrajectory({
@@ -166,8 +163,6 @@ export class Viewer {
     buildingId: number;
     userId?: UUID;
   }) {
-    if (!this.iframe?.contentWindow)
-      throw new Error("Viewer iframe not initialized");
     try {
       const response = await this.reportsApi.getTrajectory({
         fromDate,
@@ -176,29 +171,23 @@ export class Viewer {
         userId,
       });
 
-      this.iframe.contentWindow.postMessage(
-        {
-          type: "map.show_trajectory",
-          payload: { speed: 1, status: "PLAY", data: response },
-        },
-        "*",
-      );
+      this.sendDataToViewer("map.show_trajectory", {
+        speed: 1,
+        status: "PLAY",
+        data: response,
+      });
     } catch (err) {
       console.error("Error fetching/parsing trajectories", err);
     }
   }
 
   async cleanTrajectory() {
-    if (!this.iframe?.contentWindow)
-      throw new Error("Viewer iframe not initialized");
     try {
-      this.iframe.contentWindow.postMessage(
-        {
-          type: "map.show_trajectory",
-          payload: { speed: 1, status: "STOP", data: [] },
-        },
-        "*",
-      );
+      this.sendDataToViewer("map.show_trajectory", {
+        speed: 1,
+        status: "STOP",
+        data: [],
+      });
     } catch (err) {
       console.error("Error fetching/parsing trajectories", err);
     }

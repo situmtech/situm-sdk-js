@@ -38,11 +38,11 @@
   <script src="../dist/umd/situm-sdk.js"></script>
 
   <script>
-    // Initialize the sdk specifying auth and base domain (later is optional)
     const BUILDING_ID = 1234;
     const USER_ID = "USER_UUID";
     let options = {
       auth: {
+        domain: "https://api.situm.com",
         apiKey: "APIKEY",
       },
     }
@@ -53,12 +53,12 @@
 
     const viewer = sdk.viewer.create({
       domElement: document.querySelector('#viewer1'),
-      // either profile or apikey to authenticate on viewer
+      // either profile or apikey to authenticate on viewer, if not specified auth.apiKey will be used
       // profile: 'demo' 
       // apiKey: "APIKEY",
     });
     viewer.on(ViewerEventType.MAP_IS_READY, () => console.log("viewer1 map is ready"));
-    viewer.on(ViewerEventType.POI_SELECTED, (e) => console.log(e));
+    viewer.on(ViewerEventType.POI_SELECTED, (e) => console.log(`Poi with {e.id} was selected`));
 
     const viewer2 = sdk.viewer.create({
       domElement: document.querySelector('#viewer2'),
@@ -66,13 +66,13 @@
     });
     viewer2.on(ViewerEventType.MAP_IS_READY, () => console.log("viewer2 map is ready"));
 
-    let rtFilter = {
+    // Realtime data filter: currently by building id
+    const rtFilter = {
       buildingIds: [BUILDING_ID],
-      // userIds: [],
-      // deviceIds: [] 
     };
 
-    let trajectoryFilter = {
+    // Trajectory data filter: dates range, user id and building id
+    const trajectoryFilter = {
       fromDate: new Date("2025-09-14T10:59:14.710Z"),
       toDate: new Date("2025-09-15T10:59:14.710Z"),
       userId: USER_ID,

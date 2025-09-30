@@ -20,7 +20,7 @@ type SearchRealtime = {
   userIds?: UUID[];
   deviceIds?: string[];
   indoor?: boolean;
-  max_sec_threshold?: number;
+  maxSecThreshold?: number;
 };
 
 /**
@@ -69,10 +69,10 @@ export default class RealtimeApi {
       params.set("indoor", String(searchRealTime.indoor));
     }
 
-    if (typeof searchRealTime?.max_sec_threshold === "number") {
+    if (typeof searchRealTime?.maxSecThreshold === "number") {
       params.set(
         "max_sec_threshold",
-        searchRealTime.max_sec_threshold.toString(),
+        searchRealTime.maxSecThreshold.toString(),
       );
     }
     const queryString = params.toString();
