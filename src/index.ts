@@ -130,6 +130,13 @@ export default class SitumSDK {
    */
   public viewer = {
     create: (opts: ViewerOptions) => {
+      if (
+        !opts.apiKey &&
+        this.configuration.auth &&
+        "apiKey" in this.configuration.auth
+      ) {
+        opts.apiKey = this.configuration.auth.apiKey;
+      }
       return new Viewer(this.realtime, this.reports, opts);
     },
   };
