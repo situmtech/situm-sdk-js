@@ -8,7 +8,7 @@
   "module": "dist/es5/situm-sdk.js",
   "types": "dist/dts/situm-sdk.d.ts",
   "type": "module",
-   "exports": {
+  "exports": {
     ".": {
       "require": "./dist/cjs/situm-sdk.js",
       "import": "./dist/es5/situm-sdk.js",
@@ -140,5 +140,6 @@
     "exclude": [
       "**/*.spec.js"
     ]
-  }
+  },
+  "packageManager": "yarn@4.10.2"
 }

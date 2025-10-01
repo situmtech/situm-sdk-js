@@ -25,3 +25,6 @@ Thumbs.db
 
 # Project files
 docs/public
+
+# Node files
+.yarn/*
