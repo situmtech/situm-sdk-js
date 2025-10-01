@@ -6,10 +6,10 @@
  *
  */
 
-import { UUID, ViewerEventPayloads, ViewerEventType } from "../types";
-import RealtimeApi from "../domains/realtime";
-import ReportsApi from "../domains/reports";
-import { ViewerOptions, RTDataCustomizer } from "./types";
+import type RealtimeApi from "../domains/realtime";
+import type ReportsApi from "../domains/reports";
+import type { UUID, ViewerEventPayloads, ViewerEventType } from "../types";
+import type { RTDataCustomizer, ViewerOptions } from "./types";
 
 const VIEWER_URL = "https://maps.situm.com";
 
@@ -43,8 +43,8 @@ export class Viewer {
       throw new Error("Viewer iframe not initialized");
     this.iframe.contentWindow.postMessage(
       {
-        type: type,
         payload: payload,
+        type: type,
       },
       "*",
     );
@@ -82,7 +82,9 @@ export class Viewer {
 
       const callbacks = this.listeners[type];
       if (callbacks) {
-        callbacks.forEach((cb) => cb(data.payload));
+        callbacks.forEach((cb) => {
+          cb(data.payload);
+        });
       }
     });
   }
@@ -94,7 +96,7 @@ export class Viewer {
     if (!this.listeners[event]) {
       this.listeners[event] = [];
     }
-    this.listeners[event]!.push(callback);
+    this.listeners[event]?.push(callback);
   }
 
   async selectPoiById(id: number) {
@@ -131,41 +133,41 @@ export class Viewer {
               const customized = customizeFeatures(baseData);
               if (!customized) return null;
               return {
-                type: "Feature",
-                id: feature.id,
                 geometry: {
-                  type: "Point",
                   coordinates: [
                     feature.geometry.coordinates[1],
                     feature.geometry.coordinates[0],
                   ],
+                  type: "Point",
                 },
+                id: feature.id,
                 properties: {
-                  floor_id: feature.properties.floorId,
-                  building_id: feature.properties.buildingId,
                   accuracy: feature.properties.accuracy,
-                  title: customized.tooltip,
+                  building_id: feature.properties.buildingId,
+                  floor_id: feature.properties.floorId,
                   icon_url: customized.iconUrl,
+                  title: customized.tooltip,
                 },
+                type: "Feature",
               };
             }
 
             // default render
             return {
-              type: "Feature",
-              id: feature.id,
               geometry: {
-                type: "Point",
                 coordinates: [
                   feature.geometry.coordinates[1],
                   feature.geometry.coordinates[0],
                 ],
+                type: "Point",
               },
+              id: feature.id,
               properties: {
-                floor_id: feature.properties.floorId,
-                building_id: feature.properties.buildingId,
                 accuracy: feature.properties.accuracy,
+                building_id: feature.properties.buildingId,
+                floor_id: feature.properties.floorId,
               },
+              type: "Feature",
             };
           })
           .filter(Boolean);
@@ -197,16 +199,16 @@ export class Viewer {
   }) {
     try {
       const response = await this.reportsApi.getTrajectory({
+        buildingId,
         fromDate,
         toDate,
-        buildingId,
         userId,
       });
 
       this.sendDataToViewer("map.show_trajectory", {
+        data: response,
         speed: 1,
         status: "PLAY",
-        data: response,
       });
     } catch (err) {
       console.error("Error fetching/parsing trajectories", err);
@@ -216,9 +218,9 @@ export class Viewer {
   async cleanTrajectory() {
     try {
       this.sendDataToViewer("map.show_trajectory", {
+        data: [],
         speed: 1,
         status: "STOP",
-        data: [],
       });
     } catch (err) {
       console.error("Error fetching/parsing trajectories", err);

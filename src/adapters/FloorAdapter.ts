@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Floor } from "../types";
+import type { Floor } from "../types";
 
 /**
  * Adapts the server response to our common Floor object,

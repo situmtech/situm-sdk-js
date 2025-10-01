@@ -7,7 +7,7 @@
  */
 
 import SitumSDK from "../../src";
-import { FloorForm } from "../../src/types";
+import type { FloorForm } from "../../src/types";
 import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 
 describe("SitumSDK.cartography Floor", () => {
@@ -84,12 +84,12 @@ describe("SitumSDK.cartography Floor", () => {
     ]);
     const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const floorForm: FloorForm = {
-      customFields: [{ key: "key", value: "value" }],
       buildingId: 5962,
-      name: "Test floor",
+      customFields: [{ key: "key", value: "value" }],
       level: 1,
       levelHeight: 12,
       mapId: "mapId",
+      name: "Test floor",
     };
 
     // Execute
@@ -98,12 +98,12 @@ describe("SitumSDK.cartography Floor", () => {
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
     expect(configuration.data).toEqual({
-      custom_fields: [{ key: "key", value: "value" }],
       building_id: 5962,
-      name: "Test floor",
+      custom_fields: [{ key: "key", value: "value" }],
       level: 1,
       level_height: 12,
       map_id: "mapId",
+      name: "Test floor",
     });
     expect(configuration.method).toBe("post");
     expect(configuration.url).toBe("/api/v1/floors");
@@ -124,12 +124,12 @@ describe("SitumSDK.cartography Floor", () => {
 
     // Execute
     const floorForm: FloorForm = {
-      customFields: [{ key: "key", value: "value" }],
       buildingId: 5962,
-      name: "Test floor",
+      customFields: [{ key: "key", value: "value" }],
       level: 1,
       levelHeight: 12,
       mapId: "mapId",
+      name: "Test floor",
     };
     const building = await situmSDK.cartography.patchFloor(1111, floorForm);
 
@@ -139,12 +139,12 @@ describe("SitumSDK.cartography Floor", () => {
     expect(configuration.method).toBe("put");
     expect(configuration.url).toBe(`/api/v1/floors/1111`);
     expect(configuration.data).toEqual({
-      custom_fields: [{ key: "key", value: "value" }],
       building_id: 5962,
-      name: "Test floor",
+      custom_fields: [{ key: "key", value: "value" }],
       level: 1,
       level_height: 12,
       map_id: "mapId",
+      name: "Test floor",
     });
 
     axiosMock.mockClear();

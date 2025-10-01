@@ -6,8 +6,8 @@
  *
  */
 
-import ApiBase from "../apiBase";
-import { UUID } from "../types";
+import type ApiBase from "../apiBase";
+import type { UUID } from "../types";
 
 type TrajectoryReportPosition = {
   timestamp: string;

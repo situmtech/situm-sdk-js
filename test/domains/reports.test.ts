@@ -1,4 +1,4 @@
-import SitumSDK, { UUID } from "../../src";
+import SitumSDK, { type UUID } from "../../src";
 import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 
 describe("SitumSDK.reports", () => {
@@ -20,7 +20,7 @@ describe("SitumSDK.reports", () => {
       { access_token: getMockData("jwtMock") },
       mockTrajectoryResponse,
     ]);
-    const params = { fromDate, toDate, buildingId };
+    const params = { buildingId, fromDate, toDate };
 
     // Execute
     const result = await situmSDK.reports.getTrajectory(params);
@@ -48,9 +48,9 @@ describe("SitumSDK.reports", () => {
       mockTrajectoryResponse,
     ]);
     const params = {
+      buildingId,
       fromDate,
       toDate,
-      buildingId,
       userId,
     };
 
@@ -73,7 +73,7 @@ describe("SitumSDK.reports", () => {
       { access_token: getMockData("jwtMock") },
       mockTrajectoryResponse,
     ]);
-    const params = { toDate, buildingId }; // missing fromDate
+    const params = { buildingId, toDate }; // missing fromDate
 
     // Execute & Assert
     await expect(

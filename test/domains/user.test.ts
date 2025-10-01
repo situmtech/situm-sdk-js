@@ -7,7 +7,7 @@
  */
 
 import SitumSDK from "../../src";
-import { Role, UserForm } from "../../src/types";
+import type { Role, UserForm } from "../../src/types";
 import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 
 describe("SitumSDK.user", () => {
@@ -50,11 +50,11 @@ describe("SitumSDK.user", () => {
       metadata: {
         first: true,
         last: true,
-        totalPages: 1,
-        totalElements: 1,
+        number: 1,
         numberOfElements: 1,
         size: 15,
-        number: 1,
+        totalElements: 1,
+        totalPages: 1,
       },
     };
     const axiosMock = mockAxiosRequest([
@@ -85,10 +85,10 @@ describe("SitumSDK.user", () => {
       getMockData("userResponseMock1"),
     ]);
     const userForm: UserForm = {
-      role: "USER" as Role,
-      email: "test@situm.dd",
       buildingIds: [9727],
+      email: "test@situm.dd",
       password: "topSecret!!!",
+      role: "USER" as Role,
     };
 
     // Execute
@@ -99,10 +99,10 @@ describe("SitumSDK.user", () => {
     expect(configuration.data).toEqual({
       building_ids: [9727],
       email: "test@situm.dd",
-      role: "USER",
-      password: "topSecret!!!",
       is_manager: false,
       is_staff: false,
+      password: "topSecret!!!",
+      role: "USER",
     });
     expect(configuration.method).toEqual("post");
     expect(configuration.url).toBe("/api/v1/users");
@@ -118,10 +118,10 @@ describe("SitumSDK.user", () => {
       getMockData("userResponseMock1"),
     ]);
     const userForm: UserForm = {
-      role: "USER" as Role,
-      email: "test@situm.dd",
       buildingIds: [9727],
+      email: "test@situm.dd",
       password: "topSecret!!!",
+      role: "USER" as Role,
     };
 
     // Execute

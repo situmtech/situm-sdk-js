@@ -7,7 +7,7 @@
  */
 
 import SitumSDK from "../../src";
-import { GeofenceForm } from "../../src/types";
+import type { GeofenceForm } from "../../src/types";
 import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 
 describe("SitumSDK.cartography Geofence", () => {
@@ -36,7 +36,18 @@ describe("SitumSDK.cartography Geofence", () => {
   it("should search a geofence by name", async () => {
     // Arrange
     const situmSDK = new SitumSDK({ auth: getMockData("auth") });
-    const mockGeofenceList = getMockData("geofenceMockAll");
+    const mockGeofenceList = {
+      data: [getMockData("geofenceResponseMock1")],
+      metadata: {
+        first: true,
+        last: true,
+        number: 1,
+        numberOfElements: 1,
+        size: 15,
+        totalElements: 1,
+        totalPages: 1,
+      },
+    };
     const axiosMock = mockAxiosRequest([
       getMockData("geofenceResponseMockAll"),
     ]);
@@ -69,9 +80,9 @@ describe("SitumSDK.cartography Geofence", () => {
 
     // Execute
     const geofenceForm: GeofenceForm = {
-      customFields: [{ key: "key", value: "value" }],
       buildingId: "5962",
       code: "code",
+      customFields: [{ key: "key", value: "value" }],
       floorId: 11918,
       geometric: [[42.872408722880905, -8.563032075762749]],
       info: "info",
@@ -84,9 +95,9 @@ describe("SitumSDK.cartography Geofence", () => {
     // Assert
     const configuration = axiosMock.mock.calls[0][0];
     expect(configuration.data).toEqual({
-      custom_fields: [{ key: "key", value: "value" }],
       building_id: "5962",
       code: "code",
+      custom_fields: [{ key: "key", value: "value" }],
       floor_id: 11918,
       geometric: [[42.872408722880905, -8.563032075762749]],
       info: "info",
@@ -112,9 +123,9 @@ describe("SitumSDK.cartography Geofence", () => {
 
     // Execute
     const geofenceForm: GeofenceForm = {
-      customFields: [{ key: "key", value: "value" }],
       buildingId: "5962",
       code: "code",
+      customFields: [{ key: "key", value: "value" }],
       floorId: 11918,
       geometric: [[42.872408722880905, -8.563032075762749]],
       info: "info",

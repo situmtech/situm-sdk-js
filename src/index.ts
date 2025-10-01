@@ -13,9 +13,9 @@ import ImagesApi from "./domains/images";
 import RealtimeApi from "./domains/realtime";
 import ReportsApi from "./domains/reports";
 import UserApi from "./domains/user";
+import type { SDKConfiguration } from "./types";
 import { Viewer } from "./viewer";
-import { SDKConfiguration } from "./types";
-import { ViewerOptions } from "./viewer/types";
+import type { ViewerOptions } from "./viewer/types";
 
 export * from "./types";
 
@@ -61,10 +61,10 @@ export default class SitumSDK {
   constructor(config: SDKConfiguration) {
     this.configuration = {
       ...config,
-      domain: config.domain || "https://api.situm.com",
-      version: SitumSDK.version,
       auth: config.auth,
       compact: config.compact,
+      domain: config.domain || "https://api.situm.com",
+      version: SitumSDK.version,
     };
     // Wrapper for the axios instance, and utility methods for the rest of the domains
     this.apiBase = new ApiBase(this.configuration);
@@ -74,7 +74,11 @@ export default class SitumSDK {
    * Gives access to the user domain with its operations
    */
   public get user() {
-    return this._user || (this._user = new UserApi(this.apiBase));
+    if (!this._user) {
+      this._user = new UserApi(this.apiBase);
+    }
+
+    return this._user;
   }
 
   /**
@@ -83,10 +87,10 @@ export default class SitumSDK {
    * @returns {CartographyApi} The cartography API instance.
    */
   public get cartography() {
-    return (
-      this._cartography ||
-      (this._cartography = new CartographyApi(this.apiBase))
-    );
+    if (!this._cartography) {
+      this._cartography = new CartographyApi(this.apiBase);
+    }
+    return this._cartography;
   }
 
   /**
@@ -95,7 +99,10 @@ export default class SitumSDK {
    * @returns {RealtimeApi} The realtime API instance.
    */
   public get realtime() {
-    return this._realtime || (this._realtime = new RealtimeApi(this.apiBase));
+    if (!this._realtime) {
+      this._realtime = new RealtimeApi(this.apiBase);
+    }
+    return this._realtime;
   }
 
   /**
@@ -104,7 +111,10 @@ export default class SitumSDK {
    * @returns {ReportsApi} The reports API instance.
    */
   public get reports() {
-    return this._reports || (this._reports = new ReportsApi(this.apiBase));
+    if (!this._reports) {
+      this._reports = new ReportsApi(this.apiBase);
+    }
+    return this._reports;
   }
 
   /**
@@ -113,7 +123,10 @@ export default class SitumSDK {
    * @returns {ImagesApi} The images API instance.
    */
   public get images() {
-    return this._images || (this._images = new ImagesApi(this.apiBase));
+    if (!this._images) {
+      this._images = new ImagesApi(this.apiBase);
+    }
+    return this._images;
   }
 
   /**

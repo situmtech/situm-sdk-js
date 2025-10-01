@@ -6,8 +6,8 @@
  *
  */
 import { realtimePositionsMapper } from "../adapters/RealtimeAdapter";
-import ApiBase from "../apiBase";
-import { RealtimePositions, UUID } from "../types";
+import type ApiBase from "../apiBase";
+import type { RealtimePositions, UUID } from "../types";
 
 export type ResponseRealtimePosition = {
   features: Record<string, unknown>[];

@@ -1,4 +1,4 @@
-import { UUID } from "../types";
+import type { UUID } from "../types";
 
 export interface ViewerOptions {
   domElement: HTMLElement;

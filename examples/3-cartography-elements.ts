@@ -11,7 +11,7 @@ import SitumSDK from "../src";
   // Fetching info from a building
   const floors = await situm.cartography.getFloors({ buildingId: 5962 });
 
-  const geofences = await situm.cartography.getGeofences({
+  const _geofences = await situm.cartography.getGeofences({
     buildingIds: [5962],
   });
 
@@ -21,8 +21,8 @@ import SitumSDK from "../src";
 
   console.log({
     floors,
-    pois,
     paths,
+    pois,
     // geofences,
   });
 })();

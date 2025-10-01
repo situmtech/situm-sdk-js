@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { User, UserForm } from "../types";
+import type { User, UserForm } from "../types";
 
 export type UserServer = UserForm & { isManager: boolean; isStaff: boolean };
 

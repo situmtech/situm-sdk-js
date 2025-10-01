@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { SitumErrorType, SitumSubError } from "../types";
+import type { SitumErrorType, SitumSubError } from "../types";
 
 export default class SitumError extends Error {
   readonly status: number;

@@ -6,14 +6,14 @@
  *
  */
 import axios, {
-  AxiosError,
-  AxiosHeaders,
-  AxiosRequestConfig,
-  Method,
-  RawAxiosRequestHeaders,
+  type AxiosError,
+  type AxiosHeaders,
+  type AxiosRequestConfig,
+  type Method,
+  type RawAxiosRequestHeaders,
 } from "axios";
 
-import {
+import type {
   AuthApiKey,
   AuthBasic,
   AuthConfiguration,
@@ -44,8 +44,8 @@ const calculateHTTPRequestHeaders = (
   const lang = configuration.lang ? configuration.lang : FALLBACK_LANGUAGE;
 
   let headersToReturn = {
-    "Content-Type": "application/json",
     "Accept-Language": lang,
+    "Content-Type": "application/json",
     ...headers,
     // "x-api-client": "SitumJSSDK/" + configuration.version,
   };
@@ -53,7 +53,7 @@ const calculateHTTPRequestHeaders = (
   if (jwt) {
     headersToReturn = {
       ...headersToReturn,
-      Authorization: "Bearer " + jwt,
+      Authorization: `Bearer ${jwt}`,
     };
   }
 
@@ -75,20 +75,20 @@ const transformRequestInfoToAxiosRequestConfig = (
   requestInfo: RequestInfo,
 ): AxiosRequestConfig => {
   const request = {
-    method: method as Method,
-    url: requestInfo.url,
     baseURL: configuration.domain,
+    data: requestInfo.formData ?? keysToSnake(requestInfo.body),
     headers: calculateHTTPRequestHeaders(
       configuration,
       jwt,
       requestInfo.headers,
     ),
+    method: method as Method,
     params: keysToSnake(requestInfo.params),
-    data: requestInfo.formData ?? keysToSnake(requestInfo.body),
+    url: requestInfo.url,
   } as AxiosRequestConfig;
 
   if (requestInfo.authorization) {
-    request["auth"] = {
+    request.auth = {
       ...requestInfo.authorization,
     };
   }
@@ -96,9 +96,9 @@ const transformRequestInfoToAxiosRequestConfig = (
   if (!configuration.timeouts) {
     return request;
   } else if (requestInfo.url in configuration.timeouts) {
-    request["timeout"] = configuration.timeouts[requestInfo.url];
+    request.timeout = configuration.timeouts[requestInfo.url];
   } else if ("default" in configuration.timeouts) {
-    request["timeout"] = configuration.timeouts["default"];
+    request.timeout = configuration.timeouts.default;
   }
 
   return request;
@@ -153,10 +153,10 @@ export type RequestInfo = WithFormData | WithBody | WithoutFormDataOrBody;
 
 export default class ApiBase {
   private readonly configuration: SDKConfiguration = {
+    compact: false,
     timeouts: {
       default: DEFAULT_TIMEOUT,
     },
-    compact: false,
   };
   private _authSession: AuthSession | null;
 
@@ -276,26 +276,26 @@ export default class ApiBase {
     if (error.response) {
       if (error.response.data.code === "invalid_credentials") {
         return new SitumError({
-          status: error.response.data.status,
           code: error.response.data.code,
+          errors: error.response.data.errors,
           message:
             "Invalid credentials, please check your authentication params.",
-          errors: error.response.data.errors,
+          status: error.response.data.status,
         });
       }
 
       return new SitumError({
-        status: error.response.data.status,
         code: error.response.data.code,
-        message: error.response.data.message,
         errors: error.response.data.errors,
+        message: error.response.data.message,
+        status: error.response.data.status,
       });
     }
 
     return new SitumError({
-      status: 500,
       code: "generic error",
       message: error.message,
+      status: 500,
     });
   }
 
@@ -370,8 +370,8 @@ export default class ApiBase {
     const authData = this.getAuthorizationHeaders(this.configuration.auth);
     try {
       const response = (await this.post({
-        url: "/api/v1/auth/access_tokens",
         notAuthenticated: true,
+        url: "/api/v1/auth/access_tokens",
         ...authData,
       })) as AccessTokens;
 
@@ -395,8 +395,8 @@ export default class ApiBase {
     const authData = this.getAuthorizationHeaders(this.configuration.auth);
     try {
       const response = (await this.post({
-        url: "/api/v1/auth/refresh_access_tokens",
         notAuthenticated: true,
+        url: "/api/v1/auth/refresh_access_tokens",
         ...authData,
         body: {
           accessToken: this._authSession.jwt,
@@ -430,7 +430,7 @@ export default class ApiBase {
       const authJwt = auth as AuthJWT;
       return {
         headers: {
-          Authorization: "Bearer " + authJwt.jwt,
+          Authorization: `Bearer ${authJwt.jwt}`,
         },
       };
     }

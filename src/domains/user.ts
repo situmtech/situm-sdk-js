@@ -6,8 +6,15 @@
  *
  */
 import { getAdapter, postAdapter } from "../adapters/UserAdapter";
-import ApiBase from "../apiBase";
-import { Apikey, Paginated, User, UserForm, UserSearch, UUID } from "../types";
+import type ApiBase from "../apiBase";
+import type {
+  Apikey,
+  Paginated,
+  User,
+  UserForm,
+  UserSearch,
+  UUID,
+} from "../types";
 
 /**
  * Service that exposes the user domain.
@@ -31,13 +38,13 @@ export default class UserApi {
   getUsers(searchUser?: UserSearch): Promise<Paginated<User>> {
     return this.apiBase
       .get({
-        url: "/api/v1/users",
         params: searchUser,
+        url: "/api/v1/users",
       })
       .then((users: Paginated<Record<string, unknown>>) => {
         return {
-          metadata: users.metadata,
           data: users.data.map(getAdapter),
+          metadata: users.metadata,
         };
       });
   }
@@ -51,7 +58,7 @@ export default class UserApi {
   getUserById(userId: UUID): Promise<User> {
     return this.apiBase
       .get({
-        url: "/api/v1/users/" + userId,
+        url: `/api/v1/users/${userId}`,
       })
       .then(getAdapter);
   }
@@ -66,8 +73,8 @@ export default class UserApi {
   patchUser(userId: UUID, userForm: UserForm): Promise<User> {
     return this.apiBase
       .put({
-        url: "/api/v1/users/" + userId,
         body: userForm,
+        url: `/api/v1/users/${userId}`,
       })
       .then(getAdapter);
   }
@@ -81,8 +88,8 @@ export default class UserApi {
   createUser(userForm: UserForm): Promise<User> {
     return this.apiBase
       .post({
-        url: "/api/v1/users",
         body: postAdapter(userForm),
+        url: "/api/v1/users",
       })
       .then(getAdapter);
   }
@@ -94,7 +101,7 @@ export default class UserApi {
    * @returns {Promise<void>} A promise that resolves after deleting the user.
    */
   deleteUser(userId: UUID): Promise<unknown> {
-    return this.apiBase.delete({ url: "/api/v1/users/" + userId });
+    return this.apiBase.delete({ url: `/api/v1/users/${userId}` });
   }
 
   /**
@@ -105,8 +112,8 @@ export default class UserApi {
   getPositioningApikeys(): Promise<Apikey[]> {
     return this.apiBase
       .get({
-        url: "/api/v1/auth/apikeys",
         params: { permissions: "positioning" },
+        url: "/api/v1/auth/apikeys",
       })
       .then((apikeys: Apikey[]) => {
         return apikeys;

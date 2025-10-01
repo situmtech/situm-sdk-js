@@ -7,7 +7,7 @@
  */
 
 import SitumSDK from "../../src";
-import { BuildingForm } from "../../src/types";
+import type { BuildingForm } from "../../src/types";
 import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 
 describe("SitumSDK.cartography Building", () => {
@@ -87,17 +87,17 @@ describe("SitumSDK.cartography Building", () => {
     ]);
     const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const buildingForm: BuildingForm = {
-      location: { lat: 42.8949622513438, lng: -8.49530134740083 },
-      dimensions: {
-        width: 282,
-        length: 17.8,
-      },
-      description: "description",
       customFields: [{ key: "key", value: "value" }],
-      rotation: 11.22,
+      description: "description",
+      dimensions: {
+        length: 17.8,
+        width: 282,
+      },
       info: "info",
+      location: { lat: 42.8949622513438, lng: -8.49530134740083 },
       name: "Test Fence",
       pictureId: "pictureId",
+      rotation: 11.22,
     };
 
     // Execute
@@ -106,17 +106,17 @@ describe("SitumSDK.cartography Building", () => {
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
     expect(configuration.data).toEqual({
-      location: { lat: 42.8949622513438, lng: -8.49530134740083 },
-      dimensions: {
-        width: 282,
-        length: 17.8,
-      },
-      description: "description",
       custom_fields: [{ key: "key", value: "value" }],
-      rotation: 11.22,
+      description: "description",
+      dimensions: {
+        length: 17.8,
+        width: 282,
+      },
       info: "info",
+      location: { lat: 42.8949622513438, lng: -8.49530134740083 },
       name: "Test Fence",
       picture_id: "pictureId",
+      rotation: 11.22,
     });
     expect(configuration.method).toBe("post");
     expect(configuration.url).toBe("/api/v1/buildings");
@@ -134,17 +134,17 @@ describe("SitumSDK.cartography Building", () => {
     ]);
     const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const buildingForm: BuildingForm = {
-      location: { lat: 42.8949622513438, lng: -8.49530134740083 },
-      dimensions: {
-        width: 282,
-        length: 17.8,
-      },
-      description: "description",
       customFields: [{ key: "key", value: "value" }],
-      rotation: 11.22,
+      description: "description",
+      dimensions: {
+        length: 17.8,
+        width: 282,
+      },
       info: "info",
+      location: { lat: 42.8949622513438, lng: -8.49530134740083 },
       name: "Test Fence",
       pictureId: "pictureId",
+      rotation: 11.22,
     };
 
     // Execute

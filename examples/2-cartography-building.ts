@@ -25,23 +25,23 @@ import SitumSDK from "../src";
 
   // We've got functions to performa CRUD operations for buildings
   await situm.cartography.createBuilding({
+    customFields: [],
+    description: "description",
+    dimensions: { length: 12, width: 123 },
+    info: "the building info",
+    location: { lat: 123, lng: 1234 },
     name: "",
     pictureId: "1",
-    location: { lat: 123, lng: 1234 },
-    dimensions: { length: 12, width: 123 },
-    description: "description",
-    info: "the building info",
     rotation: 12,
-    customFields: [],
   });
 
   // Updating/patching a building
   await situm.cartography.patchBuilding(23423, {
-    rotation: 12,
-    pictureId: "123",
     dimensions: { length: 12, width: 123 },
-    name: "The name of the building",
     location: { lat: 123, lng: 1234 },
+    name: "The name of the building",
+    pictureId: "123",
+    rotation: 12,
   });
 
   // Deleting a building
@@ -49,15 +49,15 @@ import SitumSDK from "../src";
 
   const newpoi = await situm.cartography
     .createPoi({
-      name: "My POI " + new Date().toDateString(),
+      buildingId: 7277,
+      categoryId: 148,
+      customFields: [],
+      info: "the building info",
+      name: `My POI ${new Date().toDateString()}`,
       position: {
         floorId: 15517,
         georeferences: { lat: 42.86972460874978, lng: -8.515350926595511 },
       },
-      info: "the building info",
-      customFields: [],
-      buildingId: 7277,
-      categoryId: 148,
     })
     .then((poi) => {
       console.log(poi);
@@ -67,7 +67,7 @@ import SitumSDK from "../src";
   situm.cartography
     .patchPoi(newpoi.id, {
       buildingId: 7277,
-      name: "My POI " + new Date().toDateString(),
+      name: `My POI ${new Date().toDateString()}`,
       position: {
         floorId: 15517,
         georeferences: { lat: 42.86972460874978, lng: -8.515350926595511 },

@@ -229,6 +229,7 @@ export type Poi = Required<PoiCreateForm> & {
   categoryName: string;
   infoUnsafe: string;
   type: string;
+  floorId: number;
   location: Coordinate & Cartesians;
 };
 
@@ -409,7 +410,7 @@ export type Organization = {
 };
 
 export enum SitumApiPermissionLevel {
-  "positioning" = "positioning",
+  positioning = "positioning",
   "read-only" = "read-only",
   "cartography-read-write" = "cartography-read-write",
   "read-write" = "read-write",
@@ -451,7 +452,7 @@ export enum ViewerEventType {
 
 export interface ViewerEventPayloads {
   // app
-  [ViewerEventType.MAP_IS_READY]: void;
+  [ViewerEventType.MAP_IS_READY]: undefined;
   [ViewerEventType.APP_ERROR]: unknown;
 
   // cartography

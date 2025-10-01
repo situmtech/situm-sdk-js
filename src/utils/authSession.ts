@@ -1,4 +1,4 @@
-import { SitumJWTPayload } from "../types";
+import type { SitumJWTPayload } from "../types";
 
 import SitumError from "./situmError";
 
@@ -14,10 +14,10 @@ export default class AuthSession {
 
     if (!this._jwt) {
       throw new SitumError({
-        status: 401,
         code: "invalid_jwt",
-        message: "Invalid JWT",
         errors: [],
+        message: "Invalid JWT",
+        status: 401,
       });
     }
 
@@ -27,9 +27,7 @@ export default class AuthSession {
     const jsonPayload = decodeURIComponent(
       atob(base64)
         .split("")
-        .map(function (c) {
-          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        })
+        .map((c) => `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`)
         .join(""),
     );
 
