@@ -112,10 +112,12 @@
     document.getElementById("playBtn").onclick = function () {
       viewer.loadRealtimePositions({
         filter: rtFilter,
-        customizeFeatures: (data) => data.map(d => ({
-          deviceId: d.deviceId,
-          tooltip: `Device ${d.deviceId}`
-        }))
+        customizeFeatures: (d) => {
+          return {
+            deviceId: d.deviceId,
+            tooltip: `Device ${d.deviceId}`
+          }
+        }
       });
     };
     document.getElementById("pauseBtn").onclick = function () {

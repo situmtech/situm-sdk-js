@@ -108,7 +108,9 @@ export class Viewer {
   }: {
     filter: { buildingIds?: number[] };
     refreshRateMs?: number;
-    customizeFeatures?: (positions: RTDataCustomizers[]) => RTDataCustomizers[];
+    customizeFeatures?: (
+      position: RTDataCustomizers,
+    ) => RTDataCustomizers | undefined;
   }) {
     if (this.realtimeInterval) clearInterval(this.realtimeInterval);
 
@@ -118,23 +120,16 @@ export class Viewer {
           buildingIds: filter?.buildingIds,
         });
 
-        let transformed = [];
+        const formattedData = realtimePositions.features
+          .map((feature) => {
+            const baseData: RTDataCustomizers = {
+              deviceId: feature.id,
+            };
 
-        if (typeof customizeFeatures === "function") {
-          const userData =
-            customizeFeatures(
-              realtimePositions.features.map((ft) => ({
-                deviceId: ft.id,
-              })),
-            ) || [];
-          const featureMap = new Map(
-            realtimePositions.features.map((f) => [f.id, f]),
-          );
-
-          transformed = userData
-            .map((u) => {
-              const feature = featureMap.get(u.deviceId);
-              if (!feature) return null;
+            // custom render
+            if (typeof customizeFeatures === "function") {
+              const customized = customizeFeatures(baseData);
+              if (!customized) return null;
               return {
                 type: "Feature",
                 id: feature.id,
@@ -149,32 +144,32 @@ export class Viewer {
                   floor_id: feature.properties.floorId,
                   building_id: feature.properties.buildingId,
                   accuracy: feature.properties.accuracy,
-                  title: u?.tooltip,
-                  icon_url: u?.iconUrl,
+                  title: customized.tooltip,
+                  icon_url: customized.iconUrl,
                 },
               };
-            })
-            .filter(Boolean);
-        } else {
-          transformed = realtimePositions.features.map((feature) => ({
-            type: "Feature",
-            id: feature.id,
-            geometry: {
-              type: "Point",
-              coordinates: [
-                feature.geometry.coordinates[1],
-                feature.geometry.coordinates[0],
-              ],
-            },
-            properties: {
-              floor_id: feature.properties.floorId,
-              building_id: feature.properties.buildingId,
-              accuracy: feature.properties.accuracy,
-            },
-          }));
-        }
+            }
 
-        this.sendDataToViewer("map.update_external_features", transformed);
+            // default render
+            return {
+              type: "Feature",
+              id: feature.id,
+              geometry: {
+                type: "Point",
+                coordinates: [
+                  feature.geometry.coordinates[1],
+                  feature.geometry.coordinates[0],
+                ],
+              },
+              properties: {
+                floor_id: feature.properties.floorId,
+                building_id: feature.properties.buildingId,
+                accuracy: feature.properties.accuracy,
+              },
+            };
+          })
+          .filter(Boolean);
+        this.sendDataToViewer("map.update_external_features", formattedData);
       } catch (err) {
         console.error("Error fetching/parsing realtime positions", err);
       }
