@@ -36,21 +36,9 @@ describe("SitumSDK.cartography Geofence", () => {
   it("should search a geofence by name", async () => {
     // Arrange
     const situmSDK = new SitumSDK({ auth: getMockData("auth") });
-    const mockGeofenceList = {
-      data: [getMockData("geofenceResponseMock1")],
-      metadata: {
-        first: true,
-        last: true,
-        totalPages: 1,
-        totalElements: 1,
-        numberOfElements: 1,
-        size: 15,
-        number: 1,
-      },
-    };
+    const mockGeofenceList = getMockData("geofenceMockAll");
     const axiosMock = mockAxiosRequest([
-      { access_token: getMockData("jwtMock") },
-      mockGeofenceList,
+      getMockData("geofenceResponseMockAll"),
     ]);
 
     // Execute
@@ -59,12 +47,12 @@ describe("SitumSDK.cartography Geofence", () => {
     });
 
     // Assert
-    const configuration = axiosMock.mock.calls[1][0];
+    const configuration = axiosMock.mock.calls[0][0];
     expect(configuration.params).toEqual({
       name: "test",
       organization_id: "fakefakefa-fake-fake-fake-fakefakefake",
     });
-    expect(configuration.url).toBe("/api/v1/geofences");
+    expect(configuration.url).toBe("/api/v1/geofences/search");
     expect(geofenceList).toEqual({
       ...mockGeofenceList,
       data: [getMockData("geofenceMock1")],
@@ -76,10 +64,7 @@ describe("SitumSDK.cartography Geofence", () => {
   it("should create a geofence", async () => {
     // Arrange
     const mockGeofence = getMockData("geofenceMock1");
-    const axiosMock = mockAxiosRequest([
-      { access_token: getMockData("jwtMock") },
-      getMockData("geofenceResponseMock1"),
-    ]);
+    const axiosMock = mockAxiosRequest([getMockData("geofenceResponseMock1")]);
     const situmSDK = new SitumSDK({ auth: getMockData("auth") });
 
     // Execute
@@ -97,7 +82,7 @@ describe("SitumSDK.cartography Geofence", () => {
     const geofence = await situmSDK.cartography.createGeofence(geofenceForm);
 
     // Assert
-    const configuration = axiosMock.mock.calls[1][0];
+    const configuration = axiosMock.mock.calls[0][0];
     expect(configuration.data).toEqual({
       custom_fields: [{ key: "key", value: "value" }],
       building_id: "5962",

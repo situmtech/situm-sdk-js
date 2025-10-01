@@ -259,15 +259,17 @@ export default class CartographyApi {
 
     return this.apiBase
       .get<Paginated<Geofence>>({
-        url: "/api/v1/geofences",
+        url: "/api/v1/geofences/search",
         params: params,
       })
-      .then((result) => ({
-        metadata: result.metadata,
-        data: result.data.map((geofence: Record<string, unknown>) =>
-          getGeofenceAdapter(geofence),
-        ),
-      }));
+      .then((result) => {
+        return {
+          metadata: result.metadata,
+          data: result.data?.map((geofence: Record<string, unknown>) =>
+            getGeofenceAdapter(geofence),
+          ),
+        };
+      });
   }
 
   /**

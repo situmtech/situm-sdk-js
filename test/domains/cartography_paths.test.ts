@@ -140,12 +140,14 @@ describe("SitumSDK.cartography Path", () => {
           target: 2,
           origin: "both",
           tags: [],
+          accessible: true,
         },
         {
           source: 2,
           target: 3,
           origin: "both",
           tags: [],
+          accessible: true,
         },
       ],
     });
