@@ -97,15 +97,23 @@
     <script src="../dist/umd/situm-sdk.js"></script>
 
     <script>
-      const BUILDING_ID = 7033; // Demo building
-      const USER_ID = "84f23888-3f01-46f8-a5c1-6b208c22b957";
+      // Get URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const BUILDING_ID = parseInt(urlParams.get('buildingId')); // Default to Demo building if not provided
+      const USER_ID = urlParams.get('userId') || ""; // Default if not provided
+      const API_KEY = urlParams.get('apiKey'); // Default if not provided
+
       let options = {
         auth: {
           domain: "https://api.situm.com",
-          apiKey:
-            "1656113e78493de5a3dc46452eb1e64e60122f6f4a39d19fcadcc17813b2fe2e",
+          apiKey: API_KEY,
         },
       };
+
+      // Add error handling for missing required parameters
+      if (!BUILDING_ID) {
+        console.error('Building ID is required');
+      }
 
       const SDKClass = window.SitumSDK.default;
       const sdk = new SDKClass(options);
