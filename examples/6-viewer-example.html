@@ -1,16 +1,22 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark:bg-gray-900">
   <head>
     <meta charset="UTF-8" />
     <title>Situm SDK Viewer Demo</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Add dark mode configuration
+      tailwind.config = {
+        darkMode: 'class'
+      }
+    </script>
   </head>
 
   <body
-    class="bg-gray-100 min-h-screen flex flex-col items-center justify-center space-y-6 p-6"
+    class="bg-gray-100 dark:bg-gray-900 min-h-screen flex flex-col items-center justify-center space-y-6 p-6"
   >
     <header
-      class="w-full flex items-center justify-between p-4 bg-white shadow-md fixed top-0 left-0 z-50"
+      class="w-full flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow-md fixed top-0 left-0 z-50"
     >
       <div class="flex items-center">
         <img
@@ -19,39 +25,60 @@
           alt="Situm Logo"
           class="h-12 w-auto mr-5"
         />
-
-        <h1 class="text-2xl font-bold text-gray-800">Situm SDK Viewer Demo</h1>
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Situm SDK Viewer Demo</h1>
       </div>
+      <button
+        id="theme-toggle"
+        class="p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm"
+      >
+        <svg
+          id="theme-toggle-dark-icon"
+          class="w-5 h-5 hidden"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+        </svg>
+        <svg
+          id="theme-toggle-light-icon"
+          class="w-5 h-5 hidden"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+          ></path>
+        </svg>
+      </button>
     </header>
 
     <div class="w-full mt-20">
-      <!-- Viewers -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
         <!-- Viewer 1 with its controls -->
         <div class="flex flex-col">
-          <h2 class="text-lg font-semibold text-gray-800 mb-2">
+          <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">
             Realtime positions
           </h2>
           <p
-            class="text-sm text-gray-600 italic mb-4 bg-blue-50 p-3 rounded-lg border border-blue-200"
+            class="text-sm text-gray-600 dark:text-gray-300 italic mb-4 bg-blue-50 dark:bg-blue-900/30 p-3 rounded-lg border border-blue-200 dark:border-blue-800 h-[4rem] line-clamp-2"
           >
             Note: Click the "Start RT" button to load real-time positions. 5-10
             seconds may be needed to start seeing positions.
           </p>
           <div
             id="viewer1"
-            class="w-full h-[400px] md:h-[700px] border-2 border-gray-300 rounded-xl shadow-lg overflow-hidden"
+            class="w-full h-[400px] md:h-[700px] border-2 border-gray-300 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden dark:bg-gray-800"
           ></div>
           <div class="flex justify-center gap-4 mt-4">
             <button
               id="playBtn"
-              class="px-4 py-2 bg-green-500 text-white rounded-lg shadow hover:bg-green-700 transition"
+              class="px-4 py-2 bg-green-500 dark:bg-green-600 text-white rounded-lg shadow hover:bg-green-700 dark:hover:bg-green-800 transition"
             >
               ▶ Start RT
             </button>
             <button
               id="pauseBtn"
-              class="px-4 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-700 transition"
+              class="px-4 py-2 bg-red-500 dark:bg-red-600 text-white rounded-lg shadow hover:bg-red-700 dark:hover:bg-red-800 transition"
             >
               ⏸ Stop RT
             </button>
@@ -60,11 +87,11 @@
 
         <!-- Viewer 2 with its controls -->
         <div class="flex flex-col">
-          <h2 class="text-lg font-semibold text-gray-800 mb-2">
+          <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">
             Trajectory viewer
           </h2>
           <p
-            class="text-sm text-gray-600 italic mb-4 bg-blue-50 p-3 rounded-lg border border-blue-200"
+            class="text-sm text-gray-600 dark:text-gray-300 italic mb-4 bg-blue-50 dark:bg-blue-900/30 p-3 rounded-lg border border-blue-200 dark:border-blue-800 h-[4rem] line-clamp-2"
           >
             Note: Click the "Load Trajectory" button to load trajectory data for
             the specified user and date range. 5-10 seconds may be needed to
@@ -72,18 +99,18 @@
           </p>
           <div
             id="viewer2"
-            class="w-full h-[400px] md:h-[700px] border-2 border-gray-300 rounded-xl shadow-lg overflow-hidden"
+            class="w-full h-[400px] md:h-[700px] border-2 border-gray-300 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden dark:bg-gray-800"
           ></div>
           <div class="flex justify-center gap-4 mt-4">
             <button
               id="trajBtn"
-              class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-700 transition"
+              class="px-4 py-2 bg-blue-500 dark:bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 dark:hover:bg-blue-800 transition"
             >
               📈 Load Trajectory
             </button>
             <button
               id="cleantrajBtn"
-              class="px-4 py-2 bg-gray-500 text-white rounded-lg shadow hover:bg-gray-700 transition"
+              class="px-4 py-2 bg-gray-500 dark:bg-gray-600 text-white rounded-lg shadow hover:bg-gray-700 dark:hover:bg-gray-800 transition"
             >
               🧹 Clean Trajectory
             </button>
@@ -194,6 +221,34 @@
       document.getElementById("cleantrajBtn").onclick = function () {
         viewer2.cleanTrajectory();
       };
+
+      // Theme toggle functionality
+      const themeToggleBtn = document.getElementById('theme-toggle');
+      const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+      const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+      // Change the icons inside the button based on previous settings
+      if (document.documentElement.classList.contains('dark')) {
+        themeToggleLightIcon.classList.remove('hidden');
+      } else {
+        themeToggleDarkIcon.classList.remove('hidden');
+      }
+
+      themeToggleBtn.addEventListener('click', function() {
+        // Toggle the dark class on the html element
+        document.documentElement.classList.toggle('dark');
+
+        // Toggle the icons
+        themeToggleDarkIcon.classList.toggle('hidden');
+        themeToggleLightIcon.classList.toggle('hidden');
+
+        // Save the preference to localStorage
+        if (document.documentElement.classList.contains('dark')) {
+          localStorage.setItem('color-theme', 'dark');
+        } else {
+          localStorage.setItem('color-theme', 'light');
+        }
+      });
     </script>
   </body>
 </html>
