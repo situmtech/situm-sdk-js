@@ -2645,7 +2645,7 @@ __metadata:
     "@types/qs": "npm:^6.9.16"
     "@typescript-eslint/eslint-plugin": "npm:^8.29.1"
     "@typescript-eslint/parser": "npm:^8.29.1"
-    axios: "npm:^1.8.4"
+    axios: "npm:^1.12.2"
     codecov: "npm:^3.8.3"
     colors: "npm:^1.4.0"
     commitizen: "npm:^4.3.1"
@@ -3632,7 +3632,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.8.4":
+"axios@npm:^1.12.2":
   version: 1.12.2
   resolution: "axios@npm:1.12.2"
   dependencies:

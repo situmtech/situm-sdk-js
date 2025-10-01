@@ -6,7 +6,7 @@ export interface ViewerOptions {
   apiKey?: string;
 }
 
-export interface RTDataCustomizers {
+export interface RTDataCustomizer {
   deviceId: UUID;
   tooltip?: string;
   iconUrl?: string;

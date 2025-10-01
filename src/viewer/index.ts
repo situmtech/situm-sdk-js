@@ -9,7 +9,7 @@
 import { UUID, ViewerEventPayloads, ViewerEventType } from "../types";
 import RealtimeApi from "../domains/realtime";
 import ReportsApi from "../domains/reports";
-import { ViewerOptions, RTDataCustomizers } from "./types";
+import { ViewerOptions, RTDataCustomizer } from "./types";
 
 const VIEWER_URL = "https://maps.situm.com";
 
@@ -109,8 +109,8 @@ export class Viewer {
     filter: { buildingIds?: number[] };
     refreshRateMs?: number;
     customizeFeatures?: (
-      position: RTDataCustomizers,
-    ) => RTDataCustomizers | undefined;
+      position: RTDataCustomizer,
+    ) => RTDataCustomizer | undefined;
   }) {
     if (this.realtimeInterval) clearInterval(this.realtimeInterval);
 
@@ -122,7 +122,7 @@ export class Viewer {
 
         const formattedData = realtimePositions.features
           .map((feature) => {
-            const baseData: RTDataCustomizers = {
+            const baseData: RTDataCustomizer = {
               deviceId: feature.id,
             };
 
