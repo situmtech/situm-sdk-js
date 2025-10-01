@@ -9,18 +9,13 @@
 import { UUID, ViewerEventPayloads, ViewerEventType } from "../types";
 import RealtimeApi from "../domains/realtime";
 import ReportsApi from "../domains/reports";
+import { ViewerOptions, RTDataCustomizers } from "./types";
 
 const VIEWER_URL = "https://maps.situm.com";
 
 type ViewerEventCallback<T extends ViewerEventType> = (
   payload: ViewerEventPayloads[T],
 ) => void;
-
-export interface ViewerOptions {
-  domElement: HTMLElement;
-  profile?: string;
-  apiKey?: string;
-}
 
 export class Viewer {
   private iframe?: HTMLIFrameElement;
@@ -106,38 +101,80 @@ export class Viewer {
     this.sendDataToViewer("cartography.select_poi", { identifier: id });
   }
 
-  async loadRealtimePositions(
-    {
-      buildingIds,
-    }: {
-      buildingIds?: number[];
-    },
-    refreshRateMs: number = 1000,
-  ) {
+  async loadRealtimePositions({
+    filter,
+    refreshRateMs = 10000,
+    customizeFeatures,
+  }: {
+    filter: { buildingIds?: number[] };
+    refreshRateMs?: number;
+    customizeFeatures?: (positions: RTDataCustomizers[]) => RTDataCustomizers[];
+  }) {
     if (this.realtimeInterval) clearInterval(this.realtimeInterval);
 
     const fetchAndSend = async () => {
       try {
         const realtimePositions = await this.rtApi.getPositions({
-          buildingIds,
+          buildingIds: filter?.buildingIds,
         });
-        const data = realtimePositions.features.map((feature) => ({
-          type: "Feature",
-          id: feature.id,
-          geometry: {
-            type: "Point",
-            coordinates: [
-              feature.geometry.coordinates[1],
-              feature.geometry.coordinates[0],
-            ],
-          },
-          properties: {
-            floor_id: feature.properties.floorId,
-            building_id: feature.properties.buildingId,
-            accuracy: feature.properties.accuracy,
-          },
-        }));
-        this.sendDataToViewer("map.update_external_features", data);
+
+        let transformed = [];
+
+        if (typeof customizeFeatures === "function") {
+          const userData =
+            customizeFeatures(
+              realtimePositions.features.map((ft) => ({
+                deviceId: ft.id,
+              })),
+            ) || [];
+          const featureMap = new Map(
+            realtimePositions.features.map((f) => [f.id, f]),
+          );
+
+          transformed = userData
+            .map((u) => {
+              const feature = featureMap.get(u.deviceId);
+              if (!feature) return null;
+              return {
+                type: "Feature",
+                id: feature.id,
+                geometry: {
+                  type: "Point",
+                  coordinates: [
+                    feature.geometry.coordinates[1],
+                    feature.geometry.coordinates[0],
+                  ],
+                },
+                properties: {
+                  floor_id: feature.properties.floorId,
+                  building_id: feature.properties.buildingId,
+                  accuracy: feature.properties.accuracy,
+                  title: u?.tooltip,
+                  icon_url: u?.iconUrl,
+                },
+              };
+            })
+            .filter(Boolean);
+        } else {
+          transformed = realtimePositions.features.map((feature) => ({
+            type: "Feature",
+            id: feature.id,
+            geometry: {
+              type: "Point",
+              coordinates: [
+                feature.geometry.coordinates[1],
+                feature.geometry.coordinates[0],
+              ],
+            },
+            properties: {
+              floor_id: feature.properties.floorId,
+              building_id: feature.properties.buildingId,
+              accuracy: feature.properties.accuracy,
+            },
+          }));
+        }
+
+        this.sendDataToViewer("map.update_external_features", transformed);
       } catch (err) {
         console.error("Error fetching/parsing realtime positions", err);
       }

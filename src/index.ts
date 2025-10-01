@@ -13,8 +13,9 @@ import ImagesApi from "./domains/images";
 import RealtimeApi from "./domains/realtime";
 import ReportsApi from "./domains/reports";
 import UserApi from "./domains/user";
-import { Viewer, ViewerOptions } from "./viewer";
+import { Viewer } from "./viewer";
 import { SDKConfiguration } from "./types";
+import { ViewerOptions } from "./viewer/types";
 
 export * from "./types";
 
