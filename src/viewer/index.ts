@@ -34,7 +34,7 @@ export class Viewer {
     this.apiKey = opts.apiKey;
     this.profile = opts.profile;
 
-    this._initIframe(opts.domElement);
+    this._initIframe(opts);
     this._attachGlobalListener();
   }
 
@@ -50,17 +50,23 @@ export class Viewer {
     );
   }
 
-  private _initIframe(container: HTMLElement) {
+  private _initIframe(opts: ViewerOptions) {
     const iframe = document.createElement("iframe");
-    iframe.src = this.profile
+    let url = this.profile
       ? `${VIEWER_URL}/${this.profile}`
       : this.apiKey
         ? `${VIEWER_URL}?apikey=${this.apiKey}`
         : VIEWER_URL;
+    if (opts.buildingId)
+      url += url.includes("?")
+        ? `&buildingid=${opts.buildingId}`
+        : `?buildingid=${opts.buildingId}`;
+    iframe.src = url;
+
     iframe.style.width = "100%";
     iframe.style.height = "100%";
     iframe.style.border = "none";
-    container.appendChild(iframe);
+    opts.domElement.appendChild(iframe);
     this.iframe = iframe;
   }
 

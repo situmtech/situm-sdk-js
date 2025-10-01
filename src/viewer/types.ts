@@ -1,9 +1,10 @@
-import type { UUID } from "../types";
+import type { ID, UUID } from "../types";
 
 export interface ViewerOptions {
   domElement: HTMLElement;
   profile?: string;
   apiKey?: string;
+  buildingId?: ID;
 }
 
 export interface RTDataCustomizer {
