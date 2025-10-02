@@ -169,6 +169,46 @@
     "type": "POLYGON",
     "updatedAt": "2020-05-08T10:26:34.801Z[UTC]"
   },
+  "geofenceMockAll": {
+    "data": [
+      {
+        "buildingId": "5962",
+        "CustomFields": [],
+        "createdAt": "2020-05-08T10:26:34.801Z[UTC]",
+        "customFields": [],
+        "deleted": false,
+        "description": "<p><br>Datos</p>",
+        "floorId": 11915,
+        "geometric": [
+          [42.872359703295416, -8.563322466238354],
+          [42.87240688040733, -8.563216518982266],
+          [42.87232923472481, -8.563146781547879],
+          [42.87228205755356, -8.563241999967907],
+          [42.87225257180323, -8.563154828174923],
+          [42.87216804590747, -8.563205790146206],
+          [42.87220637743271, -8.56331978402934],
+          [42.87228795470195, -8.563266139849041],
+          [42.872359703295416, -8.563322466238354]
+        ],
+        "id": "16d0ab76-d23a-486d-99b6-08d8e1a995a5",
+        "info": "<p><br>Datos</p>",
+        "levelId": 11915,
+        "name": "Area",
+        "organizationId": "0a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
+        "type": "POLYGON",
+        "updatedAt": "2020-05-08T10:26:34.801Z[UTC]"
+      }
+    ],
+    "metadata": {
+      "first": true,
+      "last": true,
+      "number": 1,
+      "numberOfElements": 1,
+      "size": 15,
+      "totalElements": 1,
+      "totalPages": 1
+    }
+  },
   "geofenceResponseMock1": {
     "building_id": "5962",
     "CustomFields": [],
@@ -195,6 +235,46 @@
     "organization_id": "0a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
     "type": "POLYGON",
     "updated_at": "2020-05-08T10:26:34.801Z[UTC]"
+  },
+  "geofenceResponseMockAll": {
+    "data": [
+      {
+        "building_id": "5962",
+        "CustomFields": [],
+        "created_at": "2020-05-08T10:26:34.801Z[UTC]",
+        "custom_fields": [],
+        "deleted": false,
+        "description": "<p><br>Datos</p>",
+        "floor_id": 11915,
+        "geometric": [
+          [42.872359703295416, -8.563322466238354],
+          [42.87240688040733, -8.563216518982266],
+          [42.87232923472481, -8.563146781547879],
+          [42.87228205755356, -8.563241999967907],
+          [42.87225257180323, -8.563154828174923],
+          [42.87216804590747, -8.563205790146206],
+          [42.87220637743271, -8.56331978402934],
+          [42.87228795470195, -8.563266139849041],
+          [42.872359703295416, -8.563322466238354]
+        ],
+        "id": "16d0ab76-d23a-486d-99b6-08d8e1a995a5",
+        "info": "<p><br>Datos</p>",
+        "level_id": 11915,
+        "name": "Area",
+        "organization_id": "0a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
+        "type": "POLYGON",
+        "updated_at": "2020-05-08T10:26:34.801Z[UTC]"
+      }
+    ],
+    "metadata": {
+      "first": true,
+      "last": true,
+      "number": 1,
+      "numberOfElements": 1,
+      "size": 15,
+      "totalElements": 1,
+      "totalPages": 1
+    }
   },
   "jwtMock": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYWtlIiwiZW1haWwiOiJmYWtlQHNpdHVtLmNvbSIsIm9yZ2FuaXphdGlvbl91dWlkIjoiZmFrZWZha2VmYS1mYWtlLWZha2UtZmFrZS1mYWtlZmFrZWZha2UiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MjM0NjM1MjQsImV4cCI6MTcyMzU0OTkyNH0.9Rfnrc0pe9wEMRtAtPYy8XKPuw0pTe73juqi3kpNQDc",
   "pathMock1": {
