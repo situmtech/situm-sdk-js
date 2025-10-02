@@ -40,25 +40,33 @@ This library is organized into distinct domains, each targeting a specific aspec
 
 Each domain exposes its own set of classes and methods, making it easier to work with geospatial data, live positioning, or map rendering independently.
 
-
-### Examples:
+### Examples
 
 Fetching all the buildings from the api
+
 ```typescript
 const sdk = new Situm({auth: {apiKey: YOUR_API_KEY});
 const buildings = sdk.cartography.getBuildings();
 ```
 
 Fetching realtime positions from the api
+
 ```typescript
 const sdk = new Situm({auth: {apiKey: YOUR_API_KEY});
-const buildings = sdk.realtime.getPositions();
+const positions = sdk.realtime.getPositions();
 ```
 
 Render an interactive viewer on a div:
+
+```html
+<div id="viewer1"></div>
+```
+
 ```typescript
 const sdk = new Situm({auth: {apiKey: YOUR_API_KEY});
-const viewer = sdk.viewer.create({});
+const viewer = sdk.viewer.create({
+  domElement: document.querySelector("#viewer1");
+});
 
 viewer.on(ViewerEventType.MAP_IS_READY, () =>
   console.log("viewer1: map is ready")
@@ -66,6 +74,79 @@ viewer.on(ViewerEventType.MAP_IS_READY, () =>
 ```
 
 Check the examples folder on the repository to see more examples.
+
+## Documentation
+
+### General documentation
+
+You can read the general documentation that is published at [https://situm.com/docs/websdk-javascript-sdk-quickstart-guide/](https://situm.com/docs/websdk-javascript-sdk-quickstart-guide/).
+
+### Guides
+
+The folder `docs/guides` contains general information about the Situm SDK JS library.
+
+- Quick start: get started quickly following this tutorial.
+- Upgrade considerations: if you have experience with previous versions of Situm SDK JS, this is the place to learn the differences between the former library and the newest one.
+- Glossary: terms that appear throughout the documentation.
+
+### API Reference
+
+You can find a published api reference at [https://developers.situm.com/sdk_documentation/sdk-js/index.html](https://developers.situm.com/sdk_documentation/sdk-js/index.html)
+
+Or run `yarn doc` at the respository to build the API reference documentation from jsdoc annotations.
+
+Once the task is done, you can visit `docs/public/index.html` to check the reference
+
+### Examples
+
+In the folder `examples/` you can find several folders with example for every feature of Situm SDK JS.
+
+Run them with:
+
+```shell
+npx tsx examples/filename.ts
+```
+
+## Development
+
+### Run the tests
+
+```shell
+yarn test
+```
+
+### Build the library
+
+```shell
+yarn build
+```
+
+To watch the files
+
+```shell
+yarn build:watch
+```
+
+### Generate the docs
+
+```shell
+yarn doc
+```
+
+### Release version
+
+```shell
+yarn run prepare-release
+yarn npm pack
+yarn npm publish --access public
+```
+
+or for beta channel
+
+```shell
+yarn prepare-release
+yarn npm publish --tag beta --access public
+```
 
 ## Versioning
 
@@ -82,84 +163,3 @@ You will need to sign a Contributor License Agreement (CLA) before making a subm
 ## License
 
 This project is licensed under the MIT - see the [LICENSE](LICENSE) file for details.
-
-## Documentation
-
-### API Reference
-
-Run `npm run doc` to build the API reference documentation from jsdoc annotations.
-
-Once the task is done, you can visit `docs/public/index.html` to check the reference
-
-### General documentation
-
-You can read the general documentation that is published at [https://situm.com/en/docs/sdk-js/](https://situm.com/en/docs/sdk-js/) also in this repo.
-
-Warning: internal links in these documents don't work. They are replaced when the documentation is published in [https://situm.com/](https://situm.com/en/docs/sdk-js/)
-
-#### Guides
-
-The folder `docs/guides` contains general information about the Situm SDK JS library.
-
-- Quick start: get started quickly following this tutorial.
-- Upgrade considerations: if you have experience with previous versions of Situm SDK JS, this is the place to learn the differences between the former library and the newest one.
-- Glossary: terms that appear throughout the documentation.
-
-#### Examples
-
-In the folder `examples/` you can find several folders with example for every feature of Situm SDK JS.
-
-Run them with:
-
-```
-npx tsx examples/filename.ts
-```
-
-#### Reference topics
-
-The document `docs/reference/topics.md` contains general considerations when working with Situm SDK JS. It's advisable to read them before diving in the API reference.
-
-#### Support
-
-The folder `docs/support` contains several document with support documentation: support options, FAQs, error messages...
-
-## Development
-
-### Run the tests
-
-```
-npm test
-```
-
-### Build the library
-
-```
-npm run build
-```
-
-To watch the files
-
-```
-npm run build:watch
-```
-
-### Generate the docs
-
-```
-npm run docs
-```
-
-### Release version
-
-```
-yarn run prepare-release
-yarn npm pack
-yarn npm publish
-```
-
-or for beta channel
-
-```
-yarn prepare-release
-yarn npm publish --tag beta
-```
