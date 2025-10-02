@@ -36,7 +36,7 @@
   ],
   "scripts": {
     "build:watch": "rollup -c -w;",
-    "build:clean": "rimraf dist/*",
+    "build:clean": "rimraf dist",
     "build": "run-s build:clean && rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript;",
     "cov": "run-s build; jest --coverage  && open-cli coverage/index.html",
     "doc:html": "typedoc",
