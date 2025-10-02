@@ -1,0 +1,235 @@
+/**
+ * Copyright (c) Situm Technologies. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import type RealtimeApi from "../domains/realtime";
+import type ReportsApi from "../domains/reports";
+import type { UUID, ViewerEventPayloads, ViewerEventType } from "../types";
+import type { RTDataCustomizer, ViewerOptions } from "./types";
+
+const VIEWER_URL = "https://maps.situm.com";
+
+type ViewerEventCallback<T extends ViewerEventType> = (
+  payload: ViewerEventPayloads[T],
+) => void;
+
+export class Viewer {
+  private iframe?: HTMLIFrameElement;
+  private readonly rtApi: RealtimeApi;
+  private readonly reportsApi: ReportsApi;
+  private apiKey?: string;
+  private profile?: string;
+  private realtimeInterval?: ReturnType<typeof setInterval>;
+  private listeners: {
+    [K in ViewerEventType]?: ViewerEventCallback<K>[];
+  } = {};
+
+  constructor(rtApi: RealtimeApi, reportsApi: ReportsApi, opts: ViewerOptions) {
+    this.rtApi = rtApi;
+    this.reportsApi = reportsApi;
+    this.apiKey = opts.apiKey;
+    this.profile = opts.profile;
+
+    this._initIframe(opts);
+    this._attachGlobalListener();
+  }
+
+  private async sendDataToViewer(type: string, payload) {
+    if (!this.iframe?.contentWindow)
+      throw new Error("Viewer iframe not initialized");
+    this.iframe.contentWindow.postMessage(
+      {
+        payload: payload,
+        type: type,
+      },
+      "*",
+    );
+  }
+
+  private _initIframe(opts: ViewerOptions) {
+    const iframe = document.createElement("iframe");
+    let url = this.profile
+      ? `${VIEWER_URL}/${this.profile}`
+      : this.apiKey
+        ? `${VIEWER_URL}?apikey=${this.apiKey}`
+        : VIEWER_URL;
+    if (opts.buildingId)
+      url += url.includes("?")
+        ? `&buildingid=${opts.buildingId}`
+        : `?buildingid=${opts.buildingId}`;
+    iframe.src = url;
+
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    iframe.style.border = "none";
+    opts.domElement.appendChild(iframe);
+    this.iframe = iframe;
+  }
+
+  private _attachGlobalListener() {
+    window.addEventListener("message", (e: MessageEvent) => {
+      if (e.source !== this.iframe?.contentWindow) return;
+
+      let data = e.data;
+      if (typeof data === "string") {
+        try {
+          data = JSON.parse(data);
+        } catch {
+          return;
+        }
+      }
+
+      const type = data?.type;
+      if (!type) return;
+
+      const callbacks = this.listeners[type];
+      if (callbacks) {
+        callbacks.forEach((cb) => {
+          cb(data.payload);
+        });
+      }
+    });
+  }
+
+  public on<T extends ViewerEventType>(
+    event: T,
+    callback: ViewerEventCallback<T>,
+  ) {
+    if (!this.listeners[event]) {
+      this.listeners[event] = [];
+    }
+    this.listeners[event]?.push(callback);
+  }
+
+  async selectPoiById(id: number) {
+    this.sendDataToViewer("cartography.select_poi", { identifier: id });
+  }
+
+  async loadRealtimePositions({
+    filter,
+    refreshRateMs = 10000,
+    customizeFeatures,
+  }: {
+    filter: { buildingIds?: number[] };
+    refreshRateMs?: number;
+    customizeFeatures?: (
+      position: RTDataCustomizer,
+    ) => RTDataCustomizer | undefined;
+  }) {
+    if (this.realtimeInterval) clearInterval(this.realtimeInterval);
+
+    const fetchAndSend = async () => {
+      try {
+        const realtimePositions = await this.rtApi.getPositions({
+          buildingIds: filter?.buildingIds,
+        });
+
+        const formattedData = realtimePositions.features
+          .map((feature) => {
+            const baseData: RTDataCustomizer = {
+              deviceId: feature.id,
+            };
+
+            // custom render
+            if (typeof customizeFeatures === "function") {
+              const customized = customizeFeatures(baseData);
+              if (!customized) return null;
+              return {
+                geometry: {
+                  coordinates: [
+                    feature.geometry.coordinates[1],
+                    feature.geometry.coordinates[0],
+                  ],
+                  type: "Point",
+                },
+                id: feature.id,
+                properties: {
+                  accuracy: feature.properties.accuracy,
+                  building_id: feature.properties.buildingId,
+                  floor_id: feature.properties.floorId,
+                  icon_url: customized.iconUrl,
+                  title: customized.tooltip,
+                },
+                type: "Feature",
+              };
+            }
+
+            // default render
+            return {
+              geometry: {
+                coordinates: [
+                  feature.geometry.coordinates[1],
+                  feature.geometry.coordinates[0],
+                ],
+                type: "Point",
+              },
+              id: feature.id,
+              properties: {
+                accuracy: feature.properties.accuracy,
+                building_id: feature.properties.buildingId,
+                floor_id: feature.properties.floorId,
+              },
+              type: "Feature",
+            };
+          })
+          .filter(Boolean);
+        this.sendDataToViewer("map.update_external_features", formattedData);
+      } catch (err) {
+        console.error("Error fetching/parsing realtime positions", err);
+      }
+    };
+
+    await fetchAndSend();
+    this.realtimeInterval = setInterval(fetchAndSend, refreshRateMs);
+  }
+
+  async cleanRealtimePositions() {
+    if (this.realtimeInterval) clearInterval(this.realtimeInterval);
+    this.sendDataToViewer("map.update_external_features", []);
+  }
+
+  async loadTrajectory({
+    fromDate,
+    toDate,
+    userId,
+    buildingId,
+  }: {
+    fromDate: Date;
+    toDate: Date;
+    buildingId: number;
+    userId?: UUID;
+  }) {
+    try {
+      const response = await this.reportsApi.getTrajectory({
+        buildingId,
+        fromDate,
+        toDate,
+        userId,
+      });
+
+      this.sendDataToViewer("map.show_trajectory", {
+        data: response,
+        speed: 1,
+        status: "PLAY",
+      });
+    } catch (err) {
+      console.error("Error fetching/parsing trajectories", err);
+    }
+  }
+
+  async cleanTrajectory() {
+    try {
+      this.sendDataToViewer("map.show_trajectory", {
+        data: [],
+        speed: 1,
+        status: "STOP",
+      });
+    } catch (err) {
+      console.error("Error fetching/parsing trajectories", err);
+    }
+  }
+}

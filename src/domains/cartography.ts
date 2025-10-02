@@ -11,10 +11,10 @@ import { getAdapter as getGeofenceAdapter } from "../adapters/GeofenceAdapter";
 import { getAdapter as getCurrentOrganizationAdapter } from "../adapters/OrganizationAdapter";
 import {
   getAdapter as getPoiAdapter,
-  ServerPoiGet,
+  type ServerPoiGet,
 } from "../adapters/PoiAdapter";
 import { getAdapter as getPoiCategoryAdapter } from "../adapters/PoiCategoryAdapter";
-import ApiBase from "../apiBase";
+import type ApiBase from "../apiBase";
 import type {
   Building,
   BuildingForm,
@@ -28,8 +28,8 @@ import type {
   ID,
   Organization,
   Paginated,
-  Paths,
   PathSearch,
+  Paths,
   Poi,
   PoiCategory,
   PoiCategoryForm,
@@ -64,9 +64,7 @@ export default class CartographyApi {
    * @returns Promise<readonly BuildingListElement[]> - A promise that resolves to a list of building list elements.
    */
   getBuildings(
-    params: {
-      view?: "compact";
-    } = {},
+    params: { view?: "compact" } = {},
   ): Promise<readonly BuildingListElement[]> {
     if (this.apiBase.getConfiguration().compact) {
       params.view = "compact";
@@ -74,8 +72,8 @@ export default class CartographyApi {
 
     return this.apiBase
       .get<BuildingListElement[]>({
-        url: "/api/v1/buildings",
         params,
+        url: "/api/v1/buildings",
       })
       .then((buildingList) =>
         buildingList.map((building: Record<string, unknown>) =>
@@ -102,8 +100,8 @@ export default class CartographyApi {
 
     return this.apiBase
       .get<Building>({
-        url: "/api/v1/buildings/" + buildingId,
         params,
+        url: `/api/v1/buildings/${buildingId}`,
       })
       .then(getBuildingAdapter);
   }
@@ -136,8 +134,8 @@ export default class CartographyApi {
   ): Promise<BuildingListElement> {
     return this.apiBase
       .put<Building>({
-        url: "/api/v1/buildings/" + buildingId,
         body: buildingForm,
+        url: `/api/v1/buildings/${buildingId}`,
       })
       .then(getBuildingAdapter);
   }
@@ -150,8 +148,8 @@ export default class CartographyApi {
   createBuilding(buildingForm: BuildingForm): Promise<BuildingListElement> {
     return this.apiBase
       .post<Building>({
-        url: "/api/v1/buildings",
         body: buildingForm,
+        url: "/api/v1/buildings",
       })
       .then(getBuildingAdapter);
   }
@@ -164,7 +162,7 @@ export default class CartographyApi {
    */
   deleteBuilding(buildingId: ID): Promise<void> {
     return this.apiBase.delete({
-      url: "/api/v1/buildings/" + buildingId,
+      url: `/api/v1/buildings/${buildingId}`,
     });
   }
 
@@ -196,7 +194,7 @@ export default class CartographyApi {
   getFloorById(floorId: ID): Promise<Floor> {
     return this.apiBase
       .get<Floor>({
-        url: "/api/v1/floors/" + floorId,
+        url: `/api/v1/floors/${floorId}`,
       })
       .then(getFloorAdapter);
   }
@@ -211,8 +209,8 @@ export default class CartographyApi {
   patchFloor(floorId: ID, floorForm: FloorForm): Promise<Floor> {
     return this.apiBase
       .put<Floor>({
-        url: "/api/v1/floors/" + floorId,
         body: floorForm,
+        url: `/api/v1/floors/${floorId}`,
       })
       .then(getFloorAdapter);
   }
@@ -226,8 +224,8 @@ export default class CartographyApi {
   createFloor(floorForm: FloorForm): Promise<Floor> {
     return this.apiBase
       .post<Floor>({
-        url: "/api/v1/floors",
         body: floorForm,
+        url: "/api/v1/floors",
       })
       .then(getFloorAdapter);
   }
@@ -239,7 +237,7 @@ export default class CartographyApi {
    * @returns Promise<void> Promise that resolves once the floor is deleted
    */
   deleteFloor(floorId: ID) {
-    return this.apiBase.delete({ url: "/api/v1/floors/" + floorId });
+    return this.apiBase.delete({ url: `/api/v1/floors/${floorId}` });
   }
 
   /**
@@ -259,14 +257,14 @@ export default class CartographyApi {
 
     return this.apiBase
       .get<Paginated<Geofence>>({
-        url: "/api/v1/geofences",
         params: params,
+        url: "/api/v1/geofences/search",
       })
       .then((result) => ({
-        metadata: result.metadata,
         data: result.data.map((geofence: Record<string, unknown>) =>
           getGeofenceAdapter(geofence),
         ),
+        metadata: result.metadata,
       }));
   }
 
@@ -279,7 +277,7 @@ export default class CartographyApi {
   getGeofenceById(geofenceId: UUID): Promise<Geofence> {
     return this.apiBase
       .get<Geofence>({
-        url: "/api/v1/geofences/" + geofenceId,
+        url: `/api/v1/geofences/${geofenceId}`,
       })
       .then(getGeofenceAdapter);
   }
@@ -297,8 +295,8 @@ export default class CartographyApi {
   ): Promise<Geofence> {
     return this.apiBase
       .put<Geofence>({
-        url: "/api/v1/geofences/" + geofenceId,
         body: geofenceForm,
+        url: `/api/v1/geofences/${geofenceId}`,
       })
       .then(getGeofenceAdapter);
   }
@@ -312,8 +310,8 @@ export default class CartographyApi {
   createGeofence(geofenceForm: GeofenceForm): Promise<Geofence> {
     return this.apiBase
       .post<Geofence>({
-        url: "/api/v1/geofences",
         body: geofenceForm,
+        url: "/api/v1/geofences",
       })
       .then(getGeofenceAdapter);
   }
@@ -325,7 +323,7 @@ export default class CartographyApi {
    * @returns Promise<void>
    */
   deleteGeofence(geofenceId: UUID) {
-    return this.apiBase.delete({ url: "/api/v1/geofences/" + geofenceId });
+    return this.apiBase.delete({ url: `/api/v1/geofences/${geofenceId}` });
   }
 
   /**
@@ -351,8 +349,8 @@ export default class CartographyApi {
    */
   patchPath(buildingId: number, pathForm: Paths): Promise<Paths> {
     return this.apiBase.put<Paths>({
-      url: `/api/v1/buildings/${buildingId}/paths`,
       body: pathForm,
+      url: `/api/v1/buildings/${buildingId}/paths`,
     });
   }
 
@@ -377,7 +375,7 @@ export default class CartographyApi {
     }
 
     return this.apiBase
-      .get<ServerPoiGet[]>({ url, params })
+      .get<ServerPoiGet[]>({ params, url })
       .then((pois) => pois.map(getPoiAdapter));
   }
 
@@ -391,8 +389,8 @@ export default class CartographyApi {
   patchPoi(poiId: number, poiForm: PoiUpdateForm): Promise<Poi> {
     return this.apiBase
       .put<Poi>({
-        url: "/api/v1/pois/" + poiId,
         body: poiForm,
+        url: `/api/v1/pois/${poiId}`,
       })
       .then(getPoiAdapter);
   }
@@ -406,8 +404,8 @@ export default class CartographyApi {
   createPoi(poiForm: PoiCreateForm): Promise<Poi> {
     return this.apiBase
       .post<Poi>({
-        url: "/api/v1/pois",
         body: poiForm,
+        url: "/api/v1/pois",
       })
       .then(getPoiAdapter);
   }
@@ -419,7 +417,7 @@ export default class CartographyApi {
    * @returns Promise<void> A Promise that resolves to void.
    */
   deletePoi(poiId: number): Promise<void> {
-    return this.apiBase.delete({ url: "/api/v1/pois/" + poiId });
+    return this.apiBase.delete({ url: `/api/v1/pois/${poiId}` });
   }
 
   /**
@@ -431,8 +429,8 @@ export default class CartographyApi {
   createPoisBulk(pois: PoiCreateForm[]): Promise<Poi[]> {
     return this.apiBase
       .post<Poi[]>({
-        url: "/api/v1/pois_bulk",
         body: pois,
+        url: "/api/v1/pois_bulk",
       })
       .then((createdPois) => createdPois.map(getPoiAdapter));
   }
@@ -464,9 +462,11 @@ export default class CartographyApi {
    * @param {number[]} poiIds - An array of POI ids to delete.
    * @returns Promise<void[]> A Promise that resolves to void.
    */
+
+  // biome-ignore lint/suspicious/noConfusingVoidType: This is fine, it's a Promise<void[]>
   deletePoisBulk(poiIds: number[]): Promise<void[]> {
     const deletions = poiIds.map((poiId) =>
-      this.apiBase.delete({ url: "/api/v1/pois/" + poiId }),
+      this.apiBase.delete({ url: `/api/v1/pois/${poiId}` }),
     );
 
     return Promise.all(deletions);
@@ -501,8 +501,8 @@ export default class CartographyApi {
     poiCategoryForm: Partial<PoiCategoryForm>,
   ): Promise<PoiCategory> {
     return this.apiBase.put<PoiCategory>({
-      url: "/api/v1/poi_categories/" + poiCategoryId,
       body: poiCategoryForm,
+      url: `/api/v1/poi_categories/${poiCategoryId}`,
     });
   }
 
@@ -514,8 +514,8 @@ export default class CartographyApi {
    */
   createPoiCategory(poiCategoryForm: PoiCategoryForm): Promise<PoiCategory> {
     return this.apiBase.post<PoiCategory>({
-      url: "/api/v1/poi_categories",
       body: poiCategoryForm,
+      url: "/api/v1/poi_categories",
     });
   }
 
@@ -527,7 +527,7 @@ export default class CartographyApi {
    */
   deletePoiCategory(poiCategoryId: number) {
     return this.apiBase.delete({
-      url: "/api/v1/poi_categories/" + poiCategoryId,
+      url: `/api/v1/poi_categories/${poiCategoryId}`,
     });
   }
 }

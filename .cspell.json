@@ -3,6 +3,7 @@
   "language": "en",
   "words": [
     "Situm",
+    "Customizer",
     "Poi",
     "pois",
     "Geofence",
@@ -13,7 +14,10 @@
     "georeferences",
     "Cocina",
     "geospacial",
-    "Colour"
+    "Colour",
+    "buildingid"
   ],
-  "flagWords": ["hte"]
+  "flagWords": [
+    "hte"
+  ]
 }

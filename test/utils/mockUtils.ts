@@ -9,7 +9,6 @@ import axios from "axios";
 import expect from "expect";
 
 import SitumError from "../../src/utils/situmError";
-
 import mockData from "./mockData.json";
 
 export const getMockData = (name: string) => {
@@ -18,9 +17,9 @@ export const getMockData = (name: string) => {
 
 export const getAuthenticationException = () => {
   return new SitumError({
-    status: 401,
     code: "invalid_credentials",
     message: "Invalid credentials, please check your authentication params.",
+    status: 401,
   });
 };
 
@@ -48,9 +47,9 @@ export const mockAxiosResponse = (mock, response) => {
       ? Promise.reject({
           response: {
             data: {
-              status: response.status,
               code: response.code,
               message: response.message,
+              status: response.status,
             },
           },
         })

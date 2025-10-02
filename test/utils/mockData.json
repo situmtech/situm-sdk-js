@@ -2,141 +2,11 @@
   "auth": {
     "jwt": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYWtlIiwiZW1haWwiOiJmYWtlQHNpdHVtLmNvbSIsIm9yZ2FuaXphdGlvbl91dWlkIjoiZmFrZWZha2VmYS1mYWtlLWZha2UtZmFrZS1mYWtlZmFrZWZha2UiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MjM0NjM1MjQsImV4cCI6MTcyMzU0OTkyNH0.9Rfnrc0pe9wEMRtAtPYy8XKPuw0pTe73juqi3kpNQDc"
   },
-  "jwtMock": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYWtlIiwiZW1haWwiOiJmYWtlQHNpdHVtLmNvbSIsIm9yZ2FuaXphdGlvbl91dWlkIjoiZmFrZWZha2VmYS1mYWtlLWZha2UtZmFrZS1mYWtlZmFrZWZha2UiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MjM0NjM1MjQsImV4cCI6MTcyMzU0OTkyNH0.9Rfnrc0pe9wEMRtAtPYy8XKPuw0pTe73juqi3kpNQDc",
-  "userMock1": {
-    "locale": null,
-    "id": "29fa9286-bd95-4cb3-a4e5-6aee8e544539",
-    "email": "044708@situm.es",
-    "code": null,
-    "createdAt": "2021-09-21T17:41:27.788+00:00",
-    "updatedAt": "2021-11-09T20:33:51.252+00:00",
-    "adminOrg": false,
-    "lastActivity": "2021-11-09T20:33:51.252+00:00",
-    "fullName": "John Smith",
-    "subscribedToNewsletter": null,
-    "termsAcceptedAt": "2021-09-21T17:41:27.788+00:00",
-    "collectiveId": null,
-    "assignmentId": null,
-    "iconColour": null,
-    "info": null,
-    "isVerified": true,
-    "hasBuilding": false,
-    "role": "USER",
-    "organizationId": "218aef12-187d-4104-945d-dd4da92faa9c",
-    "buildingIds": [1111, 2222, 3333, 4444, 5555, 6666, 7777],
-    "groupIds": [],
-    "license": {
-      "id": "218aef12-187d-4104-945d-dd4da92faa9c",
-      "expirationDate": "2050-01-01",
-      "licenseType": "ENTERPRISE"
-    },
-    "importationDate": null,
-    "groups": [],
-    "hasWriteBuilding": false
-  },
-  "userResponseMock1": {
-    "locale": null,
-    "id": "29fa9286-bd95-4cb3-a4e5-6aee8e544539",
-    "email": "044708@situm.es",
-    "code": null,
-    "created_at": "2021-09-21T17:41:27.788+00:00",
-    "updated_at": "2021-11-09T20:33:51.252+00:00",
-    "admin_org": false,
-    "last_activity": "2021-11-09T20:33:51.252+00:00",
-    "full_name": "John Smith",
-    "subscribed_to_newsletter": null,
-    "terms_accepted_at": "2021-09-21T17:41:27.788+00:00",
-    "situm_maps": null,
-    "sos_alarm": null,
-    "deadman_alarm": null,
-    "see_alarms": null,
-    "see_emergency": null,
-    "declare_emergency": null,
-    "cancel_emergency": null,
-    "confirm_emergency": null,
-    "collective_id": null,
-    "assignment_id": null,
-    "icon_colour": null,
-    "info": null,
-    "has_building": false,
-    "organization_id": "218aef12-187d-4104-945d-dd4da92faa9c",
-    "building_ids": [1111, 2222, 3333, 4444, 5555, 6666, 7777],
-    "license": {
-      "id": "218aef12-187d-4104-945d-dd4da92faa9c",
-      "expiration_date": "2050-01-01",
-      "license_type": "ENTERPRISE",
-      "uuid": "218aef12-187d-4104-945d-dd4da92faa9c"
-    },
-    "is_verified": true,
-    "group_ids": [],
-    "is_staff": false,
-    "uuid": "29fa9286-bd95-4cb3-a4e5-6aee8e544539",
-    "importation_date": null,
-    "role": "USER",
-    "groups": [],
-    "organization_uuid": "718aef12-187d-4104-945d-dd4da92faa9c",
-    "shift_start": null,
-    "shift_end": null,
-    "has_write_building": false
-  },
-  "geofenceMock1": {
-    "id": "16d0ab76-d23a-486d-99b6-08d8e1a995a5",
-    "createdAt": "2020-05-08T10:26:34.801Z[UTC]",
-    "updatedAt": "2020-05-08T10:26:34.801Z[UTC]",
-    "customFields": [],
-    "name": "Area",
-    "organizationId": "0a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
-    "info": "<p><br>Datos</p>",
-    "description": "<p><br>Datos</p>",
-    "type": "POLYGON",
-    "geometric": [
-      [42.872359703295416, -8.563322466238354],
-      [42.87240688040733, -8.563216518982266],
-      [42.87232923472481, -8.563146781547879],
-      [42.87228205755356, -8.563241999967907],
-      [42.87225257180323, -8.563154828174923],
-      [42.87216804590747, -8.563205790146206],
-      [42.87220637743271, -8.56331978402934],
-      [42.87228795470195, -8.563266139849041],
-      [42.872359703295416, -8.563322466238354]
-    ],
-    "floorId": 11915,
-    "buildingId": "5962",
-    "deleted": false
-  },
-  "geofenceResponseMock1": {
-    "id": "16d0ab76-d23a-486d-99b6-08d8e1a995a5",
-    "created_at": "2020-05-08T10:26:34.801Z[UTC]",
-    "updated_at": "2020-05-08T10:26:34.801Z[UTC]",
-    "custom_fields": [],
-    "name": "Area",
-    "organization_id": "0a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
-    "info": "<p><br>Datos</p>",
-    "description": "<p><br>Datos</p>",
-    "type": "POLYGON",
-    "geometric": [
-      [42.872359703295416, -8.563322466238354],
-      [42.87240688040733, -8.563216518982266],
-      [42.87232923472481, -8.563146781547879],
-      [42.87228205755356, -8.563241999967907],
-      [42.87225257180323, -8.563154828174923],
-      [42.87216804590747, -8.563205790146206],
-      [42.87220637743271, -8.56331978402934],
-      [42.87228795470195, -8.563266139849041],
-      [42.872359703295416, -8.563322466238354]
-    ],
-    "floor_id": 11915,
-    "level_id": 11915,
-    "building_id": "5962",
-    "deleted": false,
-    "CustomFields": []
-  },
   "buildingMock1": {
-    "id": 5762,
     "calibrationModel": {
+      "download": "/api/v1/model/5962/latest/file",
       "id": 171703,
-      "updatedAt": "2020-12-16T13:49:53.492+00:00",
-      "download": "/api/v1/model/5962/latest/file"
+      "updatedAt": "2020-12-16T13:49:53.492+00:00"
     },
     "corners": [
       {
@@ -160,12 +30,13 @@
     "customFields": [],
     "description": "",
     "dimensions": {
-      "width": 71.0686153823893,
-      "length": 42.6106416714803
+      "length": 42.6106416714803,
+      "width": 71.0686153823893
     },
     "events": [],
     "floors": [],
     "geofences": [],
+    "id": 5762,
     "info": "",
     "location": {
       "lat": 42.8723472943445,
@@ -182,11 +53,10 @@
     "userId": "fdbd5efd-350a-4e0d-8fb8-d004fac425f6"
   },
   "buildingResponseMock1": {
-    "id": 5762,
     "calibration_model": {
+      "download": "/api/v1/model/5962/latest/file",
       "id": 171703,
-      "updated_at": "2020-12-16T13:49:53.492+00:00",
-      "download": "/api/v1/model/5962/latest/file"
+      "updated_at": "2020-12-16T13:49:53.492+00:00"
     },
     "corners": [
       {
@@ -210,12 +80,13 @@
     "custom_fields": [],
     "description": "",
     "dimensions": {
-      "width": 71.0686153823893,
-      "length": 42.6106416714803
+      "length": 42.6106416714803,
+      "width": 71.0686153823893
     },
     "events": [],
     "floors": [],
     "geofences": [],
+    "id": 5762,
     "indoor_pois": [],
     "info": "",
     "location": {
@@ -233,7 +104,6 @@
     "user_uuid": "fdbd5efd-350a-4e0d-8fb8-d004fac425f6"
   },
   "floorMock1": {
-    "id": 12220,
     "buildingId": 6085,
     "createdAt": "2019-10-07T16:39:12.731+02:00",
     "customFields": [
@@ -242,18 +112,18 @@
         "value": "Fabrica"
       }
     ],
+    "id": 12220,
     "level": 1,
     "levelHeight": 0,
     "maps": {
-      "scale": 5.20492879625628,
+      "mapId": "0764f17b-e62c-4de9-9466-650c22c52d24.PNG",
       "mapUrl": "https://dashboard.situm.com/uploads/floor/12220/0764f17b-e62c-4de9-9466-650c22c52d24.PNG",
-      "mapId": "0764f17b-e62c-4de9-9466-650c22c52d24.PNG"
+      "scale": 5.20492879625628
     },
     "name": "Plant",
     "updatedAt": "2019-10-07T16:39:12.731+02:00"
   },
   "floorResponseMock1": {
-    "id": 12220,
     "building_id": 6085,
     "created_at": "2019-10-07T16:39:12.731+02:00",
     "custom_fields": [
@@ -262,44 +132,178 @@
         "value": "Fabrica"
       }
     ],
+    "id": 12220,
     "level": 1,
     "level_height": 0,
     "maps": {
-      "scale": 5.20492879625628,
+      "map_id": "0764f17b-e62c-4de9-9466-650c22c52d24.PNG",
       "map_url": "https://dashboard.situm.com/uploads/floor/12220/0764f17b-e62c-4de9-9466-650c22c52d24.PNG",
-      "map_id": "0764f17b-e62c-4de9-9466-650c22c52d24.PNG"
+      "scale": 5.20492879625628
     },
     "name": "Plant",
     "project_id": 6085,
     "updated_at": "2019-10-07T16:39:12.731+02:00"
   },
+  "geofenceMock1": {
+    "buildingId": "5962",
+    "createdAt": "2020-05-08T10:26:34.801Z[UTC]",
+    "customFields": [],
+    "deleted": false,
+    "description": "<p><br>Datos</p>",
+    "floorId": 11915,
+    "geometric": [
+      [42.872359703295416, -8.563322466238354],
+      [42.87240688040733, -8.563216518982266],
+      [42.87232923472481, -8.563146781547879],
+      [42.87228205755356, -8.563241999967907],
+      [42.87225257180323, -8.563154828174923],
+      [42.87216804590747, -8.563205790146206],
+      [42.87220637743271, -8.56331978402934],
+      [42.87228795470195, -8.563266139849041],
+      [42.872359703295416, -8.563322466238354]
+    ],
+    "id": "16d0ab76-d23a-486d-99b6-08d8e1a995a5",
+    "info": "<p><br>Datos</p>",
+    "name": "Area",
+    "organizationId": "0a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
+    "type": "POLYGON",
+    "updatedAt": "2020-05-08T10:26:34.801Z[UTC]"
+  },
+  "geofenceMockAll": {
+    "data": [
+      {
+        "buildingId": "5962",
+        "CustomFields": [],
+        "createdAt": "2020-05-08T10:26:34.801Z[UTC]",
+        "customFields": [],
+        "deleted": false,
+        "description": "<p><br>Datos</p>",
+        "floorId": 11915,
+        "geometric": [
+          [42.872359703295416, -8.563322466238354],
+          [42.87240688040733, -8.563216518982266],
+          [42.87232923472481, -8.563146781547879],
+          [42.87228205755356, -8.563241999967907],
+          [42.87225257180323, -8.563154828174923],
+          [42.87216804590747, -8.563205790146206],
+          [42.87220637743271, -8.56331978402934],
+          [42.87228795470195, -8.563266139849041],
+          [42.872359703295416, -8.563322466238354]
+        ],
+        "id": "16d0ab76-d23a-486d-99b6-08d8e1a995a5",
+        "info": "<p><br>Datos</p>",
+        "levelId": 11915,
+        "name": "Area",
+        "organizationId": "0a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
+        "type": "POLYGON",
+        "updatedAt": "2020-05-08T10:26:34.801Z[UTC]"
+      }
+    ],
+    "metadata": {
+      "first": true,
+      "last": true,
+      "number": 1,
+      "numberOfElements": 1,
+      "size": 15,
+      "totalElements": 1,
+      "totalPages": 1
+    }
+  },
+  "geofenceResponseMock1": {
+    "building_id": "5962",
+    "CustomFields": [],
+    "created_at": "2020-05-08T10:26:34.801Z[UTC]",
+    "custom_fields": [],
+    "deleted": false,
+    "description": "<p><br>Datos</p>",
+    "floor_id": 11915,
+    "geometric": [
+      [42.872359703295416, -8.563322466238354],
+      [42.87240688040733, -8.563216518982266],
+      [42.87232923472481, -8.563146781547879],
+      [42.87228205755356, -8.563241999967907],
+      [42.87225257180323, -8.563154828174923],
+      [42.87216804590747, -8.563205790146206],
+      [42.87220637743271, -8.56331978402934],
+      [42.87228795470195, -8.563266139849041],
+      [42.872359703295416, -8.563322466238354]
+    ],
+    "id": "16d0ab76-d23a-486d-99b6-08d8e1a995a5",
+    "info": "<p><br>Datos</p>",
+    "level_id": 11915,
+    "name": "Area",
+    "organization_id": "0a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
+    "type": "POLYGON",
+    "updated_at": "2020-05-08T10:26:34.801Z[UTC]"
+  },
+  "geofenceResponseMockAll": {
+    "data": [
+      {
+        "building_id": "5962",
+        "CustomFields": [],
+        "created_at": "2020-05-08T10:26:34.801Z[UTC]",
+        "custom_fields": [],
+        "deleted": false,
+        "description": "<p><br>Datos</p>",
+        "floor_id": 11915,
+        "geometric": [
+          [42.872359703295416, -8.563322466238354],
+          [42.87240688040733, -8.563216518982266],
+          [42.87232923472481, -8.563146781547879],
+          [42.87228205755356, -8.563241999967907],
+          [42.87225257180323, -8.563154828174923],
+          [42.87216804590747, -8.563205790146206],
+          [42.87220637743271, -8.56331978402934],
+          [42.87228795470195, -8.563266139849041],
+          [42.872359703295416, -8.563322466238354]
+        ],
+        "id": "16d0ab76-d23a-486d-99b6-08d8e1a995a5",
+        "info": "<p><br>Datos</p>",
+        "level_id": 11915,
+        "name": "Area",
+        "organization_id": "0a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
+        "type": "POLYGON",
+        "updated_at": "2020-05-08T10:26:34.801Z[UTC]"
+      }
+    ],
+    "metadata": {
+      "first": true,
+      "last": true,
+      "number": 1,
+      "numberOfElements": 1,
+      "size": 15,
+      "totalElements": 1,
+      "totalPages": 1
+    }
+  },
+  "jwtMock": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYWtlIiwiZW1haWwiOiJmYWtlQHNpdHVtLmNvbSIsIm9yZ2FuaXphdGlvbl91dWlkIjoiZmFrZWZha2VmYS1mYWtlLWZha2UtZmFrZS1mYWtlZmFrZWZha2UiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MjM0NjM1MjQsImV4cCI6MTcyMzU0OTkyNH0.9Rfnrc0pe9wEMRtAtPYy8XKPuw0pTe73juqi3kpNQDc",
   "pathMock1": {
     "links": [
       {
-        "source": 1,
-        "target": 2,
+        "accessible": true,
         "origin": "both",
+        "source": 1,
         "tags": null,
-        "accessible": true
+        "target": 2
       },
       {
-        "source": 2,
-        "target": 3,
+        "accessible": true,
         "origin": "both",
+        "source": 2,
         "tags": null,
-        "accessible": true
+        "target": 3
       }
     ],
     "nodes": [
       {
-        "id": 1,
         "floorId": 11916,
+        "id": 1,
         "x": 43.275,
         "y": 36.472
       },
       {
-        "id": 2,
         "floorId": 11916,
+        "id": 2,
         "x": 41.65,
         "y": 34.271
       }
@@ -308,182 +312,344 @@
   "pathResponseMock1": {
     "links": [
       {
-        "source": 1,
-        "target": 2,
+        "accessible": true,
         "origin": "both",
+        "source": 1,
         "tags": null,
-        "accessible": true
+        "target": 2
       },
       {
-        "source": 2,
-        "target": 3,
+        "accessible": true,
         "origin": "both",
+        "source": 2,
         "tags": null,
-        "accessible": true
+        "target": 3
       }
     ],
     "nodes": [
       {
-        "id": 1,
         "floor_id": 11916,
+        "id": 1,
         "x": 43.275,
         "y": 36.472
       },
       {
-        "id": 2,
         "floor_id": 11916,
+        "id": 2,
         "x": 41.65,
         "y": 34.271
       }
     ]
   },
   "poiCategoryMock1": {
+    "code": "situm-coffee",
+    "createdAt": "2016-06-23T09:14:05.701+02:00",
+    "iconUrl": "https://dashboard.situm.com/uploads/poicategory/1/b3d4b884-ed86-4ab5-929d-3e5a40502e56.png",
     "id": 12,
     "nameEn": "Coffee",
     "nameEs": "Cafetería",
-    "code": "situm-coffee",
-    "iconUrl": "https://dashboard.situm.com/uploads/poicategory/1/b3d4b884-ed86-4ab5-929d-3e5a40502e56.png",
+    "public": true,
     "selectedIconUrl": "/uploads/poicategoryselected/1/fcfb13c6-44e7-4b58-b568-780ef41628f1.png",
-    "updatedAt": "2017-04-07T13:45:24.940+02:00",
-    "createdAt": "2016-06-23T09:14:05.701+02:00",
-    "public": true
+    "updatedAt": "2017-04-07T13:45:24.940+02:00"
   },
   "poiCategoryResponseMock1": {
+    "code": "situm-coffee",
+    "created_at": "2016-06-23T09:14:05.701+02:00",
+    "icon_url": "https://dashboard.situm.com/uploads/poicategory/1/b3d4b884-ed86-4ab5-929d-3e5a40502e56.png",
     "id": 12,
     "name_en": "Coffee",
     "name_es": "Cafetería",
-    "code": "situm-coffee",
-    "icon_url": "https://dashboard.situm.com/uploads/poicategory/1/b3d4b884-ed86-4ab5-929d-3e5a40502e56.png",
+    "public": true,
     "selected_icon_url": "/uploads/poicategoryselected/1/fcfb13c6-44e7-4b58-b568-780ef41628f1.png",
-    "updated_at": "2017-04-07T13:45:24.940+02:00",
-    "created_at": "2016-06-23T09:14:05.701+02:00",
-    "public": true
+    "updated_at": "2017-04-07T13:45:24.940+02:00"
   },
   "poiMock1": {
-    "id": 44526,
     "buildingId": 6349,
-    "name": "AC Shaft",
-    "createdAt": "2019-12-17T17:33:40.063+01:00",
-    "updatedAt": "2019-12-17T17:33:40.063+01:00",
     "categoryId": 148,
     "categoryName": "No category",
+    "createdAt": "2019-12-17T17:33:40.063+01:00",
+    "customFields": [],
+    "id": 44526,
     "info": "",
     "infoUnsafe": "",
+    "name": "AC Shaft",
     "position": {
+      "cartesians": {
+        "x": 264.019705190557,
+        "y": 67.5138261169767
+      },
       "floorId": 12917,
-      "x": 264.019705190557,
-      "y": 67.5138261169767,
-      "lat": 25.2289190880612,
-      "lng": 55.4029336723872,
-      "radius": 5,
       "georeferences": {
         "lat": 25.2289190880612,
         "lng": 55.4029336723872
       },
-      "cartesians": {
-        "x": 264.019705190557,
-        "y": 67.5138261169767
-      }
+      "lat": 25.2289190880612,
+      "lng": 55.4029336723872,
+      "radius": 5,
+      "x": 264.019705190557,
+      "y": 67.5138261169767
     },
-    "customFields": [],
     "projectId": 6349,
-    "type": null
+    "type": null,
+    "updatedAt": "2019-12-17T17:33:40.063+01:00"
   },
   "poiResponseMock1": {
-    "id": 44526,
     "building_id": 6349,
-    "name": "AC Shaft",
-    "created_at": "2019-12-17T17:33:40.063+01:00",
-    "updated_at": "2019-12-17T17:33:40.063+01:00",
     "category_id": 148,
     "category_name": "No category",
+    "created_at": "2019-12-17T17:33:40.063+01:00",
+    "custom_fields": [],
+    "id": 44526,
     "info": "",
     "info_unsafe": "",
+    "name": "AC Shaft",
     "position": {
+      "cartesians": {
+        "x": 264.019705190557,
+        "y": 67.5138261169767
+      },
       "floor_id": 12917,
-      "x": 264.019705190557,
-      "y": 67.5138261169767,
-      "lat": 25.2289190880612,
-      "lng": 55.4029336723872,
-      "radius": 5,
       "georeferences": {
         "lat": 25.2289190880612,
         "lng": 55.4029336723872
       },
-      "cartesians": {
-        "x": 264.019705190557,
-        "y": 67.5138261169767
-      }
+      "lat": 25.2289190880612,
+      "lng": 55.4029336723872,
+      "radius": 5,
+      "x": 264.019705190557,
+      "y": 67.5138261169767
     },
-    "custom_fields": [],
     "project_id": 6349,
-    "type": null
+    "type": null,
+    "updated_at": "2019-12-17T17:33:40.063+01:00"
   },
   "realtimeMock1": {
-    "type": "FeatureCollection",
-    "features": [
-      {
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates": [42.8723438487793, -8.563077344186299]
-        },
-        "properties": {
-          "time": "2021-12-15T08:15:20.006Z",
-          "yaw": 0,
-          "localCoordinates": [21.49236653379807, 24.17577872679699],
-          "floorId": 11916,
-          "buildingId": 5962,
-          "levelHeight": 0,
-          "accuracy": 5
-        },
-        "id": "5323811"
-      }
-    ],
     "devicesInfo": [
       {
-        "id": "5323811",
+        "buildingIds": [],
         "createdAt": "2021-12-14T05:58:29.726+00:00",
-        "updatedAt": "2021-12-14T05:58:29.726+00:00",
-        "organizationId": "1a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
         "groupIds": [],
-        "buildingIds": []
+        "id": "5323811",
+        "organizationId": "1a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
+        "updatedAt": "2021-12-14T05:58:29.726+00:00"
       }
-    ]
+    ],
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [42.8723438487793, -8.563077344186299],
+          "type": "Point"
+        },
+        "id": "5323811",
+        "properties": {
+          "accuracy": 5,
+          "buildingId": 5962,
+          "floorId": 11916,
+          "levelHeight": 0,
+          "localCoordinates": [21.49236653379807, 24.17577872679699],
+          "time": "2021-12-15T08:15:20.006Z",
+          "yaw": 0
+        },
+        "type": "Feature"
+      }
+    ],
+    "type": "FeatureCollection"
   },
   "realtimeResponseMock1": {
-    "type": "FeatureCollection",
-    "features": [
-      {
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates": [42.8723438487793, -8.563077344186299]
-        },
-        "properties": {
-          "time": "2021-12-15T08:15:20.006Z",
-          "yaw": 0,
-          "local_coordinates": [21.49236653379807, 24.17577872679699],
-          "floor_id": 11916,
-          "building_id": 5962,
-          "level_height": 0,
-          "accuracy": 5
-        },
-        "id": "5323811"
-      }
-    ],
     "devicesInfo": [
       {
-        "id": "5323811",
-        "organization": "1a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
-        "groups": [],
+        "building_ids": [],
         "buildings": [],
         "created_at": "2021-12-14T05:58:29.726+00:00",
-        "updated_at": "2021-12-14T05:58:29.726+00:00",
-        "organization_id": "1a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
         "group_ids": [],
-        "building_ids": []
+        "groups": [],
+        "id": "5323811",
+        "organization": "1a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
+        "organization_id": "1a5d0ff4-cd76-4e08-bcdc-e36e0182fd78",
+        "updated_at": "2021-12-14T05:58:29.726+00:00"
       }
-    ]
+    ],
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [42.8723438487793, -8.563077344186299],
+          "type": "Point"
+        },
+        "id": "5323811",
+        "properties": {
+          "accuracy": 5,
+          "building_id": 5962,
+          "floor_id": 11916,
+          "level_height": 0,
+          "local_coordinates": [21.49236653379807, 24.17577872679699],
+          "time": "2021-12-15T08:15:20.006Z",
+          "yaw": 0
+        },
+        "type": "Feature"
+      }
+    ],
+    "type": "FeatureCollection"
+  },
+  "trajectoryReportMock1": {
+    "data": [
+      {
+        "buildingId": 1234,
+        "deviceId": "device-abc-001",
+        "floorId": 10,
+        "lat": 40.416775,
+        "lng": -3.70379,
+        "sessionMark": 1,
+        "timestamp": "2024-01-01T09:00:00.000Z",
+        "userId": "user-uuid-123"
+      },
+      {
+        "buildingId": 1234,
+        "deviceId": "device-abc-001",
+        "floorId": 10,
+        "lat": 40.41695,
+        "lng": -3.7036,
+        "sessionMark": 1,
+        "timestamp": "2024-01-01T09:05:00.000Z",
+        "userId": "user-uuid-123"
+      },
+      {
+        "buildingId": 1234,
+        "deviceId": "device-abc-001",
+        "floorId": 11,
+        "lat": 40.41715,
+        "lng": -3.70342,
+        "sessionMark": 1,
+        "timestamp": "2024-01-01T09:10:00.000Z",
+        "userId": "user-uuid-123"
+      }
+    ],
+    "meta": [
+      {
+        "generatedAt": "2024-01-02T00:00:01.000Z",
+        "requestId": "req-8f3c2a7b"
+      }
+    ],
+    "statistics": {
+      "rows": 3
+    }
+  },
+  "trajectoryReportResponseMock1": {
+    "data": [
+      {
+        "building_id": 1234,
+        "device_id": "device-abc-001",
+        "floor_id": 10,
+        "lat": 40.416775,
+        "lng": -3.70379,
+        "session_mark": 1,
+        "timestamp": "2024-01-01T09:00:00.000Z",
+        "user_id": "user-uuid-123"
+      },
+      {
+        "building_id": 1234,
+        "device_id": "device-abc-001",
+        "floor_id": 10,
+        "lat": 40.41695,
+        "lng": -3.7036,
+        "session_mark": 1,
+        "timestamp": "2024-01-01T09:05:00.000Z",
+        "user_id": "user-uuid-123"
+      },
+      {
+        "building_id": 1234,
+        "device_id": "device-abc-001",
+        "floor_id": 11,
+        "lat": 40.41715,
+        "lng": -3.70342,
+        "session_mark": 1,
+        "timestamp": "2024-01-01T09:10:00.000Z",
+        "user_id": "user-uuid-123"
+      }
+    ],
+    "meta": [
+      {
+        "generated_at": "2024-01-02T00:00:01.000Z",
+        "request_id": "req-8f3c2a7b"
+      }
+    ],
+    "statistics": {
+      "rows": 3
+    }
+  },
+  "userMock1": {
+    "adminOrg": false,
+    "assignmentId": null,
+    "buildingIds": [1111, 2222, 3333, 4444, 5555, 6666, 7777],
+    "code": null,
+    "collectiveId": null,
+    "createdAt": "2021-09-21T17:41:27.788+00:00",
+    "email": "044708@situm.es",
+    "fullName": "John Smith",
+    "groupIds": [],
+    "groups": [],
+    "hasBuilding": false,
+    "hasWriteBuilding": false,
+    "iconColour": null,
+    "id": "29fa9286-bd95-4cb3-a4e5-6aee8e544539",
+    "importationDate": null,
+    "info": null,
+    "isVerified": true,
+    "lastActivity": "2021-11-09T20:33:51.252+00:00",
+    "license": {
+      "expirationDate": "2050-01-01",
+      "id": "218aef12-187d-4104-945d-dd4da92faa9c",
+      "licenseType": "ENTERPRISE"
+    },
+    "locale": null,
+    "organizationId": "218aef12-187d-4104-945d-dd4da92faa9c",
+    "role": "USER",
+    "subscribedToNewsletter": null,
+    "termsAcceptedAt": "2021-09-21T17:41:27.788+00:00",
+    "updatedAt": "2021-11-09T20:33:51.252+00:00"
+  },
+  "userResponseMock1": {
+    "admin_org": false,
+    "assignment_id": null,
+    "building_ids": [1111, 2222, 3333, 4444, 5555, 6666, 7777],
+    "cancel_emergency": null,
+    "code": null,
+    "collective_id": null,
+    "confirm_emergency": null,
+    "created_at": "2021-09-21T17:41:27.788+00:00",
+    "deadman_alarm": null,
+    "declare_emergency": null,
+    "email": "044708@situm.es",
+    "full_name": "John Smith",
+    "group_ids": [],
+    "groups": [],
+    "has_building": false,
+    "has_write_building": false,
+    "icon_colour": null,
+    "id": "29fa9286-bd95-4cb3-a4e5-6aee8e544539",
+    "importation_date": null,
+    "info": null,
+    "is_staff": false,
+    "is_verified": true,
+    "last_activity": "2021-11-09T20:33:51.252+00:00",
+    "license": {
+      "expiration_date": "2050-01-01",
+      "id": "218aef12-187d-4104-945d-dd4da92faa9c",
+      "license_type": "ENTERPRISE",
+      "uuid": "218aef12-187d-4104-945d-dd4da92faa9c"
+    },
+    "locale": null,
+    "organization_id": "218aef12-187d-4104-945d-dd4da92faa9c",
+    "organization_uuid": "718aef12-187d-4104-945d-dd4da92faa9c",
+    "role": "USER",
+    "see_alarms": null,
+    "see_emergency": null,
+    "shift_end": null,
+    "shift_start": null,
+    "situm_maps": null,
+    "sos_alarm": null,
+    "subscribed_to_newsletter": null,
+    "terms_accepted_at": "2021-09-21T17:41:27.788+00:00",
+    "updated_at": "2021-11-09T20:33:51.252+00:00",
+    "uuid": "29fa9286-bd95-4cb3-a4e5-6aee8e544539"
   }
 }

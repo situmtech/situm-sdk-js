@@ -5,9 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Building, Poi } from "../types";
-
-import { getAdapter as getAdapterPoi, ServerPoiGet } from "./PoiAdapter";
+import type { Building, Poi } from "../types";
+import { getAdapter as getAdapterPoi, type ServerPoiGet } from "./PoiAdapter";
 
 /**
  * Adapts the server response to our common Building object,

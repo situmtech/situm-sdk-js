@@ -25,32 +25,32 @@ import SitumSDK from "../src";
 
   // We've got functions to perform CRUD operations for buildings
   await situm.cartography.patchPath(5962, {
+    links: [
+      {
+        origin: "both",
+        source: 1,
+        tags: [],
+        target: 2,
+      },
+      {
+        origin: "both",
+        source: 2,
+        tags: [],
+        target: 3,
+      },
+    ],
     nodes: [
       {
-        id: 1,
         floorId: 12220,
+        id: 1,
         x: 56.417,
         y: 11.716,
       },
       {
-        id: 2,
         floorId: 12220,
+        id: 2,
         x: 111.006,
         y: 12.038,
-      },
-    ],
-    links: [
-      {
-        source: 1,
-        target: 2,
-        origin: "both",
-        tags: [],
-      },
-      {
-        source: 2,
-        target: 3,
-        origin: "both",
-        tags: [],
       },
     ],
   });

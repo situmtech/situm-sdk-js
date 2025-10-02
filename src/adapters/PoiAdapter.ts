@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Cartesians, Coordinate, Poi, PoiCreateForm } from "../types";
+import type { Cartesians, Coordinate, Poi, PoiCreateForm } from "../types";
 
 export type ServerPoiGet = Poi & {
   position: {
@@ -41,8 +41,8 @@ export function getAdapter(serverPoi: ServerPoiGet): Poi {
 
   // if indoor, normalize response
   if (poi.position) {
-    poi["floorId"] = poi.position.floorId;
-    poi["location"] = {
+    poi.floorId = poi.position.floorId;
+    poi.location = {
       lat: poi.position.lat,
       lng: poi.position.lng,
       x: poi.position.x,

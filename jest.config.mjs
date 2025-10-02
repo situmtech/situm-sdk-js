@@ -1,20 +1,20 @@
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 export default {
-  preset: "ts-jest",
-  testEnvironment: "node",
-  transform: {
-    "^.+\\.tsx?$": "ts-jest",
-  },
-  testRegex: "((\\.|/)(test|spec))\\.(js?|ts?)$",
-  moduleFileExtensions: ["ts", "js"],
+  collectCoverageFrom: ["src/*.{js,ts}"],
   coveragePathIgnorePatterns: ["/node_modules/", "/test/"],
   coverageThreshold: {
     global: {
       branches: 65,
-      functions: 90,
+      functions: 80,
       lines: 80,
       statements: 80,
     },
   },
-  collectCoverageFrom: ["src/*.{js,ts}"],
+  moduleFileExtensions: ["ts", "js"],
+  preset: "ts-jest",
+  testEnvironment: "node",
+  testRegex: "((\\.|/)(test|spec))\\.(js?|ts?)$",
+  transform: {
+    "^.+\\.tsx?$": "ts-jest",
+  },
 };

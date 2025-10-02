@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.10.0 (2025-10-02)
+
+### Added
+
+- Add new Viewer domain to ease integration of map viewer using JS.
+  - New API allows to render a map with indoor features and
+    control it via JS apis.
+  - Allow to show multiple viewers on the same web page.
+  - Allow to show realtime users using Situm REST API on top of the
+    map viewer
+  - Allows to show user trajectories reports using Situm REST API
+    on top of the map viewer, among others.
+  - Added event subscribing for map is ready, poi selected, building selected
+    floor selected
+- Add new reports domain that allows to fetch information from the
+  Situm REST API /api/v1/reports
+
+### Improved
+
+- Bump JS dependencies
+- Replace eslint and prettier with biome
+
+## Segurity
+
+- Upgrade axios dependency to fix CVE CVE-2025-58754
+
 ## 0.9.1 (2025-04-09)
 
 ### Internal

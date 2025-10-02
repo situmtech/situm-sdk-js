@@ -18,13 +18,13 @@ const sdkAPiKeyAuth = new SitumSDK({
 });
 
 (async () => {
-  let auth = await sdkAPiKeyAuth.cartography.getBuildings();
-  let authSession = await sdkAPiKeyAuth.authSession;
+  const auth = await sdkAPiKeyAuth.cartography.getBuildings();
+  const authSession = await sdkAPiKeyAuth.authSession;
   console.log(auth, authSession?.apiPermissionLevel);
 })();
 
 // Initialize the sdk specifying basic auth
-const sdkBasicAuth = new SitumSDK({
+const _sdkBasicAuth = new SitumSDK({
   auth: {
     password: "example@example.com",
     username: "example@example.com",
@@ -32,7 +32,7 @@ const sdkBasicAuth = new SitumSDK({
 });
 
 // Initialize the sdk specifying auth and timeouts
-const sdkWithTimeouts = new SitumSDK({
+const _sdkWithTimeouts = new SitumSDK({
   auth: {
     apiKey: "YOUR_API_KEY",
   },
@@ -42,7 +42,7 @@ const sdkWithTimeouts = new SitumSDK({
 });
 
 // Initialize the sdk specifying auth and custom domain
-const sdkWithCustomDomain = new SitumSDK({
+const _sdkWithCustomDomain = new SitumSDK({
   auth: {
     apiKey: "YOUR_API_KEY",
   },
@@ -50,7 +50,7 @@ const sdkWithCustomDomain = new SitumSDK({
 });
 
 // Initialize the sdk specifying a jwt
-const sdkWithJwt = new SitumSDK({
+const _sdkWithJwt = new SitumSDK({
   auth: {
     jwt: "YOUT_JWT",
   },

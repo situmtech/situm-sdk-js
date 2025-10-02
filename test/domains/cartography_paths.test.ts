@@ -7,7 +7,7 @@
  */
 
 import SitumSDK from "../../src";
-import { Paths } from "../../src/types";
+import type { Paths } from "../../src/types";
 import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 
 describe("SitumSDK.cartography Path", () => {
@@ -82,34 +82,34 @@ describe("SitumSDK.cartography Path", () => {
     ]);
     const buildingId = 1111;
     const pathForm: Paths = {
+      links: [
+        {
+          accessible: true,
+          origin: "both",
+          source: 1,
+          tags: [],
+          target: 2,
+        },
+        {
+          accessible: true,
+          origin: "both",
+          source: 2,
+          tags: [],
+          target: 3,
+        },
+      ],
       nodes: [
         {
-          id: 1,
           floorId: 12220,
+          id: 1,
           x: 56.417,
           y: 11.716,
         },
         {
-          id: 2,
           floorId: 12220,
+          id: 2,
           x: 111.006,
           y: 12.038,
-        },
-      ],
-      links: [
-        {
-          source: 1,
-          target: 2,
-          origin: "both",
-          tags: [],
-          accessible: true,
-        },
-        {
-          source: 2,
-          target: 3,
-          origin: "both",
-          tags: [],
-          accessible: true,
         },
       ],
     };
@@ -120,32 +120,34 @@ describe("SitumSDK.cartography Path", () => {
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
     expect(configuration.data).toEqual({
+      links: [
+        {
+          accessible: true,
+          origin: "both",
+          source: 1,
+          tags: [],
+          target: 2,
+        },
+        {
+          accessible: true,
+          origin: "both",
+          source: 2,
+          tags: [],
+          target: 3,
+        },
+      ],
       nodes: [
         {
-          id: 1,
           floor_id: 12220,
+          id: 1,
           x: 56.417,
           y: 11.716,
         },
         {
-          id: 2,
           floor_id: 12220,
+          id: 2,
           x: 111.006,
           y: 12.038,
-        },
-      ],
-      links: [
-        {
-          source: 1,
-          target: 2,
-          origin: "both",
-          tags: [],
-        },
-        {
-          source: 2,
-          target: 3,
-          origin: "both",
-          tags: [],
         },
       ],
     });

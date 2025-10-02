@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" class="dark:bg-gray-900">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Situm SDK Viewer Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Add dark mode configuration
+      tailwind.config = {
+        darkMode: "class",
+      };
+    </script>
+  </head>
+
+  <body
+    class="bg-gray-100 dark:bg-gray-900 min-h-screen flex flex-col items-center justify-center space-y-6 p-6"
+  >
+    <header
+      class="w-full flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow-md fixed top-0 left-0 z-50"
+    >
+      <div class="flex items-center">
+        <img
+          id="logo"
+          src="https://situm.com/wp-content/themes/situm/img/logo-situm.svg"
+          alt="Situm Logo"
+          class="h-12 w-auto mr-5"
+        />
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">
+          Situm SDK Viewer Demo
+        </h1>
+      </div>
+      <button
+        id="theme-toggle"
+        class="p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm"
+      >
+        <svg
+          id="theme-toggle-dark-icon"
+          class="w-5 h-5 hidden"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+          ></path>
+        </svg>
+        <svg
+          id="theme-toggle-light-icon"
+          class="w-5 h-5 hidden"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+          ></path>
+        </svg>
+      </button>
+    </header>
+
+    <div class="w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full mt-40 lg:mt-20">
+        <!-- Viewer 1 with its controls -->
+        <div class="flex flex-col">
+          <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">
+            Realtime positions
+          </h2>
+          <p
+            class="text-sm text-gray-600 dark:text-gray-300 italic mb-4 bg-blue-50 dark:bg-blue-900/30 p-3 rounded-lg border border-blue-200 dark:border-blue-800 h-[4rem] line-clamp-2"
+          >
+            Note: Click the "Start RT" button to load real-time positions. 5-10
+            seconds may be needed to start seeing positions.
+          </p>
+          <div
+            id="viewer1"
+            class="w-full h-[400px] md:h-[700px] border-2 border-gray-300 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden dark:bg-gray-800"
+          ></div>
+          <div class="flex justify-center gap-4 mt-4">
+            <button
+              id="playBtn"
+              class="px-4 py-2 bg-green-500 dark:bg-green-600 text-white rounded-lg shadow hover:bg-green-700 dark:hover:bg-green-800 transition"
+            >
+              ▶ Start RT
+            </button>
+            <button
+              id="pauseBtn"
+              class="px-4 py-2 bg-red-500 dark:bg-red-600 text-white rounded-lg shadow hover:bg-red-700 dark:hover:bg-red-800 transition"
+            >
+              ⏸ Stop RT
+            </button>
+          </div>
+        </div>
+
+        <!-- Viewer 2 with its controls -->
+        <div class="flex flex-col">
+          <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">
+            Trajectory viewer
+          </h2>
+          <p
+            class="text-sm text-gray-600 dark:text-gray-300 italic mb-4 bg-blue-50 dark:bg-blue-900/30 p-3 rounded-lg border border-blue-200 dark:border-blue-800 h-[4rem] line-clamp-2"
+          >
+            Note: Click the "Load Trajectory" button to load trajectory data for
+            the specified user and date range. 5-10 seconds may be needed to
+            load the trajectory.
+          </p>
+          <div
+            id="viewer2"
+            class="w-full h-[400px] md:h-[700px] border-2 border-gray-300 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden dark:bg-gray-800"
+          ></div>
+          <div class="flex justify-center gap-4 mt-4">
+            <button
+              id="trajBtn"
+              class="px-4 py-2 bg-blue-500 dark:bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 dark:hover:bg-blue-800 transition"
+            >
+              📈 Load Trajectory
+            </button>
+            <button
+              id="cleantrajBtn"
+              class="px-4 py-2 bg-gray-500 dark:bg-gray-600 text-white rounded-lg shadow hover:bg-gray-700 dark:hover:bg-gray-800 transition"
+            >
+              🧹 Clean Trajectory
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bundle UMD -->
+    <script src="https://unpkg.com/axios@1.12.2/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/@situm/sdk-js@0.10.0-beta/dist/umd/situm-sdk.js"></script>
+
+    <script>
+      const { ViewerEventType } = window.SitumSDK;
+      const SDKClass = window.SitumSDK.default;
+
+      // Get URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const BUILDING_ID = parseInt(urlParams.get("buildingId")); // Default to Demo building if not provided
+      const USER_ID = urlParams.get("userId") || ""; // Default if not provided
+      const API_KEY = urlParams.get("apiKey"); // Default if not provided
+
+      // Add error handling for missing required parameters
+      if (!BUILDING_ID) {
+        console.error("Building ID is required");
+      }
+
+      let options = {
+        auth: {
+          domain: "https://api.situm.com",
+          apiKey: API_KEY,
+        },
+      };
+      const sdk = new SDKClass(options);
+
+      /**
+       * Viewer 1: realtime positions viewer
+       */
+      const viewer = sdk.viewer.create({
+        domElement: document.querySelector("#viewer1"),
+        // either profile or apikey to authenticate on viewer, if not specified auth.apiKey will be used
+        // profile: 'demo'
+        // apiKey: options.auth.apiKey,
+        buildingId: BUILDING_ID,
+      });
+      viewer.on(ViewerEventType.MAP_IS_READY, () =>
+        console.log("viewer1: map is ready")
+      );
+      viewer.on(ViewerEventType.POI_SELECTED, (e) =>
+        console.log(`viewer1: Poi with ${e.id} was selected`)
+      );
+
+      document.getElementById("playBtn").addEventListener("click", function () {
+        // Realtime data filter: currently by building id
+        const rtFilter = {
+          buildingIds: [BUILDING_ID],
+        };
+        viewer.loadRealtimePositions({
+          filter: rtFilter,
+          customizeFeatures: (d) => {
+            console.log(d);
+            return {
+              deviceId: d.deviceId,
+              tooltip: `Device ${d.deviceId}`,
+            };
+          },
+        });
+      });
+
+      document
+        .getElementById("pauseBtn")
+        .addEventListener("click", function () {
+          viewer.cleanRealtimePositions();
+        });
+
+      /**
+       * Viewer 2: trajectory viewer
+       */
+      const viewer2 = sdk.viewer.create({
+        domElement: document.querySelector("#viewer2"),
+        // profile: "demo",
+        buildingId: BUILDING_ID,
+      });
+
+      document.getElementById("playBtn").addEventListener("click", function () {
+        viewer.loadRealtimePositions({
+          filter: rtFilter,
+          refreshRateMs: 1000,
+          itemMapper: (item) => {
+            return item;
+          },
+        });
+      });
+
+      // Trajectory data filter: dates range, user id and building id
+      const trajectoryFilter = {
+        fromDate: new Date("2025-09-14T10:59:14.710Z"),
+        toDate: new Date("2025-09-15T10:59:14.710Z"),
+        userId: USER_ID,
+        buildingId: BUILDING_ID,
+      };
+
+      document.getElementById("trajBtn").addEventListener("click", () => {
+        viewer2.loadTrajectory(trajectoryFilter);
+      });
+      document.getElementById("cleantrajBtn").addEventListener("click", () => {
+        viewer2.cleanTrajectory();
+      });
+    </script>
+  </body>
+</html>

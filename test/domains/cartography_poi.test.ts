@@ -9,10 +9,13 @@ import { describe, expect } from "@jest/globals";
 
 import SitumSDK from "../../src";
 import { getAdapter as getAdapterPoi } from "../../src/adapters/PoiAdapter";
-import { PoiCategoryForm, PoiCreateForm, PoiUpdateForm } from "../../src/types";
-import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
-
+import type {
+  PoiCategoryForm,
+  PoiCreateForm,
+  PoiUpdateForm,
+} from "../../src/types";
 import { keysToSnake } from "./../../src/utils/snakeCaseCamelCaseUtils";
+import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 
 describe("SitumSDK.cartography POI", () => {
   it("should retrieve all pois with no params", async () => {
@@ -148,10 +151,10 @@ describe("SitumSDK.cartography POI", () => {
 
     const poiForm: PoiCreateForm = {
       buildingId: 5962,
-      name: "Test Fence",
-      info: "info",
       categoryId: 1234,
       customFields: [{ key: "key", value: "value" }],
+      info: "info",
+      name: "Test Fence",
       position: {
         floorId: 12917,
         georeferences: {
@@ -167,10 +170,10 @@ describe("SitumSDK.cartography POI", () => {
     const configuration = axiosMock.mock.calls[1][0];
     expect(configuration.data).toEqual({
       building_id: 5962,
-      name: "Test Fence",
-      info: "info",
       category_id: 1234,
       custom_fields: [{ key: "key", value: "value" }],
+      info: "info",
+      name: "Test Fence",
       position: {
         floor_id: 12917,
         georeferences: {
@@ -198,10 +201,10 @@ describe("SitumSDK.cartography POI", () => {
     const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const poiForm: PoiUpdateForm = {
       buildingId: 6349,
-      name: "Test Fence",
-      info: "info",
       categoryId: 1234,
       customFields: [{ key: "key", value: "value" }],
+      info: "info",
+      name: "Test Fence",
       position: {
         floorId: 12917,
         georeferences: {
@@ -279,10 +282,10 @@ describe("SitumSDK.cartography POI category", () => {
 
     // Execute
     const poiCategoryForm: PoiCategoryForm = {
-      nameEn: "Kitchen",
-      nameEs: "Cocina",
       code: "kitchen_situm",
       icon: "iconId",
+      nameEn: "Kitchen",
+      nameEs: "Cocina",
       selectedIcon: "selectedIcon",
     };
     const poiCategory =
@@ -291,10 +294,10 @@ describe("SitumSDK.cartography POI category", () => {
     // Assert
     const configuration = axiosMock.mock.calls[1][0];
     expect(configuration.data).toEqual({
-      name_en: "Kitchen",
-      name_es: "Cocina",
       code: "kitchen_situm",
       icon: "iconId",
+      name_en: "Kitchen",
+      name_es: "Cocina",
       selected_icon: "selectedIcon",
     });
     expect(configuration.method).toBe("post");
@@ -314,10 +317,10 @@ describe("SitumSDK.cartography POI category", () => {
     ]);
     const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
     const poiCategoryForm: PoiCategoryForm = {
-      nameEn: "Kitchen2",
-      nameEs: "Cocina2",
       code: "kitchen_situm2",
       icon: "iconId2",
+      nameEn: "Kitchen2",
+      nameEs: "Cocina2",
       selectedIcon: "selectedIcon2",
     };
 

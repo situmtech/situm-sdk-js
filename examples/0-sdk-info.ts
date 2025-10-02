@@ -6,4 +6,4 @@ console.log("Version: ", { version: SitumSDK.version }, "\n");
 // The SDK is organized in domains
 const situm = new SitumSDK({});
 console.log("Domains: ");
-console.log({ user: situm.user, cartography: situm.cartography }, "\n");
+console.log({ cartography: situm.cartography, user: situm.user }, "\n");

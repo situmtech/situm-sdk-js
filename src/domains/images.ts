@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import ApiBase from "../apiBase";
+import type ApiBase from "../apiBase";
 
 type ResponseImages = {
   id: string;
@@ -44,11 +44,11 @@ export default class ImagesApi {
     }
 
     return this.apiBase.post<ResponseImages>({
-      url,
       formData,
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      url,
     });
   }
 }

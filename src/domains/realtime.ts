@@ -6,8 +6,8 @@
  *
  */
 import { realtimePositionsMapper } from "../adapters/RealtimeAdapter";
-import ApiBase from "../apiBase";
-import { RealtimePositions, UUID } from "../types";
+import type ApiBase from "../apiBase";
+import type { RealtimePositions, UUID } from "../types";
 
 export type ResponseRealtimePosition = {
   features: Record<string, unknown>[];
@@ -15,7 +15,13 @@ export type ResponseRealtimePosition = {
   type: string;
 };
 
-type SearchRealtime = { organizationId?: UUID } | { buildingId: number };
+type SearchRealtime = {
+  buildingIds?: number[];
+  userIds?: UUID[];
+  deviceIds?: string[];
+  indoor?: boolean;
+  maxSecThreshold?: number;
+};
 
 /**
  * Service that exposes the realtime domain.
@@ -35,24 +41,41 @@ export default class RealtimeApi {
    * @param {SearchRealtime} [searchRealtime] - Optional search criteria for real-time positions.
    * @returns {Promise<RealtimePositions>} A promise that resolves to the retrieved real-time positions.
    */
+
   async getPositions(
     searchRealtime?: SearchRealtime,
   ): Promise<RealtimePositions> {
-    let url = "";
-    const authSession = await this.apiBase.getAuthSession();
-    if (searchRealtime && "buildingId" in searchRealtime) {
-      url = "/api/v1/realtime/building/" + searchRealtime.buildingId;
-    } else {
-      const organizationId =
-        searchRealtime && "organizationId" in searchRealtime
-          ? searchRealtime.organizationId
-          : authSession.organizationId;
+    const url = this.buildRealtimeUrl(searchRealtime);
+    return this.apiBase
+      .get<RealtimePositions>({ url })
+      .then(realtimePositionsMapper);
+  }
 
-      url = "/api/v1/realtime/organization/" + organizationId;
+  private buildRealtimeUrl(searchRealTime: SearchRealtime): string {
+    const base = "/api/v1/realtime/positions";
+    const params = new URLSearchParams();
+
+    if (searchRealTime?.buildingIds?.length > 0) {
+      params.set("building_ids", searchRealTime?.buildingIds.join(","));
+    }
+    if (searchRealTime?.userIds?.length > 0) {
+      params.set("user_ids", searchRealTime.userIds.join(","));
+    }
+    if (searchRealTime?.deviceIds?.length > 0) {
+      params.set("device_ids", searchRealTime.deviceIds.join(","));
     }
 
-    return this.apiBase
-      .get<RealtimePositions>({ url, params: searchRealtime })
-      .then(realtimePositionsMapper);
+    if (typeof searchRealTime?.indoor === "boolean") {
+      params.set("indoor", String(searchRealTime.indoor));
+    }
+
+    if (typeof searchRealTime?.maxSecThreshold === "number") {
+      params.set(
+        "max_sec_threshold",
+        searchRealTime.maxSecThreshold.toString(),
+      );
+    }
+    const queryString = params.toString();
+    return queryString ? `${base}?${queryString}` : base;
   }
 }

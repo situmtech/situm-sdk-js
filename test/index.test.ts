@@ -8,7 +8,6 @@ import expect from "expect";
  *
  */
 import SitumSDK from "../src";
-
 import {
   checkAuthenticationException,
   getAuthenticationException,
@@ -34,8 +33,8 @@ describe("SitumSDK", () => {
   it("should initialize with basic authentication", () => {
     const situmSDK = new SitumSDK({
       auth: {
-        username: "test@situm.com",
         password: "topSecret",
+        username: "test@situm.com",
       },
     });
     const userApi = situmSDK.user;
@@ -100,8 +99,8 @@ describe("SitumSDK", () => {
   it("should raise exception with invalid basic authentication", async () => {
     const situmSDK = new SitumSDK({
       auth: {
-        username: "test@situm.com",
         password: "topSecret",
+        username: "test@situm.com",
       },
     });
 

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Geofence } from "../types";
+import type { Geofence } from "../types";
 
 /**
  * Adapts the server response to our common Floor object,
