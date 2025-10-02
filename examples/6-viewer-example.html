@@ -75,13 +75,13 @@
           ></div>
           <div class="flex justify-center gap-4 mt-4">
             <button
-              id="playBtn"
+              id="startRT"
               class="px-4 py-2 bg-green-500 dark:bg-green-600 text-white rounded-lg shadow hover:bg-green-700 dark:hover:bg-green-800 transition"
             >
               ▶ Start RT
             </button>
             <button
-              id="pauseBtn"
+              id="stopRT"
               class="px-4 py-2 bg-red-500 dark:bg-red-600 text-white rounded-lg shadow hover:bg-red-700 dark:hover:bg-red-800 transition"
             >
               ⏸ Stop RT
@@ -107,7 +107,7 @@
           ></div>
           <div class="flex justify-center gap-4 mt-4">
             <button
-              id="trajBtn"
+              id="startTraj"
               class="px-4 py-2 bg-blue-500 dark:bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 dark:hover:bg-blue-800 transition"
             >
               📈 Load Trajectory
@@ -125,7 +125,7 @@
 
     <!-- Bundle UMD -->
     <script src="https://unpkg.com/axios@1.12.2/dist/axios.min.js"></script>
-    <script src="https://unpkg.com/@situm/sdk-js@0.10.0-beta/dist/umd/situm-sdk.js"></script>
+    <script src="https://unpkg.com/@situm/sdk-js@0.10.0/dist/umd/situm-sdk.js"></script>
 
     <script>
       const { ViewerEventType } = window.SitumSDK;
@@ -167,7 +167,7 @@
         console.log(`viewer1: Poi with ${e.id} was selected`)
       );
 
-      document.getElementById("playBtn").addEventListener("click", function () {
+      document.getElementById("startRT").addEventListener("click", function () {
         // Realtime data filter: currently by building id
         const rtFilter = {
           buildingIds: [BUILDING_ID],
@@ -185,7 +185,7 @@
       });
 
       document
-        .getElementById("pauseBtn")
+        .getElementById("stopRT")
         .addEventListener("click", function () {
           viewer.cleanRealtimePositions();
         });
@@ -199,16 +199,6 @@
         buildingId: BUILDING_ID,
       });
 
-      document.getElementById("playBtn").addEventListener("click", function () {
-        viewer.loadRealtimePositions({
-          filter: rtFilter,
-          refreshRateMs: 1000,
-          itemMapper: (item) => {
-            return item;
-          },
-        });
-      });
-
       // Trajectory data filter: dates range, user id and building id
       const trajectoryFilter = {
         fromDate: new Date("2025-09-14T10:59:14.710Z"),
@@ -217,10 +207,10 @@
         buildingId: BUILDING_ID,
       };
 
-      document.getElementById("trajBtn").addEventListener("click", () => {
+      document.getElementById("startTraj").addEventListener("click", () => {
         viewer2.loadTrajectory(trajectoryFilter);
       });
-      document.getElementById("cleantrajBtn").addEventListener("click", () => {
+      document.getElementById("clearTraj").addEventListener("click", () => {
         viewer2.cleanTrajectory();
       });
     </script>

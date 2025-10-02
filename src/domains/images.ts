@@ -26,6 +26,7 @@ export default class ImagesApi {
 
   /**
    * Uploads a new image to Situm's backend.
+   *
    * @param image The image to upload.
    * @param options Optional parameters for the request. Can include `rtf` and `filename`.
    */

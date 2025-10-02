@@ -31,6 +31,11 @@ type SearchRealtime = {
 export default class RealtimeApi {
   private apiBase: ApiBase;
 
+  /**
+   * Initializes a new instance of the RealtimeApi class.
+   *
+   * @param {ApiBase} apiBase - The base API object for making requests to the Situm API.
+   */
   constructor(apiBase: ApiBase) {
     this.apiBase = apiBase;
   }
@@ -41,7 +46,6 @@ export default class RealtimeApi {
    * @param {SearchRealtime} [searchRealtime] - Optional search criteria for real-time positions.
    * @returns {Promise<RealtimePositions>} A promise that resolves to the retrieved real-time positions.
    */
-
   async getPositions(
     searchRealtime?: SearchRealtime,
   ): Promise<RealtimePositions> {
@@ -51,6 +55,12 @@ export default class RealtimeApi {
       .then(realtimePositionsMapper);
   }
 
+  /**
+   * Builds a URL for the real-time positions API with optional search parameters.
+   *
+   * @param {SearchRealtime} searchRealtime - Optional search criteria for real-time positions.
+   * @returns {string} The URL for the real-time positions API.
+   */
   private buildRealtimeUrl(searchRealTime: SearchRealtime): string {
     const base = "/api/v1/realtime/positions";
     const params = new URLSearchParams();

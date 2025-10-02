@@ -22,10 +22,50 @@ The SITUM SDK JS is Javascript library to create web applications using the REST
 
 The best way to get started is to navigate through the Situm SDK JS documentation site:
 
-- [Guide](https://situm.com/docs/01-quickstart-guide/) will give you a good overview of the library.
-- [API Reference](https://situm.com/docs/01-quickstart-guide/) will help you use a particular class or method.
-- [Examples](./examples/index.html) will demo some specific features.
-- [Support](https://situm.com/en/docs/sdk-js/support/) might answer some of your questions.
+- [Guide](https://situm.com/docs/websdk-javascript-sdk-quickstart-guide/) will give you a good overview of the library.
+- [API Reference](https://developers.situm.com/sdk_documentation/sdk-js/index.html) will help you use a particular class or method.
+- [Examples](https://github.com/situmtech/situm-sdk-js/tree/main/examples) will demo some specific features.
+- [Support](https://situm.com/en/docs/) might answer some of your questions.
+
+This library is organized into distinct domains, each targeting a specific aspect of indoor mapping and positioning. This separation helps you focus on relevant functionality for your application. The main domains are:
+
+| Name           | Explanation                                                                 | Example                                 |
+|----------------|-----------------------------------------------------------------------------|-----------------------------------------|
+| **Cartography**| Handles map data, such as buildings, floors, and points of interest.        | `sdk.cartography.getBuildings()`        |
+| **Realtime**   | Manages real-time location tracking and positioning.                        | `sdk.realtime.getPositions()`           |
+| **Viewer**     | Provides tools to render interactive maps and visualizations in your web application. | `sdk.viewer.create({})`           |
+| **User**       | Manages user accounts and authentication.                                   | `sdk.user.createUser()`                 |
+| **Reports**    | Accesses analytics and reporting features, such as visit or usage reports.  | `sdk.reports.getTrajectory()`         |
+| **Images**     | Handles image retrieval and management, such as map or POI images.          | `sdk.images.uploadImage()`         |
+
+Each domain exposes its own set of classes and methods, making it easier to work with geospatial data, live positioning, or map rendering independently.
+
+
+### Examples:
+
+Fetching all the buildings from the api
+```typescript
+const sdk = new Situm({auth: {apiKey: YOUR_API_KEY});
+const buildings = sdk.cartography.getBuildings();
+```
+
+Fetching realtime positions from the api
+```typescript
+const sdk = new Situm({auth: {apiKey: YOUR_API_KEY});
+const buildings = sdk.realtime.getPositions();
+```
+
+Render an interactive viewer on a div:
+```typescript
+const sdk = new Situm({auth: {apiKey: YOUR_API_KEY});
+const viewer = sdk.viewer.create({});
+
+viewer.on(ViewerEventType.MAP_IS_READY, () =>
+  console.log("viewer1: map is ready")
+);
+```
+
+Check the examples folder on the repository to see more examples.
 
 ## Versioning
 

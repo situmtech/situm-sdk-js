@@ -50,6 +50,12 @@ export class Viewer {
     );
   }
 
+  /**
+   * Initializes the iframe element with the correct URL and appends it to the
+   * given DOM element.
+   * @param {ViewerOptions} opts - The viewer options object containing the
+   * profile, API key and building ID.
+   */
   private _initIframe(opts: ViewerOptions) {
     const iframe = document.createElement("iframe");
     let url = this.profile
@@ -70,6 +76,11 @@ export class Viewer {
     this.iframe = iframe;
   }
 
+  /**
+   * Attaches a global event listener to the window object.
+   * Listens for messages from the iframe content window and calls the respective
+   * callbacks if the message type matches one of the registered event types.
+   */
   private _attachGlobalListener() {
     window.addEventListener("message", (e: MessageEvent) => {
       if (e.source !== this.iframe?.contentWindow) return;
@@ -95,6 +106,19 @@ export class Viewer {
     });
   }
 
+  /**
+   * Attaches a callback to a viewer event.
+   * The callback will be called when the viewer sends a message with the type
+   * matching the event parameter.
+   *
+   * @param event The type of the event to listen to.
+   * @param callback The callback to call when the event is triggered.
+   *
+   * @example
+   * viewer.on(ViewerEventType.MAP_IS_READY, () => {
+   *   console.log("Viewer map is ready");
+   * });
+   */
   public on<T extends ViewerEventType>(
     event: T,
     callback: ViewerEventCallback<T>,
@@ -109,6 +133,20 @@ export class Viewer {
     this.sendDataToViewer("cartography.select_poi", { identifier: id });
   }
 
+  /**
+   * Loads and displays the real-time positions of devices in the Situm dashboard.
+   * The positions are updated every `refreshRateMs` milliseconds.
+   *
+   * @param {Object} opts - The options for loading the real-time positions.
+   * @param {Object} opts.filter - The filter for the real-time positions. Currently only
+   *   supports filtering by building ID.
+   * @param {number} opts.refreshRateMs - The refresh rate for the real-time positions in
+   *   milliseconds. Defaults to 10000.
+   * @param {(position: RTDataCustomizer) => RTDataCustomizer | undefined} opts.customizeFeatures -
+   *   A function that customizes the appearance of the real-time positions on the map.
+   *   The function is called with the base data of the position as an argument, and should
+   *   return the customized data or undefined if the position should not be rendered.
+   */
   async loadRealtimePositions({
     filter,
     refreshRateMs = 10000,
@@ -187,11 +225,25 @@ export class Viewer {
     this.realtimeInterval = setInterval(fetchAndSend, refreshRateMs);
   }
 
+  /**
+   * Stop fetching and sending realtime positions to the viewer, and clear the previous positions in the viewer.
+   */
   async cleanRealtimePositions() {
     if (this.realtimeInterval) clearInterval(this.realtimeInterval);
     this.sendDataToViewer("map.update_external_features", []);
   }
 
+  /**
+   * Loads and displays the trajectory of a user in the Situm dashboard.
+   * The trajectory is displayed on the map as a line, with the user's position
+   * updated every second.
+   *
+   * @param {Object} opts - The options for loading the trajectory.
+   * @param {Date} opts.fromDate - The start date of the trajectory.
+   * @param {Date} opts.toDate - The end date of the trajectory.
+   * @param {number} opts.buildingId - The ID of the building the user is in.
+   * @param {UUID} [opts.userId] - The ID of the user. If not provided, the trajectory of all users will be displayed.
+   */
   async loadTrajectory({
     fromDate,
     toDate,
@@ -221,6 +273,14 @@ export class Viewer {
     }
   }
 
+  /**
+   * Clears the trajectory from the viewer.
+   *
+   * This function sends a "map.show_trajectory" event to the viewer with an empty data array and a status of "STOP".
+   * This will stop the trajectory animation and clear the trajectory from the map.
+   *
+   * @throws {Error} - If there is an error sending the event to the viewer.
+   */
   async cleanTrajectory() {
     try {
       this.sendDataToViewer("map.show_trajectory", {

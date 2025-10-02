@@ -34,10 +34,21 @@ type SearchTrajectoryReport = {
 export default class ReportsApi {
   private apiBase: ApiBase;
 
+  /**
+   * Initializes the report domain
+   * @param apiBase The connector to interact with the API
+   */
   constructor(apiBase: ApiBase) {
     this.apiBase = apiBase;
   }
 
+  /**
+   * Retrieves a list of positions for a user in a building.
+   * If no searchReport is provided, it will throw an error.
+   *
+   * @param {SearchTrajectoryReport | undefined} searchReport - Optional search criteria for filtering positions.
+   * @returns {Promise<TrajectoryReportPosition[]>} A promise that resolves with an array of positions.
+   */
   async getTrajectory(
     searchReport?: SearchTrajectoryReport,
   ): Promise<TrajectoryReportPosition[]> {
@@ -56,6 +67,12 @@ export default class ReportsApi {
     return response;
   }
 
+  /**
+   * Builds a URL for retrieving a list of positions for a user in a building.
+   *
+   * @param {SearchTrajectoryReport} searchReport - Search criteria for filtering positions.
+   * @returns {string} The built URL.
+   */
   private buildReportUrl(searchReport: SearchTrajectoryReport): string {
     const base = "/api/v1/reports/user_positions.json";
 
