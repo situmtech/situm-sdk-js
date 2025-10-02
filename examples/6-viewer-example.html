@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" class="dark:bg-gray-900">
   <head>
     <meta charset="UTF-8" />
@@ -7,8 +7,8 @@
     <script>
       // Add dark mode configuration
       tailwind.config = {
-        darkMode: 'class'
-      }
+        darkMode: "class",
+      };
     </script>
   </head>
 
@@ -25,7 +25,9 @@
           alt="Situm Logo"
           class="h-12 w-auto mr-5"
         />
-        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Situm SDK Viewer Demo</h1>
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">
+          Situm SDK Viewer Demo
+        </h1>
       </div>
       <button
         id="theme-toggle"
@@ -37,7 +39,9 @@
           fill="currentColor"
           viewBox="0 0 20 20"
         >
-          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          <path
+            d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+          ></path>
         </svg>
         <svg
           id="theme-toggle-light-icon"
@@ -52,8 +56,8 @@
       </button>
     </header>
 
-    <div class="w-full mt-20">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+    <div class="w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full mt-40 lg:mt-20">
         <!-- Viewer 1 with its controls -->
         <div class="flex flex-col">
           <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">
@@ -121,14 +125,22 @@
 
     <!-- Bundle UMD -->
     <script src="https://unpkg.com/axios@1.12.2/dist/axios.min.js"></script>
-    <script src="../dist/umd/situm-sdk.js"></script>
+    <script src="https://unpkg.com/@situm/sdk-js@0.10.0-beta/dist/umd/situm-sdk.js"></script>
 
     <script>
+      const { ViewerEventType } = window.SitumSDK;
+      const SDKClass = window.SitumSDK.default;
+
       // Get URL parameters
       const urlParams = new URLSearchParams(window.location.search);
-      const BUILDING_ID = parseInt(urlParams.get('buildingId')); // Default to Demo building if not provided
-      const USER_ID = urlParams.get('userId') || ""; // Default if not provided
-      const API_KEY = urlParams.get('apiKey'); // Default if not provided
+      const BUILDING_ID = parseInt(urlParams.get("buildingId")); // Default to Demo building if not provided
+      const USER_ID = urlParams.get("userId") || ""; // Default if not provided
+      const API_KEY = urlParams.get("apiKey"); // Default if not provided
+
+      // Add error handling for missing required parameters
+      if (!BUILDING_ID) {
+        console.error("Building ID is required");
+      }
 
       let options = {
         auth: {
@@ -136,54 +148,47 @@
           apiKey: API_KEY,
         },
       };
-
-      // Add error handling for missing required parameters
-      if (!BUILDING_ID) {
-        console.error('Building ID is required');
-      }
-
-      const SDKClass = window.SitumSDK.default;
       const sdk = new SDKClass(options);
-      const { ViewerEventType } = window.SitumSDK;
 
       /**
        * Viewer 1: realtime positions viewer
        */
-
       const viewer = sdk.viewer.create({
         domElement: document.querySelector("#viewer1"),
         // either profile or apikey to authenticate on viewer, if not specified auth.apiKey will be used
         // profile: 'demo'
         // apiKey: options.auth.apiKey,
-        // profile: "demo",
         buildingId: BUILDING_ID,
       });
       viewer.on(ViewerEventType.MAP_IS_READY, () =>
-        console.log("viewer1 map is ready"),
+        console.log("viewer1: map is ready")
       );
       viewer.on(ViewerEventType.POI_SELECTED, (e) =>
-        console.log(`Poi with ${e.id} was selected`),
+        console.log(`viewer1: Poi with ${e.id} was selected`)
       );
 
-      // Realtime data filter: currently by building id
-      const rtFilter = {
-        buildingIds: [BUILDING_ID],
-      };
-
-      document.getElementById("playBtn").onclick = function () {
+      document.getElementById("playBtn").addEventListener("click", function () {
+        // Realtime data filter: currently by building id
+        const rtFilter = {
+          buildingIds: [BUILDING_ID],
+        };
         viewer.loadRealtimePositions({
           filter: rtFilter,
           customizeFeatures: (d) => {
+            console.log(d);
             return {
               deviceId: d.deviceId,
               tooltip: `Device ${d.deviceId}`,
             };
           },
         });
-      };
-      document.getElementById("pauseBtn").onclick = function () {
-        viewer.cleanRealtimePositions();
-      };
+      });
+
+      document
+        .getElementById("pauseBtn")
+        .addEventListener("click", function () {
+          viewer.cleanRealtimePositions();
+        });
 
       /**
        * Viewer 2: trajectory viewer
@@ -194,7 +199,7 @@
         buildingId: BUILDING_ID,
       });
 
-      document.getElementById("playBtn").onclick = function () {
+      document.getElementById("playBtn").addEventListener("click", function () {
         viewer.loadRealtimePositions({
           filter: rtFilter,
           refreshRateMs: 1000,
@@ -202,10 +207,7 @@
             return item;
           },
         });
-      };
-      document.getElementById("pauseBtn").onclick = function () {
-        viewer.cleanRealtimePositions();
-      };
+      });
 
       // Trajectory data filter: dates range, user id and building id
       const trajectoryFilter = {
@@ -215,39 +217,11 @@
         buildingId: BUILDING_ID,
       };
 
-      document.getElementById("trajBtn").onclick = function () {
+      document.getElementById("trajBtn").addEventListener("click", () => {
         viewer2.loadTrajectory(trajectoryFilter);
-      };
-      document.getElementById("cleantrajBtn").onclick = function () {
+      });
+      document.getElementById("cleantrajBtn").addEventListener("click", () => {
         viewer2.cleanTrajectory();
-      };
-
-      // Theme toggle functionality
-      const themeToggleBtn = document.getElementById('theme-toggle');
-      const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-      const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-
-      // Change the icons inside the button based on previous settings
-      if (document.documentElement.classList.contains('dark')) {
-        themeToggleLightIcon.classList.remove('hidden');
-      } else {
-        themeToggleDarkIcon.classList.remove('hidden');
-      }
-
-      themeToggleBtn.addEventListener('click', function() {
-        // Toggle the dark class on the html element
-        document.documentElement.classList.toggle('dark');
-
-        // Toggle the icons
-        themeToggleDarkIcon.classList.toggle('hidden');
-        themeToggleLightIcon.classList.toggle('hidden');
-
-        // Save the preference to localStorage
-        if (document.documentElement.classList.contains('dark')) {
-          localStorage.setItem('color-theme', 'dark');
-        } else {
-          localStorage.setItem('color-theme', 'light');
-        }
       });
     </script>
   </body>
