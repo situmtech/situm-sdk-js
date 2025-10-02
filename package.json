@@ -45,11 +45,11 @@
     "format": "biome check --write --unsafe ./src ./test ./examples ",
     "precommit": "lint-staged",
     "prepare-release": "run-s reset-hard test build doc:html",
-    "reset-hard": "git clean -dfx && git reset --hard && npm install",
+    "reset-hard": "git clean -dfx && git reset --hard && yarn install",
     "test:lint": "biome check ./src ./test ./examples",
     "test:spelling": "cspell --no-summary --no-progress --no-must-find-files \"{README.md,.github/*.md,src/**/*.ts}\"",
     "test:unit": "jest --coverage",
-    "test": "run-p test:*",
+    "test": "run-p \"test:*\"",
     "version": "standard-version"
   },
   "engines": {

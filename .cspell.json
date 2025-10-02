@@ -14,7 +14,10 @@
     "georeferences",
     "Cocina",
     "geospacial",
-    "Colour"
+    "Colour",
+    "buildingid"
   ],
-  "flagWords": ["hte"]
+  "flagWords": [
+    "hte"
+  ]
 }
