@@ -3,7 +3,24 @@
   "assist": {
     "actions": {
       "source": {
-        "organizeImports": "on",
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              ["react"],
+              ":BLANK_LINE:",
+              [":BUN:", ":NODE:", ":PACKAGE_WITH_PROTOCOL:", ":PACKAGE:"],
+              ":BLANK_LINE:",
+              ["**/*Slice"],
+              ":BLANK_LINE:",
+              ["@/components/**"],
+              ":BLANK_LINE:",
+              [":ALIAS:", ":PATH:"],
+              ":BLANK_LINE:",
+              ["**/*.css"]
+            ]
+          }
+        },
         "useSortedKeys": "on"
       }
     },
@@ -13,12 +30,13 @@
       "!package.json",
       "!tsconfig.json",
       "!**/dist",
-      "!**/build"
+      "!**/build",
+      "!**/*.gen.ts",
+      "!**/vite.config.ts.timestamp-*.mjs",
+      "!**/src/codegen"
     ]
   },
-  "files": {
-    "ignoreUnknown": false
-  },
+  "files": { "ignoreUnknown": false },
   "formatter": {
     "attributePosition": "auto",
     "enabled": true,
@@ -49,15 +67,6 @@
       "trailingCommas": "none"
     }
   },
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true
-    }
-  },
-  "vcs": {
-    "clientKind": "git",
-    "enabled": true,
-    "useIgnoreFile": true
-  }
+  "linter": { "enabled": true, "rules": { "recommended": true } },
+  "vcs": { "clientKind": "git", "enabled": true, "useIgnoreFile": true }
 }

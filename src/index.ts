@@ -6,7 +6,6 @@
  *
  */
 import { version } from "../package.json";
-
 import ApiBase from "./apiBase";
 import CartographyApi from "./domains/cartography";
 import ImagesApi from "./domains/images";

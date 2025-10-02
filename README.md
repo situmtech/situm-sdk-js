@@ -112,14 +112,14 @@ npm run docs
 ### Release version
 
 ```
-npm run prepare-release
-npm pack
-npm publish
+yarn run prepare-release
+yarn npm pack
+yarn npm publish
 ```
 
 or for beta channel
 
 ```
-npm run prepare-release
-npm publish --tag beta
+yarn prepare-release
+yarn npm publish --tag beta
 ```

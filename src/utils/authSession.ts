@@ -1,5 +1,4 @@
 import type { SitumJWTPayload } from "../types";
-
 import SitumError from "./situmError";
 
 export default class AuthSession {

@@ -36,18 +36,7 @@ describe("SitumSDK.cartography Geofence", () => {
   it("should search a geofence by name", async () => {
     // Arrange
     const situmSDK = new SitumSDK({ auth: getMockData("auth") });
-    const mockGeofenceList = {
-      data: [getMockData("geofenceResponseMock1")],
-      metadata: {
-        first: true,
-        last: true,
-        number: 1,
-        numberOfElements: 1,
-        size: 15,
-        totalElements: 1,
-        totalPages: 1,
-      },
-    };
+    const mockGeofenceList = getMockData("geofenceMockAll");
     const axiosMock = mockAxiosRequest([
       getMockData("geofenceResponseMockAll"),
     ]);
@@ -58,7 +47,7 @@ describe("SitumSDK.cartography Geofence", () => {
     });
 
     // Assert
-    const configuration = axiosMock.mock.calls[0][0];
+    const configuration = axiosMock.mock.calls[1][0];
     expect(configuration.params).toEqual({
       name: "test",
       organization_id: "fakefakefa-fake-fake-fake-fakefakefake",
@@ -93,7 +82,7 @@ describe("SitumSDK.cartography Geofence", () => {
     const geofence = await situmSDK.cartography.createGeofence(geofenceForm);
 
     // Assert
-    const configuration = axiosMock.mock.calls[0][0];
+    const configuration = axiosMock.mock.calls[1][0];
     expect(configuration.data).toEqual({
       building_id: "5962",
       code: "code",

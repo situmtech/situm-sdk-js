@@ -258,7 +258,7 @@ export default class CartographyApi {
     return this.apiBase
       .get<Paginated<Geofence>>({
         params: params,
-        url: "/api/v1/geofences",
+        url: "/api/v1/geofences/search",
       })
       .then((result) => ({
         data: result.data.map((geofence: Record<string, unknown>) =>
@@ -462,7 +462,7 @@ export default class CartographyApi {
    * @param {number[]} poiIds - An array of POI ids to delete.
    * @returns Promise<void[]> A Promise that resolves to void.
    */
-  deletePoisBulk(poiIds: number[]): Promise<void[]> {
+  deletePoisBulk(poiIds: number[]): Promise<undefined[]> {
     const deletions = poiIds.map((poiId) =>
       this.apiBase.delete({ url: `/api/v1/pois/${poiId}` }),
     );

@@ -8,7 +8,6 @@ import expect from "expect";
  *
  */
 import SitumSDK from "../src";
-
 import {
   checkAuthenticationException,
   getAuthenticationException,

@@ -6,7 +6,6 @@
  *
  */
 import type { Building, Poi } from "../types";
-
 import { getAdapter as getAdapterPoi, type ServerPoiGet } from "./PoiAdapter";
 
 /**
