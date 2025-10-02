@@ -462,7 +462,9 @@ export default class CartographyApi {
    * @param {number[]} poiIds - An array of POI ids to delete.
    * @returns Promise<void[]> A Promise that resolves to void.
    */
-  deletePoisBulk(poiIds: number[]): Promise<undefined[]> {
+
+  // biome-ignore lint/suspicious/noConfusingVoidType: This is fine, it's a Promise<void[]>
+  deletePoisBulk(poiIds: number[]): Promise<void[]> {
     const deletions = poiIds.map((poiId) =>
       this.apiBase.delete({ url: `/api/v1/pois/${poiId}` }),
     );
