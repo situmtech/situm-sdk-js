@@ -1,0 +1,136 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+pr: none
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+
+resources:
+  repositories:
+    - repository: sys_kubernetes_templates
+      type: bitbucket
+      endpoint: Bitbucket - sistemas
+      name: situm/sys-kubernetes-templates.git
+      ref: master
+    - repository: web_developers
+      type: bitbucket
+      endpoint: Bitbucket - sistemas
+      name: situm/web-developers.git
+      ref: master
+
+variables:
+  - group: Passwords
+  - group: SoftwareVersions
+  - group: ChangelogIds
+  - group: Bitbucket
+
+
+pool:
+  vmImage: $(ubuntuVersion)
+
+steps:
+
+  - checkout: self
+    fetchDepth: "3"
+    fetchTags: false
+    persistCredentials: true
+    path: situm-sdk-js
+    displayName: Get SDK JS
+
+  - task: UseNode@1
+    inputs:
+      version: $(nodeVersion)
+
+  - bash: |
+
+      version=$(grep '"version": "[0-9]\+\.[0-9]\+\.[0-9]\+",' $(Pipeline.Workspace)/situm-sdk-js/package.json | cut -d'"' -f4)
+
+      echo "##vso[task.setvariable variable=version]$(echo $version)"
+
+      echo -e "[+] Get variables:"
+      echo -e "\t[+] Version: $version"
+
+    displayName: Get variables
+
+  - bash: |
+      set -euo pipefail
+
+      cd $(Pipeline.Workspace)/situm-sdk-js
+
+      echo -e "\n[+] Enable corepack"
+      echo -e "##[command] corepack enable\n"
+
+      corepack enable
+
+      echo -e "\n[+] Install dependencies"
+      echo -e "##[command] yarn install\n"
+
+      yarn install
+
+      echo -e "\n[+] Build Library"
+      echo -e "##[command] yarn build \n"
+
+      yarn build
+
+    displayName: Build library
+
+  - bash: |
+      set -euo pipefail
+
+      echo -e "\n [+] Tag repository"
+      echo -e "##[command] git tag v$(version) && git push origin v$(version)\n"
+
+      cd $(Pipeline.Workspace)/situm-sdk-js
+
+      git tag v$(version)
+      git push origin v$(version)
+
+      echo -e "\n[+] Configure NPM login"
+      echo -e "##[command] yarn config set npmAuthToken $(NPM_WEB_TOKEN)"
+      yarn config set npmAuthToken $(NPM_WEB_TOKEN)
+
+      if [ "$(Build.SourceBranch)" == "refs/heads/main" ];then
+        options=" --access public"
+      else
+        options=" --access public --tag beta"
+      fi
+
+      echo -e "\n[+] Publish package "
+      echo -e "##[command] yarn npm publish $options\n"
+
+      yarn npm publish $options
+
+    displayName: Publish Library
+
+
+  - bash: |
+      set -euo pipefail
+
+      cd $(Pipeline.Workspace)/situm-sdk-js
+      echo -e "[+] Generate documentaction"
+      echo -e "##[command] yarn doc\n"
+
+      yarn doc
+    displayName: Generate doc
+
+  - template: azure-templates/commit-doc.yaml@sys_kubernetes_templates
+    parameters:
+      version: $(version)
+      docPath: "$(Pipeline.Workspace)/situm-sdk-js/docs/public/"
+      system: "sdk-js"
+      release: "sdk-js"
+      developersBranch: "master"
+      bitbucket:
+        bitbucket_user: $(bitbucket_user)
+        bitbucket_pass: $(bitbucket_token)
+
+  - template: azure-templates/publish-changelog.yaml@sys_kubernetes_templates
+    parameters:
+      changelogId: $(Sdk_Js_Changelog_id)
+      artifact_type: "web"
+
