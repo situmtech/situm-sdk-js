@@ -82,7 +82,7 @@ steps:
       set -euo pipefail
 
       echo -e "\n [+] Tag repository"
-      echo -e "##[command] git tag $(version) && git push origin $version\n"
+      echo -e "##[command] git tag $(version) && git push origin $(version)\n"
 
       cd $(Pipeline.Workspace)/situm-sdk-js
 
