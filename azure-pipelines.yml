@@ -104,6 +104,7 @@ steps:
   - bash: |
       set -euo pipefail
 
+      cd $(Pipeline.Workspace)/situm-sdk-js
       echo -e "[+] Generate documentaction"
       echo -e "##[command] yarn doc\n"
 
