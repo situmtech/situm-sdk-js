@@ -98,7 +98,9 @@ steps:
       echo -e "\n[+] Pack \n"
       echo -e "##[command] yarn npm pack\n"
 
-      yarn npm pack
+      yarn npm publish --dry-run
+
+      yarn npm whoami
 
 
     displayName: Prepare
