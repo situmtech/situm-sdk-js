@@ -81,13 +81,13 @@ steps:
   - bash: |
       set -euo pipefail
 
-      echo -e "\n [+] Tag repository"
-      echo -e "##[command] git tag $(version) && git push origin $(version)\n"
+      #echo -e "\n [+] Tag repository"
+      #echo -e "##[command] git tag v$(version) && git push origin v$(version)\n"
 
-      cd $(Pipeline.Workspace)/situm-sdk-js
+      #cd $(Pipeline.Workspace)/situm-sdk-js
 
-      git tag v$(version)
-      git push origin v$(version)
+      #git tag v$(version)
+      #git push origin v$(version)
 
       echo -e "\n[+] Configure NPM login"
       echo -e "##[command] yarn config set npmAuthToken $(NPM_WEB_TOKEN)"
