@@ -66,22 +66,10 @@ steps:
 
       corepack enable
 
-
-      echo -e "\n[+] Configure NPM login"
-      echo -e "##[command] yarn config set npmAuthToken $(NPM_WEB_TOKEN)"
-      yarn config set npmAuthToken $(NPM_WEB_TOKEN)
-
-
       echo -e "\n[+] Install dependencies"
       echo -e "##[command] yarn install\n"
 
       yarn install
-
-
-      echo -e "\n[+] Execute reset-hard command"
-      echo -e "##[command] yarn run-s reset-hard \n"
-
-      yarn run-s reset-hard
 
       echo -e "\n[+] Build Library"
       echo -e "##[command] yarn build \n"
@@ -91,12 +79,19 @@ steps:
     displayName: Build library
 
   - bash: |
+      set -euo pipefail
 
       echo -e "\n [+] Tag repository"
+      echo -e "##[command] git tag $(version) && git push origin $version\n"
 
       cd $(Pipeline.Workspace)/situm-sdk-js
 
+      git tag v$version
       git push origin v$(version)
+
+      echo -e "\n[+] Configure NPM login"
+      echo -e "##[command] yarn config set npmAuthToken $(NPM_WEB_TOKEN)"
+      yarn config set npmAuthToken $(NPM_WEB_TOKEN)
 
       echo -e "\n[+] Pack \n"
       echo -e "##[command] yarn npm pack\n"
