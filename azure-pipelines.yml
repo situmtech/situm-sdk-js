@@ -39,7 +39,7 @@ steps:
     fetchTags: false
     persistCredentials: true
     path: situm-sdk-js
-    displayName: Get Web Definitions
+    displayName: Get SDK JS
 
   - task: UseNode@1
     inputs:
@@ -120,7 +120,7 @@ steps:
       developersBranch: "master-test"
       bitbucket:
         bitbucket_user: $(bitbucket_user)
-        bitbucket_pass: $(bitbucket_pass)
+        bitbucket_pass: $(bitbucket_token)
 
   - template: azure-templates/publish-changelog.yaml@sys_kubernetes_templates
     parameters:
