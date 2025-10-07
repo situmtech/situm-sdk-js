@@ -15,7 +15,7 @@ resources:
       type: bitbucket
       endpoint: Bitbucket - sistemas
       name: situm/sys-kubernetes-templates.git
-      ref: master
+      ref: feature/SIS-948
     - repository: web_developers
       type: bitbucket
       endpoint: Bitbucket - sistemas
@@ -98,7 +98,31 @@ steps:
 
       yarn npm publish --dry-run
 
-      yarn npm whoami
+    displayName: Publish Library
 
 
-    displayName: Prepare
+  - bash: |
+      set -euo pipefail
+
+      echo -e "[+] Generate documentaction"
+      echo -e "##[command] yarn doc\n"
+
+      yarn doc
+    displayName: Generate doc
+
+  - template: azure-templates/commit-doc.yaml@sys_kubernetes_templates
+    parameters:
+      version: $(version)
+      docPath: "$(Pipeline.Workspace)/situm-sdk-js/docs/public/"
+      system: "sdk-js"
+      release: "sdk-js"
+      developersBranch: "master-test"
+      bitbucket:
+        bitbucket_user: $(bitbucket_user)
+        bitbucket_pass: $(bitbucket_pass)
+
+  - template: azure-templates/publish-changelog.yaml@sys_kubernetes_templates
+    parameters:
+      changelogId: $(Sdk_Js_Changelog_id)
+      artifact_type: "web"
+
