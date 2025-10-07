@@ -50,17 +50,16 @@ steps:
 
       cd $(Pipeline.Workspace)/situm-sdk-js
 
-      echo -e "\n Install dependencies"
-      echo -e "##[command] yarn install\n"
-
-      yarn install
-
-
       echo -e "\n Enable corepack"
       echo -e "##[command] corepack enable\n"
 
       corepack enable
 
+
+      echo -e "\n Install dependencies"
+      echo -e "##[command] yarn install\n"
+
+      yarn install
 
       echo -e "\n[+] Run tests"
       echo -e "##[command] yarn test \n"
