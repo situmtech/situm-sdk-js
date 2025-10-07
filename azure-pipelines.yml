@@ -46,6 +46,14 @@ steps:
       version: $(nodeVersion)
 
   - bash: |
+
+      version=$(grep '"version": "[0-9]\+\.[0-9]\+\.[0-9]\+",' $(Pipeline.Workspace)/package.json
+      echo -e "[+] Get variables:"
+      echo -e "\t[+] Version: $version"
+
+    displayName: Get variables
+
+  - bash: |
       set -euo pipefail
 
       cd $(Pipeline.Workspace)/situm-sdk-js
@@ -53,23 +61,34 @@ steps:
       echo -e "\n[+] Configure NPM login"
       echo "//registry.npmjs.org/:_authToken=$(NPM_WEB_TOKEN)" > ~/.npmrc
 
-      echo -e "\n Enable corepack"
+      echo -e "\n[+] Enable corepack"
       echo -e "##[command] corepack enable\n"
 
       corepack enable
 
-      echo -e "\n Install dependencies"
+      echo -e "\n[+] Install dependencies"
       echo -e "##[command] yarn install\n"
 
       yarn install
 
 
-      echo -e "\n Prepare Release \n"
-      echo -e "##[command] yarn run prepare-release\n"
+      echo -e "\n[+] Execute reset-har command \n"
+      echo -e "##[command] yarn run-s reset-hard \n
 
-      yarn run prepare-release
+      yarn run-s reset-hard
 
-      echo -e "\n Pack \n"
+      echo -e "\n[+] Build Library"
+      echo -e "##[command] yarn build \n"
+
+      yarn build
+
+    displayName: Build library
+
+  - bash: |
+
+      echo -e "\n [+] Tag repository"
+
+      echo -e "\n[+] Pack \n"
       echo -e "##[command] yarn npm pack\n"
 
       yarn npm
