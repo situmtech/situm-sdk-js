@@ -93,10 +93,16 @@ steps:
       echo -e "##[command] yarn config set npmAuthToken $(NPM_WEB_TOKEN)"
       yarn config set npmAuthToken $(NPM_WEB_TOKEN)
 
-      echo -e "\n[+] Pack \n"
-      echo -e "##[command] yarn npm publish --dry-run\n"
+      if [ "$(Build.SourceBranch)" == "refs/heads/main" ];then
+        options=" --access public"
+      else
+        options=" --access public --tag beta"
+      fi
 
-      yarn npm publish --dry-run
+      echo -e "\n[+] Pack \n"
+      echo -e "##[command] yarn npm publish --dry-run $options\n"
+
+      yarn npm publish --dry-run $options
 
     displayName: Publish Library
 
