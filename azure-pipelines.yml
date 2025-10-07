@@ -100,9 +100,9 @@ steps:
       fi
 
       echo -e "\n[+] Publish package "
-      echo -e "##[command] yarn npm publish --dry-run $options\n"
+      echo -e "##[command] yarn npm publish $options\n"
 
-      yarn npm publish --dry-run $options
+      yarn npm publish $options
 
     displayName: Publish Library
 
