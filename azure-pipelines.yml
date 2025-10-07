@@ -49,6 +49,8 @@ steps:
 
       version=$(grep '"version": "[0-9]\+\.[0-9]\+\.[0-9]\+",' $(Pipeline.Workspace)/situm-sdk-js/package.json | cut -d'"' -f4)
 
+      echo "##vso[task.setvariable variable=version]$(echo $version)"
+
       echo -e "[+] Get variables:"
       echo -e "\t[+] Version: $version"
 
@@ -89,9 +91,14 @@ steps:
 
       echo -e "\n [+] Tag repository"
 
+      cd $(Pipeline.Workspace)/situm-sdk-js
+
+      git push origin v$version
+
       echo -e "\n[+] Pack \n"
       echo -e "##[command] yarn npm pack\n"
 
-      yarn npm
+      yarn npm pack
+
 
     displayName: Prepare
