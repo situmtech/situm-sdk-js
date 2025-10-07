@@ -84,7 +84,7 @@ steps:
       #echo -e "\n [+] Tag repository"
       #echo -e "##[command] git tag v$(version) && git push origin v$(version)\n"
 
-      #cd $(Pipeline.Workspace)/situm-sdk-js
+      cd $(Pipeline.Workspace)/situm-sdk-js
 
       #git tag v$(version)
       #git push origin v$(version)
@@ -94,7 +94,7 @@ steps:
       yarn config set npmAuthToken $(NPM_WEB_TOKEN)
 
       echo -e "\n[+] Pack \n"
-      echo -e "##[command] yarn npm pack\n"
+      echo -e "##[command] yarn npm publish --dry-run\n"
 
       yarn npm publish --dry-run
 
