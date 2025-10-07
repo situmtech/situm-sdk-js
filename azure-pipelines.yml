@@ -75,7 +75,7 @@ steps:
       yarn install
 
 
-      echo -e "\n[+] Execute reset-har command \n"
+      echo -e "\n[+] Execute reset-hard command"
       echo -e "##[command] yarn run-s reset-hard \n"
 
       yarn run-s reset-hard
@@ -93,7 +93,7 @@ steps:
 
       cd $(Pipeline.Workspace)/situm-sdk-js
 
-      git push origin v$version
+      git push origin v$(version)
 
       echo -e "\n[+] Pack \n"
       echo -e "##[command] yarn npm pack\n"
