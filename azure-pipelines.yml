@@ -3,17 +3,77 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
+pr: none
 trigger:
-- main
+  branches:
+    include:
+      - main
+
+resources:
+  repositories:
+    - repository: sys_kubernetes_templates
+      type: bitbucket
+      endpoint: Bitbucket - sistemas
+      name: situm/sys-kubernetes-templates.git
+      ref: master
+    - repository: web_developers
+      type: bitbucket
+      endpoint: Bitbucket - sistemas
+      name: situm/web-developers.git
+      ref: master
+
+variables:
+  - group: Passwords
+  - group: SoftwareVersions
+  - group: ChangelogIds
+  - group: Bitbucket
+
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: $(ubuntuVersion)
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - checkout: self
+    fetchDepth: "3"
+    fetchTags: false
+    persistCredentials: true
+    path: situm-sdk-js
+    displayName: Get Web Definitions
+
+  - task: UseNode@1
+    inputs:
+      version: $(nodeVersion)
+
+  - bash: |
+      set -euo pipefail
+
+      cd $(Pipeline.Workspace)/situm-sdk-js
+
+      echo -e "\n[+] Run tests"
+      echo -e "##[command] yarn test \n"
+
+    displayName: Run Test
+
+  - bash: |
+
+      echo -e "\n[+] Configure NPM login"
+      echo "//registry.npmjs.org/:_authToken=$(NPM_WEB_TOKEN)" > ~/.npmrc
+
+      echo -e "\n Install dependencies"
+      echo -e "##[command] yarn install\n"
+
+      yarn install
+
+
+      echo -e "\n Prepare Release \n"
+      echo -e "##[command] yarn run prepare-release\n"
+
+      yarn run prepare-release
+
+      echo -e "\n Pack \n"
+      echo -e "##[command] yarn npm pack\n"
+
+      yarn npm
+
+    displayName: Prepare
