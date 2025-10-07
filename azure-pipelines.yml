@@ -61,14 +61,16 @@ steps:
 
       cd $(Pipeline.Workspace)/situm-sdk-js
 
-      echo -e "\n[+] Configure NPM login"
-      echo -e "##[command] yarn config set npmAuthToken $(NPM_WEB_TOKEN)"
-      yarn config set npmAuthToken $(NPM_WEB_TOKEN)
-
       echo -e "\n[+] Enable corepack"
       echo -e "##[command] corepack enable\n"
 
       corepack enable
+
+
+      echo -e "\n[+] Configure NPM login"
+      echo -e "##[command] yarn config set npmAuthToken $(NPM_WEB_TOKEN)"
+      yarn config set npmAuthToken $(NPM_WEB_TOKEN)
+
 
       echo -e "\n[+] Install dependencies"
       echo -e "##[command] yarn install\n"
