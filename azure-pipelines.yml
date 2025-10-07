@@ -15,7 +15,7 @@ resources:
       type: bitbucket
       endpoint: Bitbucket - sistemas
       name: situm/sys-kubernetes-templates.git
-      ref: feature/SIS-948
+      ref: master
     - repository: web_developers
       type: bitbucket
       endpoint: Bitbucket - sistemas
@@ -81,13 +81,13 @@ steps:
   - bash: |
       set -euo pipefail
 
-      #echo -e "\n [+] Tag repository"
-      #echo -e "##[command] git tag v$(version) && git push origin v$(version)\n"
+      echo -e "\n [+] Tag repository"
+      echo -e "##[command] git tag v$(version) && git push origin v$(version)\n"
 
       cd $(Pipeline.Workspace)/situm-sdk-js
 
-      #git tag v$(version)
-      #git push origin v$(version)
+      git tag v$(version)
+      git push origin v$(version)
 
       echo -e "\n[+] Configure NPM login"
       echo -e "##[command] yarn config set npmAuthToken $(NPM_WEB_TOKEN)"
@@ -99,7 +99,7 @@ steps:
         options=" --access public --tag beta"
       fi
 
-      echo -e "\n[+] Pack \n"
+      echo -e "\n[+] Publish package "
       echo -e "##[command] yarn npm publish --dry-run $options\n"
 
       yarn npm publish --dry-run $options
@@ -123,7 +123,7 @@ steps:
       docPath: "$(Pipeline.Workspace)/situm-sdk-js/docs/public/"
       system: "sdk-js"
       release: "sdk-js"
-      developersBranch: "master-test"
+      developersBranch: "master"
       bitbucket:
         bitbucket_user: $(bitbucket_user)
         bitbucket_pass: $(bitbucket_token)
