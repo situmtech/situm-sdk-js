@@ -86,7 +86,7 @@ steps:
 
       cd $(Pipeline.Workspace)/situm-sdk-js
 
-      git tag v$version
+      git tag v$(version)
       git push origin v$(version)
 
       echo -e "\n[+] Configure NPM login"
