@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 - Add deviceId option in ViewerOptions
 - Add fixedPoiID option in ViewerOptions
+
 ## 0.10.0 (2025-10-02)
 
 ### Added
