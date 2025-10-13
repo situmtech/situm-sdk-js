@@ -65,10 +65,12 @@ export class Viewer {
       : this.apiKey
         ? `${VIEWER_URL}?apikey=${this.apiKey}`
         : VIEWER_URL;
-    if (opts.buildingId)
+    if (opts.buildingID)
       url += `${url.includes("?") ? "&" : "?"}buildingid=${opts.deviceID}`;
+    if (opts.floorID)
+      url += `${url.includes("?") ? "&" : "?"}floorid=${opts.floorID}`;
     if (opts.deviceID)
-      url += `${url.includes("?") ? "&" : "?"}deviceID=${opts.deviceID}`;
+      url += `${url.includes("?") ? "&" : "?"}deviceid=${opts.deviceID}`;
     if (opts.fixedPoiID)
       url += `${url.includes("?") ? "&" : "?"}fp=${opts.fixedPoiID}`;
 
