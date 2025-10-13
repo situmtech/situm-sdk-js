@@ -67,6 +67,14 @@ export class Viewer {
       url += url.includes("?")
         ? `&buildingid=${opts.buildingId}`
         : `?buildingid=${opts.buildingId}`;
+    if (opts.deviceID)
+      url += url.includes("?")
+        ? `&deviceid=${opts.deviceID}`
+        : `?deviceid=${opts.deviceID}`;
+    if (opts.fixedPoiID)
+      url += url.includes("?")
+        ? `&deviceid=${opts.fixedPoiID}`
+        : `?deviceid=${opts.fixedPoiID}`;
     iframe.src = url;
 
     iframe.style.width = "100%";
