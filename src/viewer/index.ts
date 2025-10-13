@@ -58,25 +58,22 @@ export class Viewer {
    */
   private _initIframe(opts: ViewerOptions) {
     const iframe = document.createElement("iframe");
+
+    // Build the iframe URL
     let url = this.profile
       ? `${VIEWER_URL}/${this.profile}`
       : this.apiKey
         ? `${VIEWER_URL}?apikey=${this.apiKey}`
         : VIEWER_URL;
     if (opts.buildingId)
-      url += url.includes("?")
-        ? `&buildingid=${opts.buildingId}`
-        : `?buildingid=${opts.buildingId}`;
+      url += `${url.includes("?") ? "&" : "?"}buildingid=${opts.deviceID}`;
     if (opts.deviceID)
-      url += url.includes("?")
-        ? `&deviceid=${opts.deviceID}`
-        : `?deviceid=${opts.deviceID}`;
+      url += `${url.includes("?") ? "&" : "?"}deviceID=${opts.deviceID}`;
     if (opts.fixedPoiID)
-      url += url.includes("?")
-        ? `&deviceid=${opts.fixedPoiID}`
-        : `?deviceid=${opts.fixedPoiID}`;
-    iframe.src = url;
+      url += `${url.includes("?") ? "&" : "?"}fp=${opts.fixedPoiID}`;
 
+    // Set properties on the iframe
+    iframe.src = url;
     iframe.style.width = "100%";
     iframe.style.height = "100%";
     iframe.style.border = "none";
