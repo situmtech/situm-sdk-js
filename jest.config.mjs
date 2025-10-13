@@ -12,7 +12,7 @@ export default {
   },
   moduleFileExtensions: ["ts", "js"],
   preset: "ts-jest",
-  testEnvironment: "node",
+  testEnvironment: "jsdom",
   testRegex: "((\\.|/)(test|spec))\\.(js?|ts?)$",
   transform: {
     "^.+\\.tsx?$": "ts-jest",
