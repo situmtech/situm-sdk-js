@@ -33,5 +33,6 @@
     "source.fixAll.format": "explicit",
     "source.organizeImports.biome": "explicit"
   },
-  "editor.defaultFormatter": "biomejs.biome"
+  "editor.defaultFormatter": "biomejs.biome",
+  "semgrep.scan.onlyGitDirty": false
 }
