@@ -4,7 +4,10 @@ export interface ViewerOptions {
   domElement: HTMLElement;
   profile?: string;
   apiKey?: string;
-  buildingId?: ID;
+  buildingID?: ID;
+  floorID?: ID;
+  deviceID?: string;
+  fixedPoiID?: ID;
 }
 
 export interface RTDataCustomizer {

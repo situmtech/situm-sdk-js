@@ -34,6 +34,11 @@ export class Viewer {
     this.apiKey = opts.apiKey;
     this.profile = opts.profile;
 
+    //check if opts.domElement is defined
+    if (!opts.domElement) {
+      throw new Error("domElement is required");
+    }
+
     this._initIframe(opts);
     this._attachGlobalListener();
   }
@@ -58,22 +63,33 @@ export class Viewer {
    */
   private _initIframe(opts: ViewerOptions) {
     const iframe = document.createElement("iframe");
-    let url = this.profile
-      ? `${VIEWER_URL}/${this.profile}`
-      : this.apiKey
-        ? `${VIEWER_URL}?apikey=${this.apiKey}`
-        : VIEWER_URL;
-    if (opts.buildingId)
-      url += url.includes("?")
-        ? `&buildingid=${opts.buildingId}`
-        : `?buildingid=${opts.buildingId}`;
-    iframe.src = url;
 
+    const url = new URL(this.profile || "", VIEWER_URL);
+
+    if (!this.profile && this.apiKey) url.searchParams.set("key", this.apiKey);
+    if (opts.buildingID)
+      url.searchParams.set("buildingid", opts.buildingID.toString());
+    if (opts.floorID) url.searchParams.set("floorid", opts.floorID.toString());
+    if (opts.deviceID)
+      url.searchParams.set("deviceid", opts.deviceID.toString());
+    if (opts.fixedPoiID) url.searchParams.set("fp", opts.fixedPoiID.toString());
+
+    // Set properties on the iframe
+    iframe.src = url.toString();
     iframe.style.width = "100%";
     iframe.style.height = "100%";
     iframe.style.border = "none";
     opts.domElement.appendChild(iframe);
     this.iframe = iframe;
+  }
+  /**
+   * Returns the iframe element created by the viewer. If the viewer has not been
+   * initialized, this method will return undefined.
+   * @returns {HTMLIFrameElement | undefined} The iframe element or undefined if
+   * the viewer has not been initialized.
+   */
+  public get _iframe(): HTMLIFrameElement | undefined {
+    return this.iframe;
   }
 
   /**

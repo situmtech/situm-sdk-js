@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.10.1 (2025-10-13)
+
+### Added
+
+- Add deviceId option in ViewerOptions
+- Add fixedPoiID option in ViewerOptions
+
 ## 0.10.0 (2025-10-02)
 
 ### Added

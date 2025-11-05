@@ -1,6 +1,7 @@
 {
-  "version": "0.2",
+  "flagWords": ["hte"],
   "language": "en",
+  "version": "0.2",
   "words": [
     "Situm",
     "Customizer",
@@ -15,9 +16,7 @@
     "Cocina",
     "geospacial",
     "Colour",
-    "buildingid"
-  ],
-  "flagWords": [
-    "hte"
+    "buildingid",
+    "floorid"
   ]
 }
