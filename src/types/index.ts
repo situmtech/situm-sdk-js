@@ -498,10 +498,10 @@ export interface DirectionOptions {
   bearingFrom: {
     radians: number;
   };
-  accesibilityMode:
+  accesibilityMode: // cspell:disable-line
     | "CHOOSE_SHORTEST"
-    | "ONLY_ACCESIBLE"
-    | "ONLY_NOT_ACCESIBLE_FLOOR_CHANGES";
+    | "ONLY_ACCESIBLE" // cspell:disable-line
+    | "ONLY_NOT_ACCESIBLE_FLOOR_CHANGES"; // cspell:disable-line
 }
 
 interface NavigationOptions {

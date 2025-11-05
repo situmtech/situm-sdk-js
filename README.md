@@ -38,7 +38,7 @@ This library is organized into distinct domains, each targeting a specific aspec
 | **Reports**    | Accesses analytics and reporting features, such as visit or usage reports.  | `sdk.reports.getTrajectory()`         |
 | **Images**     | Handles image retrieval and management, such as map or POI images.          | `sdk.images.uploadImage()`         |
 
-Each domain exposes its own set of classes and methods, making it easier to work with geospatial data, live positioning, or map rendering independently.
+Each domain exposes its own set of classes and methods, making it easier to work with geospacial data, live positioning, or map rendering independently.
 
 ### Examples
 
@@ -93,7 +93,7 @@ The folder `docs/guides` contains general information about the Situm SDK JS lib
 
 You can find a published api reference at [https://developers.situm.com/sdk_documentation/sdk-js/index.html](https://developers.situm.com/sdk_documentation/sdk-js/index.html)
 
-Or run `yarn doc` at the respository to build the API reference documentation from jsdoc annotations.
+Or run `yarn doc` at the repository to build the API reference documentation from jsdoc annotations.
 
 Once the task is done, you can visit `docs/public/index.html` to check the reference
 
