@@ -11,7 +11,7 @@ import type ReportsApi from "../domains/reports";
 import {
   type DirectionOptions,
   type UUID,
-  type ViewerActionParms,
+  type ViewerActionParams,
   ViewerActionType,
   type ViewerEventPayloads,
   type ViewerEventType,
@@ -45,9 +45,9 @@ export class Viewer {
     this._attachGlobalListener();
   }
 
-  private async sendDataToViewer<T extends keyof ViewerActionParms>(
+  private async sendDataToViewer<T extends keyof ViewerActionParams>(
     type: T,
-    payload: ViewerActionParms[T],
+    payload: ViewerActionParams[T],
   ) {
     if (!this.iframe?.contentWindow)
       throw new Error("Viewer iframe not initialized");

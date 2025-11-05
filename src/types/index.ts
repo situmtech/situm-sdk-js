@@ -626,7 +626,7 @@ export enum ViewerActionType {
   UI_TOGGLE_USER_SETTINGS = "ui.toggle_user_settings",
 }
 
-export interface ViewerActionParms {
+export interface ViewerActionParams {
   //auth
   [ViewerActionType.APP_SET_AUTH]: { jwt: string };
   [ViewerActionType.APP_SET_CONFIG_ITEM]: { key: string; value: string };
