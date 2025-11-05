@@ -9,7 +9,7 @@
 import type ApiBase from "../apiBase";
 import type { UUID } from "../types";
 
-type TrajectoryReportPosition = {
+export type TrajectoryReportPosition = {
   timestamp: string;
   sessionMark: number;
   floorId: number;

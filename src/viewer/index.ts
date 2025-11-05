@@ -8,7 +8,14 @@
 
 import type RealtimeApi from "../domains/realtime";
 import type ReportsApi from "../domains/reports";
-import type { UUID, ViewerEventPayloads, ViewerEventType } from "../types";
+import {
+  type DirectionOptions,
+  type UUID,
+  type ViewerActionParams,
+  ViewerActionType,
+  type ViewerEventPayloads,
+  type ViewerEventType,
+} from "../types";
 import type { RTDataCustomizer, ViewerOptions } from "./types";
 
 const VIEWER_URL = "https://maps.situm.com";
@@ -38,7 +45,10 @@ export class Viewer {
     this._attachGlobalListener();
   }
 
-  private async sendDataToViewer(type: string, payload) {
+  private async sendDataToViewer<T extends keyof ViewerActionParams>(
+    type: T,
+    payload: ViewerActionParams[T],
+  ) {
     if (!this.iframe?.contentWindow)
       throw new Error("Viewer iframe not initialized");
     this.iframe.contentWindow.postMessage(
@@ -129,8 +139,149 @@ export class Viewer {
     this.listeners[event]?.push(callback);
   }
 
+  /**
+   * Selects a poi by its identifier.
+   *
+   * @param id The identifier of the poi to select.
+   */
   async selectPoiById(id: number) {
-    this.sendDataToViewer("cartography.select_poi", { identifier: id });
+    this.sendDataToViewer(ViewerActionType.SELECT_POI, { identifier: id });
+  }
+
+  /**
+   * Deselects the currently selected poi.
+   *
+   * This function sends a message to the viewer to deselect the currently
+   * selected poi. It does not take any parameters.
+   */
+  async deselectPoi() {
+    this.sendDataToViewer(ViewerActionType.DESELECT_POI, {});
+  }
+
+  /**
+   * Selects a car by its identifier.
+   *
+   * @param id The identifier of the car to select.
+   *
+   * This function sends a message to the viewer to select the car with the given
+   * identifier. It does not return any value.
+   */
+  async selectCar(id: string) {
+    this.sendDataToViewer(ViewerActionType.SELECT_CAR, { identifier: id });
+  }
+
+  /**
+   * Selects a building by its identifier.
+   *
+   * This function sends a message to the viewer to select the building with the given
+   * identifier. It does not return any value.
+   *
+   * @param id The identifier of the building to select.
+   */
+  async selectBuilding(id: number) {
+    this.sendDataToViewer(ViewerActionType.BUILDING_SELECT, { identifier: id });
+  }
+
+  /**
+   * Selects a floor by its identifier and building identifier.
+   *
+   * This function sends a message to the viewer to select the floor with the given
+   * identifier and building identifier. It does not return any value.
+   *
+   * @param id The identifier of the floor to select.
+   * @param buildingId The identifier of the building that the floor belongs to.
+   */
+  async selectFloor(id: number, buildingId: number) {
+    this.sendDataToViewer(ViewerActionType.FLOOR_SELECT, {
+      buildingIdentifier: buildingId,
+      identifier: id,
+    });
+  }
+
+  /**
+   * Selects multiple POI categories by their identifiers.
+   *
+   * This function sends a message to the viewer to select the POI categories with the given
+   * identifiers. It does not return any value.
+   *
+   * @param categoryIds The identifiers of the POI categories to select.
+   */
+  async selectPoiCategory(categoryIds: number[]) {
+    this.sendDataToViewer(ViewerActionType.SELECT_POI_CATEGORY, {
+      identifiers: categoryIds,
+    });
+  }
+  /**
+   * Sets the options for the directions feature of the viewer.
+   *
+   * This function sends a message to the viewer to set the options for the directions
+   * feature. It does not return any value.
+   *
+   * @param options The options to set. The options object should contain the following
+   * properties:
+   *   - from: The starting position of the directions. The from object should contain
+   *     the following properties:
+   *       - isIndoor: A boolean indicating whether the starting position is indoors.
+   *       - isOutdoor: A boolean indicating whether the starting position is outdoors.
+   *       - coordinate: The geographical coordinates of the starting position. The coordinate
+   *         object should contain the following properties:
+   *           - latitude: The latitude of the starting position.
+   *           - longitude: The longitude of the starting position.
+   *       - cartesianCoordinate: The cartesian coordinates of the starting position. The cartesianCoordinate
+   *         object should contain the following properties:
+   *           - x: The x coordinate of the starting position.
+   *           - y: The y coordinate of the starting position.
+   *       - floorIdentifier: The identifier of the floor that the starting position is on.
+   *       - buildingIdentifier: The identifier of the building that the starting position is in.
+   *   - to: The ending position of the directions. The to object should contain the following
+   *     properties:
+   *       - isIndoor: A boolean indicating whether the ending position is indoors.
+   *       - isOutdoor: A boolean indicating whether the ending position is outdoors.
+   *       - coordinate: The geographical coordinates of the ending position. The coordinate
+   *         object should contain the following properties:
+   *           - latitude: The latitude of the ending position.
+   *           - longitude: The longitude of the ending position.
+   *       - cartesianCoordinate: The cartesian coordinates of the ending position. The cartesianCoordinate
+   *         object should contain the following properties:
+   *           - x: The x coordinate of the ending position.
+   *           - y: The y coordinate of the ending position.
+   *       - floorIdentifier: The identifier of the floor that the ending position is on.
+   *       - buildingIdentifier: The identifier of the building that the ending position is in.
+   */
+  async directionsSetOptions(options: DirectionOptions) {
+    this.sendDataToViewer(ViewerActionType.DIRECTIONS_SET_OPTIONS, {
+      directionOptions: options,
+    });
+  }
+
+  /**
+   * Sets the user's location on the map.
+   *
+   * This function sends a message to the viewer to update the user's location on the map.
+   * The location is specified by the options object which should contain the following properties:
+   *   - x: The x coordinate of the user's location.
+   *   - y: The y coordinate of the user's location.
+   *   - latitude: The latitude of the user's location.
+   *   - longitude: The longitude of the user's location.
+   *   - floorIdentifier: The identifier of the floor that the user's location is on.
+   *   - buildingIdentifier: The identifier of the building that the user's location is in.
+   *   - accuracy: The accuracy of the user's location in meters. Optional.
+   *   - bearing: The bearing of the user's location. Optional.
+   *   - hasBearing: A boolean indicating whether the user's location has a bearing or not. Optional.
+   *     but required to see the arrow.
+   */
+  async setUserLocation(options: {
+    x: number;
+    y: number;
+    latitude: number;
+    longitude: number;
+    floorIdentifier: number;
+    buildingIdentifier: number;
+    accuracy: number; // optional
+    bearing: { radians: number }; // optional
+    hasBearing: boolean; // optional but required to see the arrow
+  }) {
+    this.sendDataToViewer(ViewerActionType.LOCATION_UPDATE, options);
   }
 
   /**
@@ -168,36 +319,7 @@ export class Viewer {
 
         const formattedData = realtimePositions.features
           .map((feature) => {
-            const baseData: RTDataCustomizer = {
-              deviceId: feature.id,
-            };
-
-            // custom render
-            if (typeof customizeFeatures === "function") {
-              const customized = customizeFeatures(baseData);
-              if (!customized) return null;
-              return {
-                geometry: {
-                  coordinates: [
-                    feature.geometry.coordinates[1],
-                    feature.geometry.coordinates[0],
-                  ],
-                  type: "Point",
-                },
-                id: feature.id,
-                properties: {
-                  accuracy: feature.properties.accuracy,
-                  building_id: feature.properties.buildingId,
-                  floor_id: feature.properties.floorId,
-                  icon_url: customized.iconUrl,
-                  title: customized.tooltip,
-                },
-                type: "Feature",
-              };
-            }
-
-            // default render
-            return {
+            const customizedFeature = {
               geometry: {
                 coordinates: [
                   feature.geometry.coordinates[1],
@@ -210,12 +332,35 @@ export class Viewer {
                 accuracy: feature.properties.accuracy,
                 building_id: feature.properties.buildingId,
                 floor_id: feature.properties.floorId,
+                icon_url: undefined, // TODO
+                title: undefined, // TODO
               },
               type: "Feature",
             };
+
+            // custom render
+            if (typeof customizeFeatures === "function") {
+              const baseData: RTDataCustomizer = {
+                deviceId: feature.id,
+              };
+              const customized = customizeFeatures(baseData);
+              if (!customized) return null;
+
+              if (customized.iconUrl) {
+                customizedFeature.properties.icon_url = customized.iconUrl;
+              }
+              if (customized.tooltip) {
+                customizedFeature.properties.title = customized.tooltip;
+              }
+            }
+
+            return customizedFeature;
           })
           .filter(Boolean);
-        this.sendDataToViewer("map.update_external_features", formattedData);
+        this.sendDataToViewer(
+          ViewerActionType.MAP_EXTERNAL_FEATURES,
+          formattedData,
+        );
       } catch (err) {
         console.error("Error fetching/parsing realtime positions", err);
       }
@@ -230,7 +375,7 @@ export class Viewer {
    */
   async cleanRealtimePositions() {
     if (this.realtimeInterval) clearInterval(this.realtimeInterval);
-    this.sendDataToViewer("map.update_external_features", []);
+    this.sendDataToViewer(ViewerActionType.MAP_EXTERNAL_FEATURES, []);
   }
 
   /**
@@ -263,7 +408,7 @@ export class Viewer {
         userId,
       });
 
-      this.sendDataToViewer("map.show_trajectory", {
+      this.sendDataToViewer(ViewerActionType.MAP_SHOW_TRAJECTORY, {
         data: response,
         speed: 1,
         status: "PLAY",
@@ -283,7 +428,7 @@ export class Viewer {
    */
   async cleanTrajectory() {
     try {
-      this.sendDataToViewer("map.show_trajectory", {
+      this.sendDataToViewer(ViewerActionType.MAP_SHOW_TRAJECTORY, {
         data: [],
         speed: 1,
         status: "STOP",
@@ -291,5 +436,48 @@ export class Viewer {
     } catch (err) {
       console.error("Error fetching/parsing trajectories", err);
     }
+  }
+
+  /**
+   * Sends a "app.set_auth" event to the viewer with the given jwt string.
+   *
+   * This function can be used to set the authentication token in the viewer.
+   *
+   * @param {string} jwt - The jwt string to set as the authentication token.
+   */
+  async setAuth(jwt: string) {
+    await this.sendDataToViewer(ViewerActionType.APP_SET_AUTH, { jwt });
+  }
+
+  /**
+   * Sends a "app.set_config_item" event to the viewer with the given key and value.
+   *
+   * This function can be used to set configuration items in the viewer, such as the language or the units.
+   *
+   * @param {string} key - The key of the configuration item to set.
+   * @param {string} value - The value of the configuration item to set.
+   *
+   * @throws {Error} - If there is an error sending the event to the viewer.
+   */
+  async setConfigItem(key: string, value: string) {
+    await this.sendDataToViewer(ViewerActionType.APP_SET_CONFIG_ITEM, {
+      key,
+      value,
+    });
+  }
+
+  /**
+   * Sets whether the camera should follow the user in the viewer.
+   *
+   * If set to true, the camera will move to the user's position when the user moves.
+   * If set to false, the camera will stay in its current position.
+   *
+   * @param {boolean} enabled - Whether the camera should follow the user.
+   * @throws {Error} - If there is an error sending the event to the viewer.
+   */
+  async setFollowUser(enabled: boolean) {
+    await this.sendDataToViewer(ViewerActionType.CAMERA_FOLLOW_USER, {
+      value: enabled,
+    });
   }
 }

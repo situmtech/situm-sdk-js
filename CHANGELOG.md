@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.11.0 (2025-11-05)
+
+### Added
+
+- Implement all the actions wrappers that are supported by the map viewer
+
+   ```ts
+   viewer.selectFloor(xx);
+   viewer.selectPoiCategory(xx);
+   viewer.setFollowUser();
+
+   // among others
+   ```
+
+- Implement all the events that are supported by the map viewer
+
+   ```ts
+   viewer.on(ViewerEventType.XX)
+   ```
+
 ## 0.10.0 (2025-10-02)
 
 ### Added

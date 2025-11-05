@@ -1,3 +1,5 @@
+import type { TrajectoryReportPosition } from "../domains/reports";
+
 /**
  * Copyright (c) Situm Technologies. and its affiliates.
  *
@@ -438,16 +440,82 @@ export type Apikey = {
 };
 
 export enum ViewerEventType {
-  //app
+  // App
   MAP_IS_READY = "app.map_is_ready",
   APP_ERROR = "app.error",
-  //cartography
+
+  // Cartography
   POI_SELECTED = "cartography.poi_selected",
   POI_DESELECTED = "cartography.poi_deselected",
+  POI_CATEGORY_SELECTED = "cartography.poi_category_selected",
+  POI_CATEGORY_DESELECTED = "cartography.poi_category_deselected",
   BUILDING_SELECTED = "cartography.building_selected",
   FLOOR_SELECTED = "cartography.floor_selected",
-  //UI
+
+  // UI
   FAV_POIS_UPDATED = "ui.favorite_pois_updated",
+  UI_SPEAK_ALOUD = "ui.speak_aloud",
+
+  // Directions
+  DIRECTIONS_REQUESTED = "directions.requested",
+
+  // Location
+  LOCATION_START = "location.start",
+  // Navigation
+  NAVIGATION_REQUESTED = "navigation.requested",
+  NAVIGATION_STOPPED = "navigation.stopped",
+}
+
+export interface DirectionOptions {
+  from: {
+    isIndoor: boolean;
+    isOutdoor: boolean;
+    coordinate: {
+      latitude: number;
+      longitude: number;
+    };
+    cartesianCoordinate: {
+      x: number;
+      y: number;
+    };
+    floorIdentifier: number;
+    buildingIdentifier: number;
+  };
+  to: {
+    isIndoor: boolean;
+    isOutdoor: boolean;
+    coordinate: {
+      latitude: number;
+      longitude: number;
+    };
+    cartesianCoordinate: {
+      x: number;
+      y: number;
+    };
+    floorIdentifier: number;
+    buildingIdentifier: number;
+  };
+  bearingFrom: {
+    radians: number;
+  };
+  accesibilityMode: // cspell:disable-line
+    | "CHOOSE_SHORTEST"
+    | "ONLY_ACCESIBLE" // cspell:disable-line
+    | "ONLY_NOT_ACCESIBLE_FLOOR_CHANGES"; // cspell:disable-line
+}
+
+interface NavigationOptions {
+  distanceToGoalThreshold: number;
+  outsideRouteThreshold: number;
+  outsideRouteThresholdOnIncorrectFloor: number;
+  distanceToIgnoreIndication: number;
+  distanceToFloorChangeThreshold: number;
+  distanceToChangeIndicationThreshold: number;
+  indicationsInterval: number;
+  timeToFirstIndication: number;
+  roundIndicationsStep: number;
+  timeToIgnoreUnexpectedFloorChanges: number;
+  ignoreLowQualityLocations: boolean;
 }
 
 export interface ViewerEventPayloads {
@@ -464,25 +532,65 @@ export interface ViewerEventPayloads {
     identifier: number;
     buildingIdentifier: number;
   };
+  [ViewerEventType.POI_CATEGORY_SELECTED]: { identifiers: number[] | null };
+  [ViewerEventType.POI_CATEGORY_DESELECTED]: { identifiers: number[] | null };
+  [ViewerEventType.BUILDING_SELECTED]: { identifier: number | null };
   [ViewerEventType.FLOOR_SELECTED]: {
     identifier: number;
     buildingIdentifier: number;
   };
-  [ViewerEventType.BUILDING_SELECTED]: { identifier: number | null };
 
   // ui
   [ViewerEventType.FAV_POIS_UPDATED]: {
     currentPoiIdentifiers: number[];
     favoritePois: number[];
   };
+  [ViewerEventType.UI_SPEAK_ALOUD]: {
+    text: string;
+    lang: string;
+    rate: number;
+    pitch: number;
+    volume: number;
+  };
+  // directions
+  [ViewerEventType.DIRECTIONS_REQUESTED]: {
+    requestId: string;
+    buildingId: number;
+    originId: number;
+    originCategory: string;
+    destinationId: number;
+    destinationCategory: string;
+    directionOptions?: DirectionOptions;
+  };
+
+  // location
+  [ViewerEventType.LOCATION_START]: {
+    buildingIdentifier: number;
+  };
+
+  // navigation
+  [ViewerEventType.NAVIGATION_REQUESTED]: {
+    identifier: number;
+    buildingId: number;
+    originId: number;
+    destinationId: number;
+    originCategory: string;
+    destinationCategory: string;
+    directionOptions?: DirectionOptions;
+    navigationOptions?: NavigationOptions;
+  };
+  [ViewerEventType.NAVIGATION_STOPPED]: {
+    requestId: string;
+  };
 }
 
 export enum ViewerActionType {
   //auth
-  SET_AUTH = "app.set_auth",
+  APP_SET_AUTH = "app.set_auth",
+  APP_SET_CONFIG_ITEM = "app.set_config_item",
 
   //camera
-  FOLLOW_USER = "camera.follow_user",
+  CAMERA_FOLLOW_USER = "camera.follow_user",
   CAMERA_SET = "camera.set",
 
   //cartography
@@ -493,22 +601,122 @@ export enum ViewerActionType {
   FLOOR_SELECT = "cartography.select_floor",
   SELECT_POI_CATEGORY = "cartography.select_poi_category",
 
-  // map
-  MAP_EXTERNAL_FEATURES = "map.update_external_features",
-
   //directions
   DIRECTIONS_START = "directions.start",
   DIRECTIONS_UPDATE = "directions.update",
   DIRECTIONS_SET_OPTIONS = "directions.set_options",
 
+  LOCATION_UPDATE = "location.update",
+  LOCATION_UPDATE_STATUS = "location.update_status",
+
+  // map
+  MAP_EXTERNAL_FEATURES = "map.update_external_features",
+  MAP_SHOW_TRAJECTORY = "map.show_trajectory",
+  MAP_CLEAR_TRAJECTORY = "map.clear_trajectory",
+
   //ui
-  INITIAL_CONFIG = "ui.initial_configuration", // no constructor
-  LANGUAGE_CONFIG = "ui.set_language",
-  SET_FAV_POIS = "ui.set_favorite_pois",
-  SET_SEARCH_FILTER = "ui.set_search_filter",
-  SET_UI_MODE = "ui.set_mode",
-  SPEAK_ALOUD_TEXT = "ui.speak_aloud_text",
-  SHOW_USER_SETTINGS = "ui.show_user_settings",
-  TOGGLE_USER_SETTINGS = "ui.toggle_user_settings",
-  FONT_SIZE_UPDATE = "ui.font_size_update",
+  UI_FONT_SIZE_UPDATE = "ui.font_size_update",
+  UI_INITIAL_CONFIG = "ui.initial_configuration", // no constructor
+  UI_LANGUAGE_CONFIG = "ui.set_language",
+  UI_SET_FAV_POIS = "ui.set_favorite_pois",
+  UI_SET_SEARCH_FILTER = "ui.set_search_filter",
+  UI_SET_UI_MODE = "ui.set_mode",
+  UI_SHOW_USER_SETTINGS = "ui.show_user_settings",
+  UI_SPEAK_ALOUD_TEXT = "ui.speak_aloud_text",
+  UI_TOGGLE_USER_SETTINGS = "ui.toggle_user_settings",
+}
+
+export interface ViewerActionParams {
+  //auth
+  [ViewerActionType.APP_SET_AUTH]: { jwt: string };
+  [ViewerActionType.APP_SET_CONFIG_ITEM]: { key: string; value: string };
+
+  //camera
+  [ViewerActionType.CAMERA_FOLLOW_USER]: { value: boolean };
+  [ViewerActionType.CAMERA_SET]: {
+    center: { lat: number; lng: number };
+    zoom: number;
+    animate?: boolean;
+  };
+
+  //cartography
+  [ViewerActionType.SELECT_POI]: { identifier: number };
+  [ViewerActionType.SELECT_CAR]: {};
+  [ViewerActionType.DESELECT_POI]: {};
+  [ViewerActionType.BUILDING_SELECT]: { identifier: number };
+  [ViewerActionType.FLOOR_SELECT]: {
+    identifier: number;
+    buildingIdentifier: number;
+  };
+  [ViewerActionType.SELECT_POI_CATEGORY]: { identifiers: number[] | null };
+
+  [ViewerActionType.DIRECTIONS_SET_OPTIONS]: {
+    directionOptions: DirectionOptions;
+  };
+
+  [ViewerActionType.LOCATION_UPDATE]: {
+    x: number;
+    y: number;
+    latitude: number;
+    longitude: number;
+    floorIdentifier: number;
+    buildingIdentifier: number;
+    accuracy: number; // optional
+    bearing: { radians: number }; // optional
+    hasBearing: boolean; // optional but required to see the arrow
+  };
+  [ViewerActionType.LOCATION_UPDATE_STATUS]: { status: "STARTED" | "STOPPED" };
+
+  // map
+  [ViewerActionType.MAP_EXTERNAL_FEATURES]: {
+    geometry: {
+      coordinates: number[];
+      type: string;
+    };
+    id: string;
+    properties: {
+      accuracy: number;
+      building_id: number;
+      floor_id: number;
+      icon_url?: string;
+      title?: string;
+    };
+    type: string;
+  }[];
+  [ViewerActionType.MAP_SHOW_TRAJECTORY]: {
+    data: TrajectoryReportPosition[];
+    speed: number;
+    status: "STOP" | "PLAY";
+  };
+  [ViewerActionType.MAP_CLEAR_TRAJECTORY]: {
+    id: string;
+  };
+  //ui
+  [ViewerActionType.UI_FONT_SIZE_UPDATE]: { fontSize: number };
+  [ViewerActionType.UI_INITIAL_CONFIG]: {
+    showBuildingSelector: boolean;
+    showFloorSelector: boolean;
+    showPoiCategories: boolean;
+    showUserSettings: boolean;
+    showSearchBar: boolean;
+    showFavoritePois: boolean;
+    enableDirections: boolean;
+    enableIndoorLocation: boolean;
+    enableOutdoorLocation: boolean;
+    enablePoiSelection: boolean;
+    mode: "light" | "dark" | "auto";
+  };
+  [ViewerActionType.UI_LANGUAGE_CONFIG]: { lang: string };
+  [ViewerActionType.UI_SET_FAV_POIS]: { identifiers: number[] };
+  [ViewerActionType.UI_SET_SEARCH_FILTER]: { text: string };
+  [ViewerActionType.UI_SET_UI_MODE]: { mode: "light" | "dark" | "auto" };
+  [ViewerActionType.UI_SHOW_USER_SETTINGS]: { show: boolean };
+  [ViewerActionType.UI_SPEAK_ALOUD_TEXT]: {
+    text: string;
+    lang: string;
+    rate: number;
+    pitch: number;
+    volume: number;
+  };
+  [ViewerActionType.UI_TOGGLE_USER_SETTINGS]: {};
 }
