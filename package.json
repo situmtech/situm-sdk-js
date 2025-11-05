@@ -49,7 +49,7 @@
     "test:lint": "biome check ./src ./test ./examples",
     "test:spelling": "cspell --no-summary --no-progress --no-must-find-files \"{README.md,.github/*.md,src/**/*.ts}\"",
     "test:unit": "jest --coverage",
-    "test": "run-p \"test:*\"",
+    "test": "run-p test:lint test:spelling test:unit",
     "test:watch": "jest --watch",
     "version": "standard-version"
   },
