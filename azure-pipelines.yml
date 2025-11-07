@@ -29,12 +29,10 @@ variables:
   - group: ChangelogIds
   - group: Bitbucket
 
-
 pool:
   vmImage: $(ubuntuVersion)
 
 steps:
-
   - checkout: self
     fetchDepth: "3"
     fetchTags: false
@@ -79,58 +77,71 @@ steps:
 
     displayName: Build library
 
-  - bash: |
-      set -euo pipefail
-
-      echo -e "\n [+] Tag repository"
-      echo -e "##[command] git tag v$(version) && git push origin v$(version)\n"
-
-      cd $(Pipeline.Workspace)/situm-sdk-js
-
-      git tag v$(version)
-      git push origin v$(version)
-
-      echo -e "\n[+] Configure NPM login"
-      echo -e "##[command] yarn config set npmAuthToken $(NPM_WEB_TOKEN)"
-      yarn config set npmAuthToken $(NPM_WEB_TOKEN)
-
-      if [ "$(Build.SourceBranch)" == "refs/heads/main" ];then
-        options=" --access public"
-      else
-        options=" --access public --tag beta"
-      fi
-
-      echo -e "\n[+] Publish package "
-      echo -e "##[command] yarn npm publish $options\n"
-
-      yarn npm publish $options
-
-    displayName: Publish Library
-
-
-  - bash: |
-      set -euo pipefail
-
-      cd $(Pipeline.Workspace)/situm-sdk-js
-      echo -e "[+] Generate documentaction"
-      echo -e "##[command] yarn doc\n"
-
-      yarn doc
-    displayName: Generate doc
-
-  - template: azure-templates/commit-doc.yaml@sys_kubernetes_templates
+  - template: azure-templates/static-analyse.yml@sys_kubernetes_templates
     parameters:
-      version: $(version)
-      docPath: "$(Pipeline.Workspace)/situm-sdk-js/docs/public/"
-      system: "sdk-js"
-      release: "sdk-js"
-      developersBranch: "master"
-      bitbucket:
-        bitbucket_user: $(bitbucket_user)
-        bitbucket_pass: $(bitbucket_token)
+      repoFolder: $(Pipeline.Workspace)/situm-sdk-js
+      teams: web
+      phase: semgrep
 
-  - template: azure-templates/publish-changelog.yaml@sys_kubernetes_templates
+  - template: azure-templates/static-analyse.yml@sys_kubernetes_templates
     parameters:
-      changelogId: $(Sdk_Js_Changelog_id)
-      artifact_type: "web"
+      repoFolder: $(Pipeline.Workspace)/situm-sdk-js
+      teams: web
+      phase: trivy
+      scanners: vuln,license
 
+  - ${{ if or(eq(variables['Build.SourceBranchName'], 'main'),eq(variables['Build.SourceBranchName'], 'develop')) }}:
+      - bash: |
+          set -euo pipefail
+
+          echo -e "\n [+] Tag repository"
+          echo -e "##[command] git tag v$(version) && git push origin v$(version)\n"
+
+          cd $(Pipeline.Workspace)/situm-sdk-js
+
+          git tag v$(version)
+          git push origin v$(version)
+
+          echo -e "\n[+] Configure NPM login"
+          echo -e "##[command] yarn config set npmAuthToken $(NPM_WEB_TOKEN)"
+          yarn config set npmAuthToken $(NPM_WEB_TOKEN)
+
+          if [ "$(Build.SourceBranch)" == "refs/heads/main" ];then
+            options=" --access public"
+          else
+            options=" --access public --tag beta"
+          fi
+
+          echo -e "\n[+] Publish package "
+          echo -e "##[command] yarn npm publish $options\n"
+
+          yarn npm publish $options
+
+        displayName: Publish Library
+
+      - ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
+          - bash: |
+              set -euo pipefail
+
+              cd $(Pipeline.Workspace)/situm-sdk-js
+              echo -e "[+] Generate documentaction"
+              echo -e "##[command] yarn doc\n"
+
+              yarn doc
+            displayName: Generate doc
+
+          - template: azure-templates/commit-doc.yaml@sys_kubernetes_templates
+            parameters:
+              version: $(version)
+              docPath: "$(Pipeline.Workspace)/situm-sdk-js/docs/public/"
+              system: "sdk-js"
+              release: "sdk-js"
+              developersBranch: "master"
+              bitbucket:
+                bitbucket_user: $(bitbucket_user)
+                bitbucket_pass: $(bitbucket_token)
+
+          - template: azure-templates/publish-changelog.yaml@sys_kubernetes_templates
+            parameters:
+              changelogId: $(Sdk_Js_Changelog_id)
+              artifact_type: "web"
