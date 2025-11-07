@@ -89,7 +89,6 @@ steps:
       teams: web
       phase: trivy
       scanners: vuln,license
-    condition: Always()
 
   - ${{ if or(eq(variables['Build.SourceBranchName'], 'main'),eq(variables['Build.SourceBranchName'], 'develop')) }}:
       - bash: |
