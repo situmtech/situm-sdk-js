@@ -16,7 +16,7 @@ resources:
       type: bitbucket
       endpoint: Bitbucket - sistemas
       name: situm/sys-kubernetes-templates.git
-      ref: master
+      ref: feature/SIS-957
     - repository: web_developers
       type: bitbucket
       endpoint: Bitbucket - sistemas
@@ -88,6 +88,8 @@ steps:
       repoFolder: $(Pipeline.Workspace)/situm-sdk-js
       teams: web
       phase: trivy
+      scanners: vuln,license
+    condition: Always()
 
   - ${{ if or(eq(variables['Build.SourceBranchName'], 'main'),eq(variables['Build.SourceBranchName'], 'develop')) }}:
       - bash: |
