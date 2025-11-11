@@ -40,15 +40,15 @@ yarn doc
 
 ```shell
 yarn run prepare-release
-yarn npm pack
-yarn npm publish --access public
+yarn pack
+yarn publish --access public
 ```
 
 or for beta channel
 
 ```shell
 yarn prepare-release
-yarn npm publish --tag beta --access public
+yarn publish --tag beta --access public
 ```
 
 ## Versioning
