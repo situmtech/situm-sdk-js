@@ -1,5 +1,17 @@
 ## Development
 
+### Enable corepack
+
+```shell
+corepack enable
+```
+
+### Install the dependencies
+
+```shell
+yarn install
+```
+
 ### Run the tests
 
 ```shell
