@@ -48,6 +48,16 @@ All notable changes to this project will be documented in this file. See [standa
 
 - Upgrade axios dependency to fix CVE CVE-2025-58754
 
+## 0.9.3 (2025-07-03)
+
+### Changed
+
+- Define authSession as asynchronous
+
+### Added
+
+- Added new method to retrieve jwt
+
 ## 0.9.1 (2025-04-09)
 
 ### Internal
