@@ -90,7 +90,7 @@ steps:
       phase: trivy
       scanners: vuln,license
 
-  - ${{ if or(eq(variables['Build.SourceBranchName'], 'main'),eq(variables['Build.SourceBranchName'], 'develop')) }}:
+  - ${{ if or(eq(variables['Build.SourceBranchName'], 'main') }}:
       - bash: |
           set -euo pipefail
 
@@ -106,11 +106,7 @@ steps:
           echo -e "##[command] yarn config set npmAuthToken $(NPM_WEB_TOKEN)"
           yarn config set npmAuthToken $(NPM_WEB_TOKEN)
 
-          if [ "$(Build.SourceBranch)" == "refs/heads/main" ];then
-            options=" --access public"
-          else
-            options=" --access public --tag beta"
-          fi
+          options=" --access public"
 
           echo -e "\n[+] Publish package "
           echo -e "##[command] yarn npm publish $options\n"
@@ -119,29 +115,28 @@ steps:
 
         displayName: Publish Library
 
-      - ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
-          - bash: |
-              set -euo pipefail
+      - bash: |
+          set -euo pipefail
 
-              cd $(Pipeline.Workspace)/situm-sdk-js
-              echo -e "[+] Generate documentaction"
-              echo -e "##[command] yarn doc\n"
+          cd $(Pipeline.Workspace)/situm-sdk-js
+          echo -e "[+] Generate documentaction"
+          echo -e "##[command] yarn doc\n"
 
-              yarn doc
-            displayName: Generate doc
+          yarn doc
+        displayName: Generate doc
 
-          - template: azure-templates/commit-doc.yaml@sys_kubernetes_templates
-            parameters:
-              version: $(version)
-              docPath: "$(Pipeline.Workspace)/situm-sdk-js/docs/public/"
-              system: "sdk-js"
-              release: "sdk-js"
-              developersBranch: "master"
-              bitbucket:
-                bitbucket_user: $(bitbucket_user)
-                bitbucket_pass: $(bitbucket_token)
+      - template: azure-templates/commit-doc.yaml@sys_kubernetes_templates
+        parameters:
+          version: $(version)
+          docPath: "$(Pipeline.Workspace)/situm-sdk-js/docs/public/"
+          system: "sdk-js"
+          release: "sdk-js"
+          developersBranch: "master"
+          bitbucket:
+            bitbucket_user: $(bitbucket_user)
+            bitbucket_pass: $(bitbucket_token)
 
-          - template: azure-templates/publish-changelog.yaml@sys_kubernetes_templates
-            parameters:
-              changelogId: $(Sdk_Js_Changelog_id)
-              artifact_type: "web"
+      - template: azure-templates/publish-changelog.yaml@sys_kubernetes_templates
+        parameters:
+          changelogId: $(Sdk_Js_Changelog_id)
+          artifact_type: "web"
