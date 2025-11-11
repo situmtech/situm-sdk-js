@@ -58,6 +58,12 @@ All notable changes to this project will be documented in this file. See [standa
 
 - Added new method to retrieve jwt
 
+## 0.9.2 (2025-06-06)
+
+### Fixed
+
+- Added categoryIds to PoiCreateForm and PoiUpdateForm.
+
 ## 0.9.1 (2025-04-09)
 
 ### Internal
