@@ -176,10 +176,8 @@ export default class ApiBase {
     method: string,
     requestInfo: RequestInfo,
   ): Promise<T> {
-    let jwt = null;
-
     try {
-      jwt = requestInfo.notAuthenticated ? null : await this.getJwt();
+      const jwt = requestInfo.notAuthenticated ? null : await this.getJwt();
       const config = transformRequestInfoToAxiosRequestConfig(
         this.configuration,
         jwt,
@@ -301,15 +299,16 @@ export default class ApiBase {
 
   /**
    * Proxy to get the JWT
-   * @returns {Promise<string>} - the JWT calculated
+   * @returns {string} - the JWT calculated
    */
-  getAuthorization() {
-    return this.getJwt();
+  jwt() {
+    this.getJwt();
+    return this._authSession?.jwt;
   }
 
-  getAuthSession() {
+  async getAuthSession() {
     if (!this._authSession) {
-      this.getJwt();
+      await this.getJwt();
     }
     return this._authSession;
   }

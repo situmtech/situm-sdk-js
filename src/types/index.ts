@@ -213,6 +213,7 @@ export type PoiUpdateForm = {
   name?: string;
   info?: string;
   categoryId?: number;
+  categoryIds?: number[];
   customFields?: CustomField[];
   icon?: string;
   selectedIcon?: string;
