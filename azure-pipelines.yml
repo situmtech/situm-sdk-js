@@ -90,7 +90,7 @@ steps:
       phase: trivy
       scanners: vuln,license
 
-  - ${{ if or(eq(variables['Build.SourceBranchName'], 'main') }}:
+  - ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
       - bash: |
           set -euo pipefail
 
