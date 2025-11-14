@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.12.0 (2025-11-14)
+
+### Added
+
+- Add new method to deselect poi categories.
+
+  ```ts
+  viewer.deselectPoiCategory();
+  ```
+
+### Fixed
+
+- Fixed Typescript types not being exported correctly.
+
+### Internal
+
+- Code analysis using Trivy.
+
+
 ## 0.11.0 (2025-11-05)
 
 ### Added
@@ -47,6 +66,22 @@ All notable changes to this project will be documented in this file. See [standa
 ## Segurity
 
 - Upgrade axios dependency to fix CVE CVE-2025-58754
+
+## 0.9.3 (2025-07-03)
+
+### Changed
+
+- Define authSession as asynchronous
+
+### Added
+
+- Added new method to retrieve jwt
+
+## 0.9.2 (2025-06-06)
+
+### Fixed
+
+- Added categoryIds to PoiCreateForm and PoiUpdateForm.
 
 ## 0.9.1 (2025-04-09)
 

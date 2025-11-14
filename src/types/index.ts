@@ -213,6 +213,7 @@ export type PoiUpdateForm = {
   name?: string;
   info?: string;
   categoryId?: number;
+  categoryIds?: number[];
   customFields?: CustomField[];
   icon?: string;
   selectedIcon?: string;
@@ -720,3 +721,6 @@ export interface ViewerActionParams {
   };
   [ViewerActionType.UI_TOGGLE_USER_SETTINGS]: {};
 }
+
+export { Viewer } from "../viewer";
+export type { ViewerOptions } from "../viewer/types";
