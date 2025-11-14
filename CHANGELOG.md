@@ -12,6 +12,10 @@ All notable changes to this project will be documented in this file. See [standa
   viewer.deselectPoiCategory();
   ```
 
+### Fixed
+
+- Fixed Typescript types not being exported correctly.
+
 ### Internal
 
 - Code analysis using Trivy.
