@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.12.0 (2025-11-14)
+
+### Added
+
+- Add new method to deselect poi categories.
+
+  ```ts
+  viewer.deselectPoiCategory();
+  ```
+
+### Internal
+
+- Code analysis using Trivy.
+
+
 ## 0.11.0 (2025-11-05)
 
 ### Added
