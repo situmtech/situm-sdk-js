@@ -721,3 +721,6 @@ export interface ViewerActionParams {
   };
   [ViewerActionType.UI_TOGGLE_USER_SETTINGS]: {};
 }
+
+export { Viewer } from "../viewer";
+export type { ViewerOptions } from "../viewer/types";

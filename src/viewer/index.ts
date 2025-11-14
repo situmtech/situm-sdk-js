@@ -211,6 +211,19 @@ export class Viewer {
       identifiers: categoryIds,
     });
   }
+
+  /**
+   * Deselects the currently selected poi categories.
+   *
+   * This function sends a message to the viewer to deselect the currently
+   * selected poi categories. It does not take any parameters.
+   */
+  async deselectPoiCategory() {
+    this.sendDataToViewer(ViewerActionType.SELECT_POI_CATEGORY, {
+      identifiers: null,
+    });
+  }
+
   /**
    * Sets the options for the directions feature of the viewer.
    *

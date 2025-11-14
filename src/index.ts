@@ -138,7 +138,6 @@ export default class SitumSDK {
     return this.apiBase.getAuthSession();
   }
 
-
   /**
    * Proxy to get the JWT
    * @returns {string} - the JWT calculated
