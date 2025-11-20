@@ -169,6 +169,13 @@ export class Viewer {
   }
 
   /**
+   * Store the user's car position.
+   */
+  async saveCarPosition(params: ViewerActionParams[ViewerActionType.FMC_SAVE]) {
+    this.sendDataToViewer(ViewerActionType.FMC_SAVE, params);
+  }
+
+  /**
    * Selects a building by its identifier.
    *
    * This function sends a message to the viewer to select the building with the given
