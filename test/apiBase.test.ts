@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noExplicitAny: Can use `any` keyword in tests */
 import ApiBase from "../src/apiBase";
 
 describe("apiBase", () => {

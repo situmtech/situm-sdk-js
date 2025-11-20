@@ -7,7 +7,7 @@
  */
 
 import SitumSDK from "../../src";
-import type { FloorForm } from "../../src/types";
+import type { FloorForm } from "../../src/types/cartography";
 import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 
 describe("SitumSDK.cartography Floor", () => {

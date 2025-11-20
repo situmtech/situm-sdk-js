@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import type { Organization } from "../types";
+import type { Organization } from "../types/models";
 
 /**
  * Adapts the server response to our common Organization object,

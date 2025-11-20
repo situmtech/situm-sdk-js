@@ -7,7 +7,7 @@
  */
 
 import SitumSDK from "../../src";
-import type { GeofenceForm } from "../../src/types";
+import type { GeofenceForm } from "../../src/types/cartography";
 import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 
 describe("SitumSDK.cartography Geofence", () => {

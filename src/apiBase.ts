@@ -18,11 +18,10 @@ import type {
   AuthBasic,
   AuthConfiguration,
   AuthJWT,
-  SDKConfiguration,
-  SitumErrorType,
-} from "./types";
+} from "./types/auth";
+import type { SDKConfiguration } from "./types/models";
 import AuthSession from "./utils/authSession";
-import SitumError from "./utils/situmError";
+import SitumError, { type SitumErrorType } from "./utils/situmError";
 import { keysToCamel, keysToSnake } from "./utils/snakeCaseCamelCaseUtils";
 
 const FALLBACK_LANGUAGE = "en";

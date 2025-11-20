@@ -9,13 +9,13 @@
 import type RealtimeApi from "../domains/realtime";
 import type ReportsApi from "../domains/reports";
 import {
-  type DirectionOptions,
   type UUID,
   type ViewerActionParams,
   ViewerActionType,
   type ViewerEventPayloads,
   type ViewerEventType,
 } from "../types";
+import type { ExternalFeature } from "../types/models";
 import type { RTDataCustomizer, ViewerOptions } from "./types";
 
 const VIEWER_URL = "https://maps.situm.com";
@@ -49,8 +49,9 @@ export class Viewer {
     type: T,
     payload: ViewerActionParams[T],
   ) {
-    if (!this.iframe?.contentWindow)
+    if (!this.iframe?.contentWindow) {
       throw new Error("Viewer iframe not initialized");
+    }
     this.iframe.contentWindow.postMessage(
       {
         payload: payload,
@@ -66,6 +67,7 @@ export class Viewer {
    * @param {ViewerOptions} opts - The viewer options object containing the
    * profile, API key and building ID.
    */
+  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: called in constructor
   private _initIframe(opts: ViewerOptions) {
     const iframe = document.createElement("iframe");
     let url = this.profile
@@ -91,6 +93,7 @@ export class Viewer {
    * Listens for messages from the iframe content window and calls the respective
    * callbacks if the message type matches one of the registered event types.
    */
+  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: called in constructor
   private _attachGlobalListener() {
     window.addEventListener("message", (e: MessageEvent) => {
       if (e.source !== this.iframe?.contentWindow) return;
