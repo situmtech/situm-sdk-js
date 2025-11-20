@@ -18,9 +18,7 @@ import {
 import type { ExternalFeature } from "../types/models";
 import type { RTDataCustomizer, ViewerOptions } from "./types";
 
-// cspell:disable-line → TODO JLAQ remember to remove this vvvvvvv
-const VIEWER_URL = "http://localhost:5173";
-// cspell:disable-line → TODO JLAQ remember to remove this ^^^^^^^
+const VIEWER_URL = "https://maps.situm.com";
 
 type ViewerEventCallback<T extends ViewerEventType> = (
   payload: ViewerEventPayloads[T],
