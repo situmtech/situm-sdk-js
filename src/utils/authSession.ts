@@ -1,4 +1,4 @@
-import type { SitumJWTPayload } from "../types";
+import type { SitumJWTPayload } from "../types/auth";
 import SitumError from "./situmError";
 
 export default class AuthSession {

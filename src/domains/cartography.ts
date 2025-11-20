@@ -25,9 +25,6 @@ import type {
   Geofence,
   GeofenceForm,
   GeofenceSearch,
-  ID,
-  Organization,
-  Paginated,
   PathSearch,
   Paths,
   Poi,
@@ -36,8 +33,8 @@ import type {
   PoiCreateForm,
   PoiSearch,
   PoiUpdateForm,
-  UUID,
-} from "../types";
+} from "../types/cartography";
+import type { ID, Organization, Paginated, UUID } from "../types/models";
 
 /**
  * Service that exposes the cartography domain.

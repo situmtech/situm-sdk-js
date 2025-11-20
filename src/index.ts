@@ -12,7 +12,7 @@ import ImagesApi from "./domains/images";
 import RealtimeApi from "./domains/realtime";
 import ReportsApi from "./domains/reports";
 import UserApi from "./domains/user";
-import type { SDKConfiguration } from "./types";
+import type { SDKConfiguration } from "./types/models";
 import { Viewer } from "./viewer";
 import type { ViewerOptions } from "./viewer/types";
 

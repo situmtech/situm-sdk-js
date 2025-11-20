@@ -1,5 +1,5 @@
 import type { ResponseRealtimePosition } from "../domains/realtime";
-import type { Device, RealtimePositions } from "../types";
+import type { Device, RealtimePositions } from "../types/realtime";
 
 export function realtimePositionsMapper(
   realtimePositions: ResponseRealtimePosition,

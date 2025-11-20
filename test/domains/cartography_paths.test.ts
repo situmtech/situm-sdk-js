@@ -7,7 +7,7 @@
  */
 
 import SitumSDK from "../../src";
-import type { Paths } from "../../src/types";
+import type { Paths } from "../../src/types/cartography";
 import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 
 describe("SitumSDK.cartography Path", () => {
