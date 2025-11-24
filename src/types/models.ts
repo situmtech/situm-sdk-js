@@ -163,7 +163,7 @@ export type {
   UUID,
   Trajectory,
   ExternalFeature,
-  SDKConfiguration, // TODO: should not be exported from "models"
+  SDKConfiguration,
   CustomField,
   PaginatedSearchShort,
   PaginatedSearch,
