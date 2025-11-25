@@ -1,10 +1,7 @@
+import type { FeatureCollection, Point } from "geojson";
+
 import type { Building, Floor } from "./cartography";
 import type { UUID } from "./models";
-
-type GeoJSONFeatureGeometry = {
-  type: string;
-  coordinates: [number, number];
-};
 
 type GeoJSONFeatureProperty = {
   time: Date;
@@ -14,13 +11,6 @@ type GeoJSONFeatureProperty = {
   buildingId: Building["id"];
   levelHeight: number;
   accuracy: number;
-};
-
-type GeoJSONFeature = {
-  type: string;
-  geometry: GeoJSONFeatureGeometry;
-  properties: GeoJSONFeatureProperty;
-  id: string;
 };
 
 type Device = {
@@ -33,9 +23,7 @@ type Device = {
   code: string;
 };
 
-type RealtimePositions = {
-  type: string;
-  features: GeoJSONFeature[];
+type RealtimePositions = FeatureCollection<Point, GeoJSONFeatureProperty> & {
   devicesInfo: Device[];
 };
 
