@@ -74,14 +74,14 @@ type PoiSearch = {
   view?: "compact";
 };
 
-type Node = {
+type PathNode = {
   id: number;
   floorId: number;
   x: number;
   y: number;
 };
 
-type Link = {
+type PathLink = {
   source: number;
   target: number;
   origin: "both" | "source" | "target";
@@ -92,8 +92,8 @@ type Link = {
 type PathSearch = { buildingId?: ID };
 
 type Paths = {
-  nodes: Node[];
-  links: Link[];
+  nodes: PathNode[];
+  links: PathLink[];
 };
 
 type Maps = {
