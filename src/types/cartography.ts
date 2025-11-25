@@ -144,7 +144,7 @@ type BuildingForm = {
   rotation?: number;
 };
 
-type BuildingListElement = BuildingBase & {
+type BuildingListElement = Required<BuildingBase> & {
   id: ID;
   info: string;
   calibrationModel: CalibrationModel;
@@ -156,7 +156,7 @@ type BuildingListElement = BuildingBase & {
   userId: UUID;
 };
 
-type Building = BuildingListElement & {
+type Building = Required<BuildingListElement> & {
   corners: LatLng[];
   floors: Floor[];
   pois: Poi[];
