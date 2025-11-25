@@ -66,6 +66,7 @@
     "@rollup/plugin-node-resolve": "^15.3.1",
     "@rollup/plugin-typescript": "^12.1.4",
     "@sentry/vite-plugin": "^2.23.1",
+    "@types/geojson": "^7946.0.16",
     "@types/jest": "^29.5.13",
     "@types/node": "^22.7.4",
     "@types/qs": "^6.9.16",

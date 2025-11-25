@@ -133,7 +133,7 @@
 
       // Get URL parameters
       const urlParams = new URLSearchParams(window.location.search);
-      const BUILDING_ID = parseInt(urlParams.get("buildingId")); // Default to Demo building if not provided
+      const BUILDING_ID = parseInt(urlParams.get("buildingId"), 10); // Default to Demo building if not provided
       const USER_ID = urlParams.get("userId") || ""; // Default if not provided
       const API_KEY = urlParams.get("apiKey"); // Default if not provided
 
@@ -142,10 +142,10 @@
         console.error("Building ID is required");
       }
 
-      let options = {
+      const options = {
         auth: {
-          domain: "https://api.situm.com",
           apiKey: API_KEY,
+          domain: "https://api.situm.com",
         },
       };
       const sdk = new SDKClass(options);
@@ -154,11 +154,11 @@
        * Viewer 1: realtime positions viewer
        */
       const viewer = sdk.viewer.create({
-        domElement: document.querySelector("#viewer1"),
         // either profile or apikey to authenticate on viewer, if not specified auth.apiKey will be used
         // profile: 'demo'
         // apiKey: options.auth.apiKey,
         buildingId: BUILDING_ID,
+        domElement: document.querySelector("#viewer1"),
       });
       viewer.on(ViewerEventType.MAP_IS_READY, () =>
         console.log("viewer1: map is ready")
@@ -167,13 +167,12 @@
         console.log(`viewer1: Poi with ${e.id} was selected`)
       );
 
-      document.getElementById("startRT").addEventListener("click", function () {
+      document.getElementById("startRT").addEventListener("click", () => {
         // Realtime data filter: currently by building id
         const rtFilter = {
           buildingIds: [BUILDING_ID],
         };
         viewer.loadRealtimePositions({
-          filter: rtFilter,
           customizeFeatures: (d) => {
             console.log(d);
             return {
@@ -181,12 +180,13 @@
               tooltip: `Device ${d.deviceId}`,
             };
           },
+          filter: rtFilter,
         });
       });
 
       document
         .getElementById("stopRT")
-        .addEventListener("click", function () {
+        .addEventListener("click", () => {
           viewer.cleanRealtimePositions();
         });
 
@@ -194,17 +194,17 @@
        * Viewer 2: trajectory viewer
        */
       const viewer2 = sdk.viewer.create({
-        domElement: document.querySelector("#viewer2"),
         // profile: "demo",
         buildingId: BUILDING_ID,
+        domElement: document.querySelector("#viewer2"),
       });
 
       // Trajectory data filter: dates range, user id and building id
       const trajectoryFilter = {
+        buildingId: BUILDING_ID,
         fromDate: new Date("2025-09-14T10:59:14.710Z"),
         toDate: new Date("2025-09-15T10:59:14.710Z"),
         userId: USER_ID,
-        buildingId: BUILDING_ID,
       };
 
       document.getElementById("startTraj").addEventListener("click", () => {

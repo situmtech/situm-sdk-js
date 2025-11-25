@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import type { Cartesians, Coordinate, Poi, PoiCreateForm } from "../types";
+import type { Poi, PoiCreateForm } from "../types/cartography";
+import type { Cartesians, LatLng } from "../types/coordinates";
 
 export type ServerPoiGet = Poi & {
   position: {
@@ -15,7 +16,7 @@ export type ServerPoiGet = Poi & {
     lat: number;
     lng: number;
     radius: 5;
-    georeferences: Coordinate;
+    georeferences: LatLng;
     cartesians: Cartesians;
   };
 };
@@ -23,7 +24,7 @@ export type ServerPoiGet = Poi & {
 type ServerPoiPost = Poi & {
   position: {
     floorId: number;
-    georeferences: Coordinate;
+    georeferences: LatLng;
   };
 };
 
