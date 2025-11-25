@@ -5,7 +5,7 @@ type Jwt = string;
 enum SitumApiPermissionLevel {
   POSITIONING = "positioning",
   READ_ONLY = "read-only",
-  CARTGRAPHY_READ_WRITE = "cartography-read-write",
+  CARTOGRAPHY_READ_WRITE = "cartography-read-write",
   READ_WRITE = "read-write",
 }
 
