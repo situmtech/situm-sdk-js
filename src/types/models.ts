@@ -66,48 +66,6 @@ type Organization = {
   colors: Colors;
 };
 
-// TODO: review
-// interface DirectionOptions {
-//   from: {
-//     isIndoor: boolean;
-//     isOutdoor: boolean;
-//     coordinate: {
-//       latitude: number;
-//       longitude: number;
-//     };
-//     cartesianCoordinate: {
-//       x: number;
-//       y: number;
-//     };
-//     floorIdentifier: number;
-//     buildingIdentifier: number;
-//   };
-//   to: {
-//     isIndoor: boolean;
-//     isOutdoor: boolean;
-//     coordinate: {
-//       latitude: number;
-//       longitude: number;
-//     };
-//     cartesianCoordinate: {
-//       x: number;
-//       y: number;
-//     };
-//     floorIdentifier: number;
-//     buildingIdentifier: number;
-//   };
-//   bearingFrom: {
-//     radians: number;
-//   };
-//   // cspell:disable-next-line → TODO: should be "accessibilityMode". Note the double "s"
-//   accesibilityMode:
-//     | "CHOOSE_SHORTEST"
-//     // cspell:disable-next-line → TODO: should be "ONLY_ACCESSIBLE". Note the double "s"
-//     | "ONLY_ACCESIBLE"
-//     // cspell:disable-next-line → TODO: should be "ONLY_NOT_ACCESSIBLE_FLOOR_CHANGES". Note the double "s"
-//     | "ONLY_NOT_ACCESIBLE_FLOOR_CHANGES";
-// }
-
 interface ExternalFeatureProperties {
   floor_id: number;
   building_id: number;
@@ -116,21 +74,6 @@ interface ExternalFeatureProperties {
   icon_url?: string;
 }
 type ExternalFeature = Feature<Point, ExternalFeatureProperties>;
-
-// TODO: review
-// interface NavigationOptions {
-//   distanceToGoalThreshold: number;
-//   outsideRouteThreshold: number;
-//   outsideRouteThresholdOnIncorrectFloor: number;
-//   distanceToIgnoreIndication: number;
-//   distanceToFloorChangeThreshold: number;
-//   distanceToChangeIndicationThreshold: number;
-//   indicationsInterval: number;
-//   timeToFirstIndication: number;
-//   roundIndicationsStep: number;
-//   timeToIgnoreUnexpectedFloorChanges: number;
-//   ignoreLowQualityLocations: boolean;
-// }
 
 type RangeFilter = {
   min: number;
