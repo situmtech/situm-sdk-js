@@ -34,14 +34,14 @@ type Paginated<T> = {
   metadata: Metadata;
 };
 
-type PaginatedSearch = PaginatedSearchShort & {
-  direction?: string;
-};
-
 type PaginatedSearchShort = {
   page?: number;
   size?: number;
   sort?: string;
+};
+
+type PaginatedSearch = PaginatedSearchShort & {
+  direction?: string;
 };
 
 type Colors = {
