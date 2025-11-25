@@ -196,6 +196,8 @@ export type {
   GeofenceSearch,
   PathSearch,
   Paths,
+  PathNode,
+  PathLink,
   Poi,
   PoiCategory,
   PoiCategoryForm,

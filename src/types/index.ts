@@ -8,7 +8,15 @@
 
 export { Viewer } from "../viewer";
 export type { ViewerOptions } from "../viewer/types";
-export type { Building, Floor, Poi } from "./cartography";
+export type {
+  Building,
+  Floor,
+  Geofence,
+  PathLink,
+  PathNode,
+  Paths,
+  Poi,
+} from "./cartography";
 export type { Cartesians, LatLng } from "./coordinates";
 export { ID, UUID } from "./models";
 export { Route, RouteType } from "./route";
