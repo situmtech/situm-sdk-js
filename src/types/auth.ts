@@ -2,10 +2,19 @@ import type { ID, PaginatedSearch, UUID } from "./models";
 
 type Jwt = string;
 
+enum SitumApiPermissionLevel {
+  POSITIONING = "positioning",
+  READ_ONLY = "read-only",
+  CARTGRAPHY_READ_WRITE = "cartography-read-write",
+  READ_WRITE = "read-write",
+}
+
 type Apikey = {
   id: UUID;
   apikey: string;
-  permission: "read-only" | "positioning";
+  permission:
+    | SitumApiPermissionLevel.READ_ONLY
+    | SitumApiPermissionLevel.POSITIONING;
   description: string;
 };
 
@@ -23,13 +32,6 @@ type AuthJWT = {
 };
 
 type AuthConfiguration = AuthBasic | AuthApiKey | AuthJWT;
-
-enum SitumApiPermissionLevel {
-  positioning = "positioning",
-  "read-only" = "read-only",
-  "cartography-read-write" = "cartography-read-write",
-  "read-write" = "read-write",
-}
 
 interface SitumJWTPayload {
   sub?: string | undefined;
