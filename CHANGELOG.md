@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file. See [standa
 
 - Fixed incorrect parameter typing in public methods `selectPoiCategory`, `deselectPoiCategory`, `selectFloor`, `selectCar`, `setFollowUser` and `cleanTrajectory`.
 
+### Changed
+
+- Improved MapViewer event and action typings for better developer experience and stricter type validation.
+
 ## 0.12.0 (2025-11-14)
 
 ### Added
