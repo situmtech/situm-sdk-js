@@ -1,4 +1,4 @@
-import type { FeatureCollection, Point } from "geojson";
+import type { Feature, FeatureCollection, Point } from "geojson";
 
 import type { Building, Floor } from "./cartography";
 import type { UUID } from "./models";
@@ -23,8 +23,12 @@ type Device = {
   code: string;
 };
 
-type RealtimePositions = FeatureCollection<Point, GeoJSONFeatureProperty> & {
+type RealtimePositionFeature = Feature<Point, GeoJSONFeatureProperty>;
+
+type RealtimePositions = FeatureCollection<
+  RealtimePositionFeature["geometry"],
+  RealtimePositionFeature["properties"]
+> & {
   devicesInfo: Device[];
 };
-
-export type { RealtimePositions, Device };
+export type { RealtimePositions, RealtimePositionFeature, Device };

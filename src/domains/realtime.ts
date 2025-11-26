@@ -52,8 +52,8 @@ export default class RealtimeApi {
   ): Promise<RealtimePositions> {
     const url = this.buildRealtimeUrl(searchRealtime);
     return this.apiBase
-      .get<RealtimePositions>({ url })
-      .then(realtimePositionsMapper);
+      .get<ResponseRealtimePosition>({ url })
+      .then((data) => realtimePositionsMapper(data));
   }
 
   /**

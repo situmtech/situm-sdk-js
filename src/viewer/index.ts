@@ -356,7 +356,7 @@ export class Viewer {
             // custom render
             if (typeof customizeFeatures === "function") {
               const baseData: RTDataCustomizer = {
-                deviceId: feature.id,
+                deviceId: feature.id as UUID,
               };
               const customized = customizeFeatures(baseData);
               if (!customized) return null;
