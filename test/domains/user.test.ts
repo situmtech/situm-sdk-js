@@ -7,7 +7,7 @@
  */
 
 import SitumSDK from "../../src";
-import type { Role, UserForm } from "../../src/types";
+import type { Role, UserForm } from "../../src/types/auth";
 import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 
 describe("SitumSDK.user", () => {

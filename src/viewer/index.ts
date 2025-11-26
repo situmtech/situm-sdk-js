@@ -9,13 +9,13 @@
 import type RealtimeApi from "../domains/realtime";
 import type ReportsApi from "../domains/reports";
 import {
-  type DirectionOptions,
   type UUID,
   type ViewerActionParams,
   ViewerActionType,
   type ViewerEventPayloads,
   type ViewerEventType,
 } from "../types";
+import type { ExternalFeature } from "../types/models";
 import type { RTDataCustomizer, ViewerOptions } from "./types";
 
 const VIEWER_URL = "https://maps.situm.com";
@@ -49,8 +49,9 @@ export class Viewer {
     type: T,
     payload: ViewerActionParams[T],
   ) {
-    if (!this.iframe?.contentWindow)
+    if (!this.iframe?.contentWindow) {
       throw new Error("Viewer iframe not initialized");
+    }
     this.iframe.contentWindow.postMessage(
       {
         payload: payload,
@@ -66,6 +67,7 @@ export class Viewer {
    * @param {ViewerOptions} opts - The viewer options object containing the
    * profile, API key and building ID.
    */
+  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: called in constructor
   private _initIframe(opts: ViewerOptions) {
     const iframe = document.createElement("iframe");
     let url = this.profile
@@ -91,6 +93,7 @@ export class Viewer {
    * Listens for messages from the iframe content window and calls the respective
    * callbacks if the message type matches one of the registered event types.
    */
+  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: called in constructor
   private _attachGlobalListener() {
     window.addEventListener("message", (e: MessageEvent) => {
       if (e.source !== this.iframe?.contentWindow) return;
@@ -155,19 +158,21 @@ export class Viewer {
    * selected poi. It does not take any parameters.
    */
   async deselectPoi() {
-    this.sendDataToViewer(ViewerActionType.DESELECT_POI, {});
+    this.sendDataToViewer(ViewerActionType.DESELECT_POI, undefined);
   }
 
   /**
-   * Selects a car by its identifier.
-   *
-   * @param id The identifier of the car to select.
-   *
-   * This function sends a message to the viewer to select the car with the given
-   * identifier. It does not return any value.
+   * Selects the saved `find my car` POI.
    */
-  async selectCar(id: string) {
-    this.sendDataToViewer(ViewerActionType.SELECT_CAR, { identifier: id });
+  async selectCarPosition() {
+    this.sendDataToViewer(ViewerActionType.FMC_SELECT, undefined);
+  }
+
+  /**
+   * Store the user's car position.
+   */
+  async saveCarPosition(params: ViewerActionParams[ViewerActionType.FMC_SAVE]) {
+    this.sendDataToViewer(ViewerActionType.FMC_SAVE, params);
   }
 
   /**
@@ -191,9 +196,8 @@ export class Viewer {
    * @param id The identifier of the floor to select.
    * @param buildingId The identifier of the building that the floor belongs to.
    */
-  async selectFloor(id: number, buildingId: number) {
+  async selectFloor(id: number) {
     this.sendDataToViewer(ViewerActionType.FLOOR_SELECT, {
-      buildingIdentifier: buildingId,
       identifier: id,
     });
   }
@@ -206,9 +210,9 @@ export class Viewer {
    *
    * @param categoryIds The identifiers of the POI categories to select.
    */
-  async selectPoiCategory(categoryIds: number[]) {
+  async selectPoiCategory(categoryId: number) {
     this.sendDataToViewer(ViewerActionType.SELECT_POI_CATEGORY, {
-      identifiers: categoryIds,
+      identifier: categoryId,
     });
   }
 
@@ -219,9 +223,7 @@ export class Viewer {
    * selected poi categories. It does not take any parameters.
    */
   async deselectPoiCategory() {
-    this.sendDataToViewer(ViewerActionType.SELECT_POI_CATEGORY, {
-      identifiers: null,
-    });
+    this.sendDataToViewer(ViewerActionType.DESELECT_POI_CATEGORIES, undefined);
   }
 
   /**
@@ -261,10 +263,10 @@ export class Viewer {
    *       - floorIdentifier: The identifier of the floor that the ending position is on.
    *       - buildingIdentifier: The identifier of the building that the ending position is in.
    */
-  async directionsSetOptions(options: DirectionOptions) {
-    this.sendDataToViewer(ViewerActionType.DIRECTIONS_SET_OPTIONS, {
-      directionOptions: options,
-    });
+  async directionsSetOptions(
+    options: ViewerActionParams[ViewerActionType.DIRECTIONS_SET_OPTIONS],
+  ) {
+    this.sendDataToViewer(ViewerActionType.DIRECTIONS_SET_OPTIONS, options);
   }
 
   /**
@@ -332,7 +334,7 @@ export class Viewer {
 
         const formattedData = realtimePositions.features
           .map((feature) => {
-            const customizedFeature = {
+            const customizedFeature: ExternalFeature = {
               geometry: {
                 coordinates: [
                   feature.geometry.coordinates[1],
@@ -354,7 +356,7 @@ export class Viewer {
             // custom render
             if (typeof customizeFeatures === "function") {
               const baseData: RTDataCustomizer = {
-                deviceId: feature.id,
+                deviceId: feature.id as UUID,
               };
               const customized = customizeFeatures(baseData);
               if (!customized) return null;
@@ -421,7 +423,7 @@ export class Viewer {
         userId,
       });
 
-      this.sendDataToViewer(ViewerActionType.MAP_SHOW_TRAJECTORY, {
+      this.sendDataToViewer(ViewerActionType.MAP_TRAJECTORY, {
         data: response,
         speed: 1,
         status: "PLAY",
@@ -441,10 +443,10 @@ export class Viewer {
    */
   async cleanTrajectory() {
     try {
-      this.sendDataToViewer(ViewerActionType.MAP_SHOW_TRAJECTORY, {
+      this.sendDataToViewer(ViewerActionType.MAP_TRAJECTORY, {
         data: [],
         speed: 1,
-        status: "STOP",
+        status: "PAUSE",
       });
     } catch (err) {
       console.error("Error fetching/parsing trajectories", err);
@@ -468,15 +470,17 @@ export class Viewer {
    * This function can be used to set configuration items in the viewer, such as the language or the units.
    *
    * @param {string} key - The key of the configuration item to set.
-   * @param {string} value - The value of the configuration item to set.
+   * @param {unknown} value - The value of the configuration item to set.
    *
    * @throws {Error} - If there is an error sending the event to the viewer.
    */
-  async setConfigItem(key: string, value: string) {
-    await this.sendDataToViewer(ViewerActionType.APP_SET_CONFIG_ITEM, {
-      key,
-      value,
-    });
+  async setConfigItem(key: string, value: unknown) {
+    await this.sendDataToViewer(ViewerActionType.SET_CONFIG_ITEM, [
+      {
+        key,
+        value,
+      },
+    ]);
   }
 
   /**
@@ -489,7 +493,7 @@ export class Viewer {
    * @throws {Error} - If there is an error sending the event to the viewer.
    */
   async setFollowUser(enabled: boolean) {
-    await this.sendDataToViewer(ViewerActionType.CAMERA_FOLLOW_USER, {
+    await this.sendDataToViewer(ViewerActionType.FOLLOW_USER, {
       value: enabled,
     });
   }

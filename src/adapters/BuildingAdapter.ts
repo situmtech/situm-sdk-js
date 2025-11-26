@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import type { Building, Poi } from "../types";
+import type { Building, Poi } from "../types/cartography";
 import { getAdapter as getAdapterPoi, type ServerPoiGet } from "./PoiAdapter";
 
 /**
