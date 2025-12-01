@@ -13,7 +13,7 @@ import type {
   PoiCategoryForm,
   PoiCreateForm,
   PoiUpdateForm,
-} from "../../src/types";
+} from "../../src/types/cartography";
 import { keysToSnake } from "./../../src/utils/snakeCaseCamelCaseUtils";
 import { getMockData, mockAxiosRequest } from "../utils/mockUtils";
 

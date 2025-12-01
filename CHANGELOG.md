@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.12.1 (2025-11-25)
+
+### Fixed
+
+- Fixed incorrect parameter typing in public methods `selectPoiCategory`, `deselectPoiCategory`, `selectFloor`, `selectCar`, `setFollowUser` and `cleanTrajectory`.
+
+### Changed
+
+- Improved MapViewer event and action typings for better developer experience and stricter type validation.
+
 ## 0.12.0 (2025-11-14)
 
 ### Added

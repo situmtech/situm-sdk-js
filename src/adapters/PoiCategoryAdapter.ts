@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import type { PoiCategory } from "../types";
+import type { PoiCategory } from "../types/cartography";
 
 /**
  * Adapts the server response to our common PoiCategory object,

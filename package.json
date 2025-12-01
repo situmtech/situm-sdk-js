@@ -1,7 +1,7 @@
 {
   "author": "Situm Technologies",
   "name": "@situm/sdk-js",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "description": "A Javascript client to Situm services, supporting Node and browser.",
   "repository": "https://github.com/situmtech/situm-sdk-js",
   "main": "dist/cjs/situm-sdk.js",
@@ -66,6 +66,7 @@
     "@rollup/plugin-node-resolve": "^15.3.1",
     "@rollup/plugin-typescript": "^12.1.4",
     "@sentry/vite-plugin": "^2.23.1",
+    "@types/geojson": "^7946.0.16",
     "@types/jest": "^29.5.13",
     "@types/node": "^22.7.4",
     "@types/qs": "^6.9.16",

@@ -7,14 +7,8 @@
  */
 import { getAdapter, postAdapter } from "../adapters/UserAdapter";
 import type ApiBase from "../apiBase";
-import type {
-  Apikey,
-  Paginated,
-  User,
-  UserForm,
-  UserSearch,
-  UUID,
-} from "../types";
+import type { Apikey, User, UserForm, UserSearch } from "../types/auth";
+import type { Paginated, UUID } from "../types/models";
 
 /**
  * Service that exposes the user domain.

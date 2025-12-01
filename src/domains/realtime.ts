@@ -7,7 +7,8 @@
  */
 import { realtimePositionsMapper } from "../adapters/RealtimeAdapter";
 import type ApiBase from "../apiBase";
-import type { RealtimePositions, UUID } from "../types";
+import type { UUID } from "../types/models";
+import type { RealtimePositions } from "../types/realtime";
 
 export type ResponseRealtimePosition = {
   features: Record<string, unknown>[];
@@ -51,8 +52,8 @@ export default class RealtimeApi {
   ): Promise<RealtimePositions> {
     const url = this.buildRealtimeUrl(searchRealtime);
     return this.apiBase
-      .get<RealtimePositions>({ url })
-      .then(realtimePositionsMapper);
+      .get<ResponseRealtimePosition>({ url })
+      .then((data) => realtimePositionsMapper(data));
   }
 
   /**
