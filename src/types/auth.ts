@@ -113,6 +113,8 @@ type UserSearch = PaginatedSearch & {
   codes?: string[];
 };
 
+export { SitumApiPermissionLevel };
+
 export type {
   Apikey,
   AuthApiKey,
@@ -120,7 +122,6 @@ export type {
   AuthJWT,
   AuthConfiguration,
   Jwt,
-  SitumApiPermissionLevel,
   SitumJWTPayload,
   User,
   UserForm,
