@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.12.2 (2025-12-01)
+
+### Changed
+
+- Export `SitumApiPermissionLevel`, `BuildingListElement`, `PoiCategory`, `PoiCreateForm`, `PoiUpdateForm`, `CustomField` and `Organization` types
+
 ## 0.12.1 (2025-11-25)
 
 ### Fixed
