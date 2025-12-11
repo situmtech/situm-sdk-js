@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.13.0 (2025-12-11)
+
+### Added
+
+- Add new method to set the UI mode of the viewer.
+
+  ```ts
+  viewer.setUiMode({ mode: "explore" });
+  ```
+
+- Add new method to calculate static routes between two points.
+
+  ```ts
+  viewer.startDirections({
+    navigationFrom: 1,
+    navigationTo: 2,
+    routeType: "CHOOSE_SHORTEST",
+  });
+  ```
+
 ## 0.12.3 (2025-12-09)
 
 ### Fixed
