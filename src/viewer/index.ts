@@ -501,4 +501,21 @@ export class Viewer {
   async setUiMode(options: ViewerActionParams[ViewerActionType.SET_UI_MODE]) {
     await this.sendDataToViewer(ViewerActionType.SET_UI_MODE, options);
   }
+
+  /**
+   * Sets the camera of the viewer.
+   *
+   * This function sends a message to the viewer to set the camera. It does not return any value.
+   *
+   * @param options The options to set the camera. The options object should contain the following
+   * properties:
+   *   - zoom: The zoom level of the camera.
+   *   - bearing: The bearing of the camera.
+   *   - pitch: The pitch of the camera.
+   *   - transitionDuration: The duration of the camera transition.
+   *   - center: The center of the camera.
+   */
+  async setCamera(options: ViewerActionParams[ViewerActionType.CAMERA_SET]) {
+    await this.sendDataToViewer(ViewerActionType.CAMERA_SET, options);
+  }
 }
