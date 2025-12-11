@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.14.0 (2025-12-11)
+
+### Added
+
+- Add new method to center camera in the Map Viewer component.
+
+  ```ts
+  viewer.setCamera({ zoom: 10, bearing: 0, pitch: 0, transitionDuration: 1000, center: { latitude: 42.863450025098274, longitude: -8.54359901596718 } });
+  ```
+
 ## 0.13.0 (2025-12-11)
 
 ### Added
