@@ -48,7 +48,7 @@ interface CartographySelectionOptions {
 
 type LanguageShortCode = string;
 
-enum ViewerUIMode {
+export enum ViewerUIMode {
   EXPLORE = "explore",
   DIRECTIONS = "directions",
   STEPS = "steps",

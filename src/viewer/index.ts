@@ -488,4 +488,17 @@ export class Viewer {
       value: enabled,
     });
   }
+
+  /**
+   * Sets the UI mode of the viewer.
+   *
+   * This function sends a message to the viewer to set the UI mode. It does not return any value.
+   *
+   * @param options The options to set the UI mode. The options object should contain the following
+   * properties:
+   *   - mode: The mode to set.
+   */
+  async setUiMode(options: ViewerActionParams[ViewerActionType.SET_UI_MODE]) {
+    await this.sendDataToViewer(ViewerActionType.SET_UI_MODE, options);
+  }
 }
