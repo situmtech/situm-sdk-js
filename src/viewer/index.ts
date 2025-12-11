@@ -234,39 +234,30 @@ export class Viewer {
    *
    * @param options The options to set. The options object should contain the following
    * properties:
-   *   - from: The starting position of the directions. The from object should contain
-   *     the following properties:
-   *       - isIndoor: A boolean indicating whether the starting position is indoors.
-   *       - isOutdoor: A boolean indicating whether the starting position is outdoors.
-   *       - coordinate: The geographical coordinates of the starting position. The coordinate
-   *         object should contain the following properties:
-   *           - latitude: The latitude of the starting position.
-   *           - longitude: The longitude of the starting position.
-   *       - cartesianCoordinate: The cartesian coordinates of the starting position. The cartesianCoordinate
-   *         object should contain the following properties:
-   *           - x: The x coordinate of the starting position.
-   *           - y: The y coordinate of the starting position.
-   *       - floorIdentifier: The identifier of the floor that the starting position is on.
-   *       - buildingIdentifier: The identifier of the building that the starting position is in.
-   *   - to: The ending position of the directions. The to object should contain the following
-   *     properties:
-   *       - isIndoor: A boolean indicating whether the ending position is indoors.
-   *       - isOutdoor: A boolean indicating whether the ending position is outdoors.
-   *       - coordinate: The geographical coordinates of the ending position. The coordinate
-   *         object should contain the following properties:
-   *           - latitude: The latitude of the ending position.
-   *           - longitude: The longitude of the ending position.
-   *       - cartesianCoordinate: The cartesian coordinates of the ending position. The cartesianCoordinate
-   *         object should contain the following properties:
-   *           - x: The x coordinate of the ending position.
-   *           - y: The y coordinate of the ending position.
-   *       - floorIdentifier: The identifier of the floor that the ending position is on.
-   *       - buildingIdentifier: The identifier of the building that the ending position is in.
+   *   - includedTags: An array of tags to include in the directions.
+   *   - excludedTags: An array of tags to exclude in the directions.
    */
   async directionsSetOptions(
     options: ViewerActionParams[ViewerActionType.DIRECTIONS_SET_OPTIONS],
   ) {
     this.sendDataToViewer(ViewerActionType.DIRECTIONS_SET_OPTIONS, options);
+  }
+
+  /**
+   * Calculates a static route between two points.
+   *
+   * This function sends a message to the viewer to start the directions feature. It does not return any value.
+   *
+   * @param options The options to start the directions feature. The options object should contain the following
+   * properties:
+   *   - navigationFrom: The identifier of the starting position of the directions.
+   *   - navigationTo: The identifier of the ending position of the directions.
+   *   - routeType: The type of route to calculate. Optional.
+   */
+  async startDirections(
+    options: ViewerActionParams[ViewerActionType.DIRECTIONS_START],
+  ) {
+    this.sendDataToViewer(ViewerActionType.DIRECTIONS_START, options);
   }
 
   /**
