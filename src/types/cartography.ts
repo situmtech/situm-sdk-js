@@ -184,6 +184,18 @@ type PoiCategory = PoiCategoryBase & {
   public: boolean;
 };
 
+type GeoJSONUploadOptions = {
+  buildingId: ID;
+  geojson: object | Blob;
+  filename?: string;
+};
+
+type GeoJSONThemeUploadOptions = {
+  buildingId: ID;
+  theme: object | Blob;
+  filename?: string;
+};
+
 export type {
   Building,
   BuildingForm,
@@ -204,4 +216,6 @@ export type {
   PoiCreateForm,
   PoiSearch,
   PoiUpdateForm,
+  GeoJSONUploadOptions,
+  GeoJSONThemeUploadOptions,
 };
