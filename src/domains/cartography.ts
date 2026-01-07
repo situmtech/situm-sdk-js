@@ -25,6 +25,8 @@ import type {
   Geofence,
   GeofenceForm,
   GeofenceSearch,
+  GeoJSONThemeUploadOptions,
+  GeoJSONUploadOptions,
   PathSearch,
   Paths,
   Poi,
@@ -33,8 +35,6 @@ import type {
   PoiCreateForm,
   PoiSearch,
   PoiUpdateForm,
-  GeoJSONUploadOptions,
-  GeoJSONThemeUploadOptions,
 } from "../types/cartography";
 import type { ID, Organization, Paginated, UUID } from "../types/models";
 
@@ -537,19 +537,19 @@ export default class CartographyApi {
    * @returns {Promise<void>} Resolves when upload completes
    */
   async uploadGeoJSON(options: GeoJSONUploadOptions): Promise<void> {
-    const { buildingId, geojson, filename = "data.geojson" } = options;
+    const { buildingId, geojson } = options;
 
     const blob =
       geojson instanceof Blob
         ? geojson
         : new Blob([JSON.stringify(geojson)], {
-          type: "application/geo+json",
-        });
+            type: "application/geo+json",
+          });
 
     const formData = new FormData();
     formData.append(
       "file",
-      new File([blob], filename, { type: "application/geo+json" }),
+      new File([blob], "data.geojson", { type: "application/geo+json" }),
     );
 
     return this.apiBase.post<void>({
@@ -577,22 +577,20 @@ export default class CartographyApi {
    * @param {GeoJSONThemeUploadOptions} options - Upload configuration
    * @returns {Promise<void>} Resolves when upload completes
    */
-  async uploadGeoJSONTheme(
-    options: GeoJSONThemeUploadOptions,
-  ): Promise<void> {
-    const { buildingId, theme, filename = "theme.json" } = options;
+  async uploadGeoJSONTheme(options: GeoJSONThemeUploadOptions): Promise<void> {
+    const { buildingId, theme } = options;
 
     const blob =
       theme instanceof Blob
         ? theme
         : new Blob([JSON.stringify(theme)], {
-          type: "application/json",
-        });
+            type: "application/json",
+          });
 
     const formData = new FormData();
     formData.append(
       "file",
-      new File([blob], filename, { type: "application/json" }),
+      new File([blob], "theme.json", { type: "application/json" }),
     );
 
     return this.apiBase.post<void>({
