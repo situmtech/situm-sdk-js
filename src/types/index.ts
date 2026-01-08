@@ -14,6 +14,8 @@ export type {
   BuildingListElement,
   Floor,
   Geofence,
+  GeoJSONThemeUploadOptions,
+  GeoJSONUploadOptions,
   PathLink,
   PathNode,
   Paths,
