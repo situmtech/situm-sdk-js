@@ -47,41 +47,6 @@ describe("SitumSDK.cartography GeoJSON", () => {
     axiosMock.mockRestore();
   });
 
-  it("should upload GeoJSON with Blob input", async () => {
-    // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
-    const mockGeoJSON = getMockData("geoJSONMock1");
-    const buildingId = 1111;
-    const blob = new Blob([JSON.stringify(mockGeoJSON)], {
-      type: "application/geo+json",
-    });
-    const axiosMock = mockAxiosRequest([
-      { access_token: getMockData("jwtMock") },
-      null,
-    ]);
-
-    // Execute
-    await situmSDK.cartography.uploadGeoJSON({
-      buildingId,
-      geojson: blob,
-    });
-
-    // Assert
-    const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.method).toBe("post");
-    expect(configuration.url).toEqual(
-      `/api/v1/buildings/${buildingId}/vector_map`,
-    );
-
-    // Verify FormData contents
-    const file = getFormDataFile(configuration.data as FormData);
-    expect(file).not.toBeNull();
-    expect(file?.name).toBe("data.geojson");
-
-    axiosMock.mockClear();
-    axiosMock.mockRestore();
-  });
-
   it("should delete GeoJSON", async () => {
     // Arrange
     const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
@@ -133,41 +98,6 @@ describe("SitumSDK.cartography GeoJSON", () => {
     expect(file).not.toBeNull();
     expect(file?.name).toBe("theme.json");
     expect(file?.type).toBe("application/json");
-
-    axiosMock.mockClear();
-    axiosMock.mockRestore();
-  });
-
-  it("should upload theme with Blob input", async () => {
-    // Arrange
-    const situmSDK = new SitumSDK({ auth: getMockData("jwtMock") });
-    const mockTheme = getMockData("geoJSONThemeMock1");
-    const buildingId = 1111;
-    const blob = new Blob([JSON.stringify(mockTheme)], {
-      type: "application/json",
-    });
-    const axiosMock = mockAxiosRequest([
-      { access_token: getMockData("jwtMock") },
-      null,
-    ]);
-
-    // Execute
-    await situmSDK.cartography.uploadGeoJSONTheme({
-      buildingId,
-      theme: blob,
-    });
-
-    // Assert
-    const configuration = axiosMock.mock.calls[1][0];
-    expect(configuration.method).toBe("post");
-    expect(configuration.url).toEqual(
-      `/api/v1/buildings/${buildingId}/geojson_theme`,
-    );
-
-    // Verify FormData contents
-    const file = getFormDataFile(configuration.data as FormData);
-    expect(file).not.toBeNull();
-    expect(file?.name).toBe("theme.json");
 
     axiosMock.mockClear();
     axiosMock.mockRestore();

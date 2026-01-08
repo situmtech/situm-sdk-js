@@ -1,3 +1,5 @@
+import type { FeatureCollection } from "geojson";
+
 import type { Cartesians, LatLng } from "./coordinates";
 import type { CustomField, ID, PaginatedSearchShort, UUID } from "./models";
 
@@ -186,12 +188,12 @@ type PoiCategory = PoiCategoryBase & {
 
 type GeoJSONUploadOptions = {
   buildingId: ID;
-  geojson: object | Blob;
+  geojson: FeatureCollection;
 };
 
 type GeoJSONThemeUploadOptions = {
   buildingId: ID;
-  theme: object | Blob;
+  theme: Record<string, unknown>;
 };
 
 export type {

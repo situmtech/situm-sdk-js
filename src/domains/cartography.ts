@@ -539,12 +539,9 @@ export default class CartographyApi {
   async uploadGeoJSON(options: GeoJSONUploadOptions): Promise<void> {
     const { buildingId, geojson } = options;
 
-    const blob =
-      geojson instanceof Blob
-        ? geojson
-        : new Blob([JSON.stringify(geojson)], {
-            type: "application/geo+json",
-          });
+    const blob = new Blob([JSON.stringify(geojson)], {
+      type: "application/geo+json",
+    });
 
     const formData = new FormData();
     formData.append(
@@ -580,12 +577,9 @@ export default class CartographyApi {
   async uploadGeoJSONTheme(options: GeoJSONThemeUploadOptions): Promise<void> {
     const { buildingId, theme } = options;
 
-    const blob =
-      theme instanceof Blob
-        ? theme
-        : new Blob([JSON.stringify(theme)], {
-            type: "application/json",
-          });
+    const blob = new Blob([JSON.stringify(theme)], {
+      type: "application/json",
+    });
 
     const formData = new FormData();
     formData.append(
