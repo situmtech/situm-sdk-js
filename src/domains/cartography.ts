@@ -25,6 +25,8 @@ import type {
   Geofence,
   GeofenceForm,
   GeofenceSearch,
+  GeoJSONThemeUploadOptions,
+  GeoJSONUploadOptions,
   PathSearch,
   Paths,
   Poi,
@@ -525,6 +527,70 @@ export default class CartographyApi {
   deletePoiCategory(poiCategoryId: number) {
     return this.apiBase.delete({
       url: `/api/v1/poi_categories/${poiCategoryId}`,
+    });
+  }
+
+  /**
+   * Uploads a GeoJSON for a building.
+   *
+   * @param {GeoJSONUploadOptions} options - Upload configuration
+   * @returns {Promise<void>} Resolves when upload completes
+   */
+  async uploadGeoJSON(options: GeoJSONUploadOptions): Promise<void> {
+    const { buildingId, geojson } = options;
+
+    const blob = new Blob([JSON.stringify(geojson)], {
+      type: "application/geo+json",
+    });
+
+    const formData = new FormData();
+    formData.append(
+      "file",
+      new File([blob], "data.geojson", { type: "application/geo+json" }),
+    );
+
+    return this.apiBase.post<void>({
+      formData,
+      headers: { "Content-Type": "multipart/form-data" },
+      url: `/api/v1/buildings/${buildingId}/vector_map`,
+    });
+  }
+
+  /**
+   * Deletes the GeoJSON for a building.
+   *
+   * @param {ID} buildingId - The ID of the building
+   * @returns {Promise<void>} Resolves when deletion completes
+   */
+  deleteGeoJSON(buildingId: ID): Promise<void> {
+    return this.apiBase.delete({
+      url: `/api/v1/buildings/${buildingId}/vector_map`,
+    });
+  }
+
+  /**
+   * Uploads a GeoJSON theme configuration for a building.
+   *
+   * @param {GeoJSONThemeUploadOptions} options - Upload configuration
+   * @returns {Promise<void>} Resolves when upload completes
+   */
+  async uploadGeoJSONTheme(options: GeoJSONThemeUploadOptions): Promise<void> {
+    const { buildingId, theme } = options;
+
+    const blob = new Blob([JSON.stringify(theme)], {
+      type: "application/json",
+    });
+
+    const formData = new FormData();
+    formData.append(
+      "file",
+      new File([blob], "theme.json", { type: "application/json" }),
+    );
+
+    return this.apiBase.post<void>({
+      formData,
+      headers: { "Content-Type": "multipart/form-data" },
+      url: `/api/v1/buildings/${buildingId}/geojson_theme`,
     });
   }
 }

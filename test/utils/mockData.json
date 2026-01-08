@@ -276,6 +276,30 @@
       "totalPages": 1
     }
   },
+  "geoJSONMock1": {
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [-3.7038, 40.4168],
+          "type": "Point"
+        },
+        "properties": {
+          "floor": 1,
+          "name": "Test Point"
+        },
+        "type": "Feature"
+      }
+    ],
+    "type": "FeatureCollection"
+  },
+  "geoJSONThemeMock1": {
+    "styles": {
+      "default": {
+        "fill": "#3388ff"
+      }
+    },
+    "version": "1.0"
+  },
   "jwtMock": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYWtlIiwiZW1haWwiOiJmYWtlQHNpdHVtLmNvbSIsIm9yZ2FuaXphdGlvbl91dWlkIjoiZmFrZWZha2VmYS1mYWtlLWZha2UtZmFrZS1mYWtlZmFrZWZha2UiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MjM0NjM1MjQsImV4cCI6MTcyMzU0OTkyNH0.9Rfnrc0pe9wEMRtAtPYy8XKPuw0pTe73juqi3kpNQDc",
   "pathMock1": {
     "links": [

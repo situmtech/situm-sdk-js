@@ -57,3 +57,11 @@ export const mockAxiosResponse = (mock, response) => {
 
   mock.mockReturnValueOnce(promiseResponse);
 };
+
+export const getFormDataFile = (
+  formData: FormData,
+  fieldName: string = "file",
+): File | null => {
+  const file = formData.get(fieldName);
+  return file instanceof File ? file : null;
+};
