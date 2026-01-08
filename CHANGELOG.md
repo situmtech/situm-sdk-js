@@ -16,19 +16,18 @@ All notable changes to this project will be documented in this file. See [standa
    }); 
    ```
 
-   Delete a GeoJSON: 
+  Delete a GeoJSON: 
    ```ts
    await situmSDK.cartography.deleteGeoJSON(buildingId);
    ```
 
-   Upload a GeoJSON theme:
+  Upload a GeoJSON theme:
    ```ts
     await situmSDK.cartography.uploadGeoJSONTheme({
       buildingId: 1234,
       theme: myGeoJSONTheme
     });
   ```
-  
 
 ## 0.14.0 (2025-12-11)
 
