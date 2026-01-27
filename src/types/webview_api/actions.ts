@@ -125,7 +125,9 @@ export type _ViewerActionParams = {
   [ViewerActionType.CAMERA_SET]: Camera;
 
   // cartography
-  [ViewerActionType.SELECT_POI]: { identifier: number };
+  [ViewerActionType.SELECT_POI]:
+    | { identifier: number }
+    | { externalIdentifier: string };
   [ViewerActionType.DESELECT_POI]: undefined;
   [ViewerActionType.SELECT_CAR]: undefined;
   [ViewerActionType.BUILDING_SELECT]: { identifier: number };
@@ -133,7 +135,9 @@ export type _ViewerActionParams = {
     identifier: number;
     options?: CartographySelectionOptions;
   };
-  [ViewerActionType.SELECT_POI_CATEGORY]: { identifier: number };
+  [ViewerActionType.SELECT_POI_CATEGORY]:
+    | { identifier: number }
+    | { externalIdentifier: string };
   [ViewerActionType.DESELECT_POI_CATEGORIES]: undefined;
 
   // find_my_car
