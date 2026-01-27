@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.15.0 (2026-01-08)
+
+### Added
+
+- Add new methods to manage GeoJSON and GeoJSONTheme.
+
+  Upload a GeoJSON:
+   ```ts
+   await situmSDK.cartography.uploadGeoJSON({
+     buildingId: 1234,
+     geojson: myGeoJSON
+   }); 
+   ```
+
+  Delete a GeoJSON: 
+   ```ts
+   await situmSDK.cartography.deleteGeoJSON(buildingId);
+   ```
+
+  Upload a GeoJSON theme:
+   ```ts
+    await situmSDK.cartography.uploadGeoJSONTheme({
+      buildingId: 1234,
+      theme: myGeoJSONTheme
+    });
+  ```
+
 ## 0.14.0 (2025-12-11)
 
 ### Added
