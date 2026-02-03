@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Added
 
-- Add new parameters to `select_poi` and `select_poi_category` actions to allow [selecting POIs by external identifier](https://developers.situm.com/pages/rest/openapi/beta.html#/External%20Point%20of%20Interest%20Categories).
+- Add new parameters to `select_poi` and `select_poi_category` actions to allow [selecting POIs and categories by external identifier](https://developers.situm.com/pages/rest/openapi/beta.html#/External%20Point%20of%20Interest%20Categories).
 
 ## 0.15.0 (2026-01-08)
 
