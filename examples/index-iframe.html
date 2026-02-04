@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <iframe
+      id="map-viewer-iframe"
+      style="border: 0 none; width: 100vw; height: 100vh"
+      src="http://localhost:5173/?waitforauth=true&deviceid=DEVICEID&lng=es"
+    >
+    </iframe>
+
+    <script>
+      const jwt = "YOUR_JWT_HERE";
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        const iframe = document.getElementById("map-viewer-iframe");
+
+        iframe.onload = () => {
+          setTimeout(() => {
+            console.log("Sending JWT to iframe");
+            iframe.contentWindow.postMessage(
+              {
+                type: "app.set_auth",
+                payload: { jwt },
+              },
+              "*",
+            );
+          }, 1000);
+        };
+      });
+    </script>
+  </body>
+</html>
