@@ -518,4 +518,19 @@ export class Viewer {
   async setCamera(options: ViewerActionParams[ViewerActionType.CAMERA_SET]) {
     await this.sendDataToViewer(ViewerActionType.CAMERA_SET, options);
   }
+
+  /**
+   * Opens the location picker in the viewer.
+   *
+   * This function sends a message to the viewer to open the location picker. It does not return any value.
+   *
+   * @param options The options to open the location picker. The options object should contain the following
+   * properties:
+   *   - initialPosition: The initial position to set the location picker to.
+   */
+  async openLocationPicker(
+    options: ViewerActionParams[ViewerActionType.OPEN_LOCATION_PICKER],
+  ) {
+    await this.sendDataToViewer(ViewerActionType.OPEN_LOCATION_PICKER, options);
+  }
 }

@@ -64,6 +64,7 @@ export enum ViewerEventType {
   // UI
   FAV_POIS_UPDATED = "ui.favorite_pois_updated",
   SPEAK_ALOUD_TEXT = "ui.speak_aloud_text",
+  LOCATION_PICKER_DRAGGED = "ui.location_picker_dragged",
 }
 
 export interface _ViewerEventPayloads {
@@ -130,6 +131,11 @@ export interface _ViewerEventPayloads {
     rate?: number;
     volume?: number;
     pitch?: number;
+  };
+  [ViewerEventType.LOCATION_PICKER_DRAGGED]: {
+    coordinate: { latitude: number; longitude: number };
+    cartesian: { x: number; y: number };
+    floorIdentifier: number;
   };
 }
 
