@@ -193,6 +193,7 @@ export type _ViewerActionParams = {
   [ViewerActionType.TOGGLE_USER_SETTINGS]: undefined;
   [ViewerActionType.FONT_SIZE_UPDATE]: { size: FontSizeItem };
   [ViewerActionType.OPEN_LOCATION_PICKER]:
+    | undefined
     | {
         initialPosition: {
           latitude: number;
