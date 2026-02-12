@@ -44,6 +44,7 @@
     "doc": "run-s doc:html && open-cli build/docs/index.html",
     "format": "biome check --write --unsafe ./src ./test ./examples ",
     "precommit": "lint-staged",
+    "prepare": "yarn build",
     "prepare-release": "run-s reset-hard test build doc:html",
     "reset-hard": "git clean -dfx && git reset --hard && yarn install",
     "test:lint": "biome check ./src ./test ./examples",
