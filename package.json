@@ -23,6 +23,17 @@
     "api",
     "library"
   ],
+  "files": [
+    "dist",
+    "!dist/dts",
+    "!**/*.spec.*",
+    "!**/*.json",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "CONTRIBUTING.md",
+    "SECURITY-POLICY.md"
+  ],
   "scripts": {
     "build:watch": "rollup -c -w;",
     "build:clean": "rimraf dist",
