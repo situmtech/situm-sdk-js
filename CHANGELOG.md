@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.17.0 (2026-02-13)
+
+### Added
+
+- Add new method `openLocationPicker` to open Location Picker mode.  
+
+  Location Picker mode hides the default map UI and places a draggable marker on the map, either at a given position or replacing an existing POI.
+
+```ts
+  // Place the marker replacing an existing POI
+  viewer.openLocationPicker({
+    poiIdentifier: 12345
+  });
+
+  // Open on a specific location
+  viewer.openLocationPicker({
+    initialPosition: { latitude: 42.86345, longitude: -8.54359, floorIdentifier: 12345 }
+  });
+```
+
+- Add new event `ui.location_picker_dragged` with the updated marker position when the marker is moved.
+
+```ts
+  viewer.on("ui.location_picker_dragged", (event) => {
+    console.log(event.coordinate);
+  });
+```
+
 ## 0.16.0 (2026-02-03)
 
 ### Added
