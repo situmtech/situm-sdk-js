@@ -106,6 +106,7 @@ export enum ViewerActionType {
   SHOW_USER_SETTINGS = "ui.show_user_settings",
   TOGGLE_USER_SETTINGS = "ui.toggle_user_settings",
   FONT_SIZE_UPDATE = "ui.font_size_update",
+  OPEN_LOCATION_PICKER = "ui.open_location_picker",
 
   // AR
   AR_UPDATE_STATUS = "augmented_reality.update_status",
@@ -191,6 +192,21 @@ export type _ViewerActionParams = {
   [ViewerActionType.SHOW_USER_SETTINGS]: boolean;
   [ViewerActionType.TOGGLE_USER_SETTINGS]: undefined;
   [ViewerActionType.FONT_SIZE_UPDATE]: { size: FontSizeItem };
+  [ViewerActionType.OPEN_LOCATION_PICKER]:
+    | undefined
+    | {
+        initialPosition: {
+          latitude: number;
+          longitude: number;
+          floorIdentifier: number;
+        };
+      }
+    | {
+        poiIdentifier: number;
+      }
+    | {
+        poiExternalIdentifier: string;
+      };
 
   // AR
   [ViewerActionType.AR_UPDATE_STATUS]: { type: string };
