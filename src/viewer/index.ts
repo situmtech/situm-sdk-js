@@ -529,7 +529,7 @@ export class Viewer {
    *   - initialPosition: The initial position to set the location picker to.
    */
   async openLocationPicker(
-    options: ViewerActionParams[ViewerActionType.OPEN_LOCATION_PICKER],
+    options?: ViewerActionParams[ViewerActionType.OPEN_LOCATION_PICKER],
   ) {
     await this.sendDataToViewer(ViewerActionType.OPEN_LOCATION_PICKER, options);
   }
