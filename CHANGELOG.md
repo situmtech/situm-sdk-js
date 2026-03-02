@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.17.1 (2026-03-02)
+
+### Fixed
+
+- Updated parameter typing for the `viewer.openLocationPicker` function
+
 ## 0.17.0 (2026-02-13)
 
 ### Added
