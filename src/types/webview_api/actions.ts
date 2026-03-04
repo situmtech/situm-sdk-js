@@ -86,7 +86,7 @@ export enum ViewerActionType {
   NAVIGATION_START = "navigation.start",
   NAVIGATION_TO_CAR = "navigation.start.to_car",
   NAVIGATION_CANCEL = "navigation.cancel",
-  
+
   // directions
   DIRECTIONS_START = "directions.start",
   DIRECTIONS_SET_OPTIONS = "directions.set_options",
