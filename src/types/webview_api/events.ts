@@ -36,9 +36,6 @@ export enum ViewerEventType {
   // find_my_car
   FMC_SAVED = "find_my_car.saved",
 
-  // directions
-  DIRECTIONS_REQUESTED = "directions.requested",
-
   // location
   LOCATION_START = "location.start",
   LOCATION_STOP = "location.stop",
@@ -46,8 +43,6 @@ export enum ViewerEventType {
   LOCATION_EXTERNAL_ADD = "location.external_add",
 
   // navigation
-  NAVIGATION_REQUESTED = "navigation.requested",
-  NAVIGATION_STOPPED = "navigation.stopped",
   VIEWER_NAVIGATION_STARTED = "viewer.navigation.started",
   VIEWER_NAVIGATION_UPDATED = "viewer.navigation.updated",
   VIEWER_NAVIGATION_STOPPED = "viewer.navigation.stopped",
@@ -96,9 +91,6 @@ export interface _ViewerEventPayloads {
     floorIdentifier: number;
   };
 
-  // directions
-  [ViewerEventType.DIRECTIONS_REQUESTED]: any; // TODO: this is typed as any in MapViewer :(
-
   // location
   [ViewerEventType.LOCATION_START]: { buildingIdentifier: number };
   [ViewerEventType.LOCATION_STOP]: undefined;
@@ -106,8 +98,6 @@ export interface _ViewerEventPayloads {
   [ViewerEventType.LOCATION_EXTERNAL_ADD]: ExternalLocation;
 
   // navigation
-  [ViewerEventType.NAVIGATION_REQUESTED]: any; // TODO: this is typed as any in MapViewer :(
-  [ViewerEventType.NAVIGATION_STOPPED]: undefined;
   [ViewerEventType.VIEWER_NAVIGATION_STARTED]: any; // TODO: type too complex to migrate right now
   [ViewerEventType.VIEWER_NAVIGATION_UPDATED]: NativeNavigationUpdateTypes;
   [ViewerEventType.VIEWER_NAVIGATION_STOPPED]: any; // TODO: type too complex to migrate right now

@@ -86,11 +86,9 @@ export enum ViewerActionType {
   NAVIGATION_START = "navigation.start",
   NAVIGATION_TO_CAR = "navigation.start.to_car",
   NAVIGATION_CANCEL = "navigation.cancel",
-  NAVIGATION_UPDATE = "navigation.update",
 
   // directions
   DIRECTIONS_START = "directions.start",
-  DIRECTIONS_UPDATE = "directions.update",
   DIRECTIONS_SET_OPTIONS = "directions.set_options",
 
   // location
@@ -156,7 +154,6 @@ export type _ViewerActionParams = {
   [ViewerActionType.NAVIGATION_START]: NavigationStartPayload;
   [ViewerActionType.NAVIGATION_TO_CAR]: OnNavigationStartRequestedPayload;
   [ViewerActionType.NAVIGATION_CANCEL]: undefined;
-  [ViewerActionType.NAVIGATION_UPDATE]: any; // TODO navigation payload is too complex
 
   // directions
   [ViewerActionType.DIRECTIONS_START]: {
@@ -164,7 +161,6 @@ export type _ViewerActionParams = {
     navigationTo: number;
     routeType?: RouteType;
   };
-  [ViewerActionType.DIRECTIONS_UPDATE]: any; // TODO directions payload is too complex
   [ViewerActionType.DIRECTIONS_SET_OPTIONS]: {
     includedTags?: string[];
     excludedTags?: string[];
