@@ -1,10 +1,6 @@
-<p align="center"> <img width="233" src="https://situm.com/wp-content/themes/situm/img/logo-situm.svg" style="margin-bottom:1rem" /> <h1 align="center">Situm SDK JS</h1> </p>
-
-<p align="center" style="text-align:center">
-
-A JavaScript library to interact with the Situm REST APIs to build your own applications with the power of
-[SITUM](https://www.situm.com/).
-
+<p align="center">
+  <img width="233" src="https://situm.com/wp-content/themes/situm/img/logo-situm.svg" style="margin-bottom:1rem" />
+  <h1 align="center">Situm SDK JS</h1>
 </p>
 
 <div align="center" style="text-align:center">
@@ -16,114 +12,162 @@ A JavaScript library to interact with the Situm REST APIs to build your own appl
 
 </div>
 
-## Getting Started
+## Getting started: Map Viewer integration
 
-The SITUM SDK JS is Javascript library to create web applications using the REST API from Situm. This will allow you to fetch geospacial information and create your own js-based applications. We aim to make it easy to use for you and to keep your focus on creating your business logic over our services.
+**Situm SDK JS** is primarily used to **embed and control the Situm Map Viewer** in your web app (or web-view) and to **interact with it through the Javascript postMessage API**.
 
-The best way to get started is to navigate through the Situm SDK JS documentation site:
+Under the hood, the SDK:
 
-- [Guide](https://situm.com/docs/websdk-javascript-sdk-quickstart-guide/) will give you a good overview of the library.
-- [API Reference](https://developers.situm.com/sdk_documentation/sdk-js/index.html) will help you use a particular class or method.
-- [Examples](https://github.com/situmtech/situm-sdk-js/tree/main/examples) will demo some specific features.
-- [Support](https://situm.com/en/docs/) might answer some of your questions.
+- Creates and configures the Map Viewer `iframe`.
+- Wraps the [Javascript PostMessage API](https://situm.com/docs/javascript-api-postmessage/) actions as **typed `viewer.xxx` functions**.
+- Exposes viewer events as **`viewer.on(ViewerEventType.XYZ, callback)`**.
 
-This library is organized into distinct domains, each targeting a specific aspect of indoor mapping and positioning. This separation helps you focus on relevant functionality for your application. The main domains are:
+This keeps your app code small and focused while still letting you use the full power of the Map Viewer.
 
-| Name           | Explanation                                                                 | Example                                 |
-|----------------|-----------------------------------------------------------------------------|-----------------------------------------|
-| **Cartography**| Handles map data, such as buildings, floors, and points of interest.        | `sdk.cartography.getBuildings()`        |
-| **Realtime**   | Manages real-time location tracking and positioning.                        | `sdk.realtime.getPositions()`           |
-| **Viewer**     | Provides tools to render interactive maps and visualizations in your web application. | `sdk.viewer.create({})`           |
-| **User**       | Manages user accounts and authentication.                                   | `sdk.user.createUser()`                 |
-| **Reports**    | Accesses analytics and reporting features, such as visit or usage reports.  | `sdk.reports.getTrajectory()`         |
-| **Images**     | Handles image retrieval and management, such as map or POI images.          | `sdk.images.uploadImage()`         |
-
-Each domain exposes its own set of classes and methods, making it easier to work with geospacial data, live positioning, or map rendering independently.
-
-### Examples
-
-Fetching all the buildings from the api
-
-```typescript
-const sdk = new Situm({auth: {apiKey: YOUR_API_KEY});
-const buildings = sdk.cartography.getBuildings();
-```
-
-Fetching realtime positions from the api
-
-```typescript
-const sdk = new Situm({auth: {apiKey: YOUR_API_KEY});
-const positions = sdk.realtime.getPositions();
-```
-
-Render an interactive viewer on a div:
+### Minimal viewer example
 
 ```html
 <div id="viewer1"></div>
 ```
 
-```typescript
-const sdk = new Situm({auth: {apiKey: YOUR_API_KEY});
-const viewer = sdk.viewer.create({
-  domElement: document.querySelector("#viewer1");
+```ts
+import SitumSDK, { ViewerEventType } from "@situm/sdk-js";
+
+const sdk = new SitumSDK({
+  auth: { apiKey: YOUR_API_KEY },
 });
 
-viewer.on(ViewerEventType.MAP_IS_READY, () =>
-  console.log("viewer1: map is ready")
-);
+const viewer = sdk.viewer.create({
+  domElement: document.querySelector("#viewer1")!,
+  buildingId: YOUR_BUILDING_ID,
+});
+
+viewer.on(ViewerEventType.MAP_IS_READY, () => {
+  console.log("viewer: map is ready");
+});
 ```
 
-Check the examples folder on the repository to see more examples.
+You can find more complete HTML examples under the [`examples/`](examples/) folder.
+
+### Public viewer functions (actions)
+
+Each [**postMessage action**](https://situm.com/docs/javascript-api-postmessage/#sending-actions-to-the-viewer) is exposed as a **typed method on the `Viewer` instance**. For example:
+
+```ts
+import Situm, { ViewerEventType } from "@situm/sdk-js";
+
+const sdk = new Situm({ auth: { apiKey: YOUR_API_KEY } });
+const viewer = sdk.viewer.create({
+  domElement: document.querySelector("#viewer1")!,
+  buildingId: YOUR_BUILDING_ID,
+});
+
+// Example 1: move the camera
+viewer.setCamera({
+  center: { lat: 43.3623, lng: -8.4115 },
+  zoom: 18,
+});
+
+// Example 2: open the location picker
+viewer.openLocationPicker({
+  initialPosition: {
+    latitude: 43.3623,
+    longitude: -8.4115,
+    floorIdentifier: 1,
+  },
+});
+```
+
+For the complete, always up‑to‑date list of actions and payloads, see the generated [API reference](https://developers.situm.com/sdk_documentation/sdk-js/index.html) and the [Javascript PostMessage API docs](https://situm.com/docs/javascript-api-postmessage/).
+
+### Subscribing to viewer events
+
+The SDK exposes the **viewer events** (the `type` values in incoming postMessage events) via the `viewer.on` helper:
+
+```ts
+import Situm, { ViewerEventType } from "@situm/sdk-js";
+
+const sdk = new Situm({ auth: { apiKey: YOUR_API_KEY } });
+const viewer = sdk.viewer.create({ domElement: document.querySelector("#viewer1")! });
+
+viewer.on(ViewerEventType.POI_SELECTED, (payload) => {
+  console.log("POI selected", payload.identifier, payload.buildingIdentifier);
+});
+
+viewer.on(ViewerEventType.DIRECTIONS_REQUESTED, (payload) => {
+  console.log("Directions requested", payload);
+});
+```
+
+Internally this listens to the `message` event on `window`, parses the `data` field, and routes the event to the registered callbacks.
+
+### Where to go next
+
+- **PostMessage API details** (all actions & events): [Javascript PostMessage API docs](https://situm.com/docs/javascript-api-postmessage/).
+- **Map Viewer configuration, query params, profiles, etc.**: see the Map Viewer docs in `https://situm.com/docs/map-viewer-specifications/`.
+- **Concrete integration examples**: check the `examples/` folder in this repository.
+
+## Using the REST API domains (lower-level usage)
+
+Besides the Map Viewer integration, this SDK also wraps Situm's REST APIs in several **domains**:
+
+| Name           | Explanation                                                                 | Example                          |
+|----------------|-----------------------------------------------------------------------------|----------------------------------|
+| **Cartography**| Buildings, floors, POIs, geofences…                                        | `sdk.cartography.getBuildings()` |
+| **Realtime**   | Real-time location tracking and positioning.                               | `sdk.realtime.getPositions()`    |
+| **Viewer**     | Map Viewer embedding and postMessage helpers.                              | `sdk.viewer.create({})`          |
+| **User**       | User accounts and authentication.                                          | `sdk.user.getUsers()`            |
+| **Reports**    | Analytics & usage reports (e.g. trajectories).                             | `sdk.reports.getTrajectory()`    |
+| **Images**     | Map / POI image management.                                                | `sdk.images.uploadImage()`       |
+
+Basic examples:
+
+```ts
+import Situm from "@situm/sdk-js";
+
+const sdk = new Situm({ auth: { apiKey: YOUR_API_KEY } });
+
+// Cartography
+const buildings = await sdk.cartography.getBuildings();
+
+// Realtime
+const positions = await sdk.realtime.getPositions();
+```
+
+For most web integrations you will combine these domains (to fetch data) with the **Viewer** (to display and interact with it).
 
 ## Documentation
 
-### General documentation
+- **Quickstart & guides**: `https://situm.com/docs/websdk-javascript-sdk-quickstart-guide/`
+- **Javascript PostMessage API** (Map Viewer actions & events): `https://situm.com/docs/javascript-api-postmessage/`
+- **Full API reference** (all domains & methods): `https://developers.situm.com/sdk_documentation/sdk-js/index.html`
 
-You can read the general documentation that is published at [https://situm.com/docs/websdk-javascript-sdk-quickstart-guide/](https://situm.com/docs/websdk-javascript-sdk-quickstart-guide/).
+You can also run `yarn doc` in this repository to build the API reference locally from JSDoc annotations, then open `docs/public/index.html`.
 
-### Guides
+## Examples
 
-The folder `docs/guides` contains general information about the Situm SDK JS library.
+You can find several examples under the `examples/` folder, including:
 
-- Quick start: get started quickly following this tutorial.
-- Upgrade considerations: if you have experience with previous versions of Situm SDK JS, this is the place to learn the differences between the former library and the newest one.
-- Glossary: terms that appear throughout the documentation.
+- Basic Viewer embedding with buttons.
+- Realtime positions overlay.
+- Trajectory playback.
 
-### API Reference
-
-You can find a published api reference at [https://developers.situm.com/sdk_documentation/sdk-js/index.html](https://developers.situm.com/sdk_documentation/sdk-js/index.html)
-
-Or run `yarn doc` at the repository to build the API reference documentation from jsdoc annotations.
-
-Once the task is done, you can visit `docs/public/index.html` to check the reference
-
-### Examples
-
-In the folder `examples/` you can find several folders with example for every feature of Situm SDK JS.
-
-Run them with:
-
-```shell
-npx tsx examples/filename.ts
-```
+Serve the folder with any static web server (for example `npx serve examples`) and open the desired HTML file in your browser.
 
 ## Development
 
-See [DEVELOPMENT.md](DEVELOPMENT.md) for more information.
+See [`DEVELOPMENT.md`](DEVELOPMENT.md) for more information.
 
 ## Versioning
 
 We use [SemVer](http://semver.org/) for versioning.
 
-Please refer to [CHANGELOG.md](CHANGELOG.md) for a list of notables changes for each version of the library.
-
-You can also see the [tags on this repository](https://github.com/situmtech/situm-sdk-js/tags).
-
+Please refer to [`CHANGELOG.md`](CHANGELOG.md) for notable changes for each version of the library, and check the Git tags in this repository for released versions.
 
 ## Submitting Contributions
 
-You will need to sign a Contributor License Agreement (CLA) before making a submission. [Learn more here.](https://situm.com/contributions/)
+You will need to sign a Contributor License Agreement (CLA) before making a submission. See `https://situm.com/contributions/` for more information.
 
 ## License
 
-This project is licensed under the MIT - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT license – see the [`LICENSE`](LICENSE) file for details.
