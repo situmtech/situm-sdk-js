@@ -12,7 +12,7 @@
 
 </div>
 
-## Getting started: Map Viewer integration
+## Getting started
 
 **Situm SDK JS** is primarily used to **embed and control the Situm Map Viewer** in your web app (or web-view) and to **interact with it through the Javascript postMessage API**.
 
@@ -107,7 +107,9 @@ Internally this listens to the `message` event on `window`, parses the `data` fi
 - **Map Viewer configuration, query params, profiles, etc.**: see the Map Viewer docs in `https://situm.com/docs/map-viewer-specifications/`.
 - **Concrete integration examples**: check the `examples/` folder in this repository.
 
-## Using the REST API domains (lower-level usage)
+<br />
+
+## Using the REST API domains
 
 Besides the Map Viewer integration, this SDK also wraps Situm's REST APIs in several **domains**:
 
@@ -118,7 +120,7 @@ Besides the Map Viewer integration, this SDK also wraps Situm's REST APIs in sev
 | **Viewer**     | Map Viewer embedding and postMessage helpers.                              | `sdk.viewer.create({})`          |
 | **User**       | User accounts and authentication.                                          | `sdk.user.getUsers()`            |
 | **Reports**    | Analytics & usage reports (e.g. trajectories).                             | `sdk.reports.getTrajectory()`    |
-| **Images**     | Map / POI image management.                                                | `sdk.images.uploadImage()`       |
+| **Images**     | POI / POI category image management.                                                | `sdk.images.uploadImage()`       |
 
 Basic examples:
 
@@ -146,6 +148,7 @@ You can also run `yarn doc` in this repository to build the API reference locall
 
 ## Examples
 
+<!-- JLAQ review this section -->
 You can find several examples under the `examples/` folder, including:
 
 - Basic Viewer embedding with buttons.
