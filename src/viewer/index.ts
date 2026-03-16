@@ -533,4 +533,105 @@ export class Viewer {
   ) {
     await this.sendDataToViewer(ViewerActionType.OPEN_LOCATION_PICKER, options);
   }
+
+  /**
+   * Starts a navigation in the viewer.
+   */
+  async startNavigation(
+    options: ViewerActionParams[ViewerActionType.NAVIGATION_START],
+  ) {
+    await this.sendDataToViewer(ViewerActionType.NAVIGATION_START, options);
+  }
+
+  /**
+   * Starts a navigation to the saved car location.
+   */
+  async startNavigationToCar(
+    options: ViewerActionParams[ViewerActionType.NAVIGATION_TO_CAR],
+  ) {
+    await this.sendDataToViewer(ViewerActionType.NAVIGATION_TO_CAR, options);
+  }
+
+  /**
+   * Cancels the current navigation.
+   */
+  async cancelNavigation() {
+    await this.sendDataToViewer(ViewerActionType.NAVIGATION_CANCEL, undefined);
+  }
+
+  /**
+   * Updates the status of the user location system.
+   */
+  async updateLocationStatus(
+    options: ViewerActionParams[ViewerActionType.LOCATION_UPDATE_STATUS],
+  ) {
+    await this.sendDataToViewer(
+      ViewerActionType.LOCATION_UPDATE_STATUS,
+      options,
+    );
+  }
+
+  /**
+   * Applies initial UI configuration options to the viewer.
+   */
+  async setInitialConfig(
+    options: ViewerActionParams[ViewerActionType.INITIAL_CONFIG],
+  ) {
+    await this.sendDataToViewer(ViewerActionType.INITIAL_CONFIG, options);
+  }
+
+  /**
+   * Sets the language of the viewer UI.
+   */
+  async setLanguage(
+    language: ViewerActionParams[ViewerActionType.LANGUAGE_CONFIG],
+  ) {
+    await this.sendDataToViewer(ViewerActionType.LANGUAGE_CONFIG, language);
+  }
+
+  /**
+   * Sets the list of favorite POIs shown in the viewer.
+   */
+  async setFavoritePois(
+    poiIds: ViewerActionParams[ViewerActionType.SET_FAV_POIS],
+  ) {
+    await this.sendDataToViewer(ViewerActionType.SET_FAV_POIS, poiIds);
+  }
+
+  /**
+   * Applies a search filter for the viewer.
+   */
+  async setSearchFilter(
+    options: ViewerActionParams[ViewerActionType.SET_SEARCH_FILTER],
+  ) {
+    await this.sendDataToViewer(ViewerActionType.SET_SEARCH_FILTER, options);
+  }
+
+  /**
+   * Controls the visibility of the Accessibility Panel.
+   */
+  async showUserSettings(
+    visible: ViewerActionParams[ViewerActionType.SHOW_USER_SETTINGS],
+  ) {
+    await this.sendDataToViewer(ViewerActionType.SHOW_USER_SETTINGS, visible);
+  }
+
+  /**
+   * Toggles the visibility of the Accessibility Panel.
+   */
+  async toggleUserSettings() {
+    await this.sendDataToViewer(
+      ViewerActionType.TOGGLE_USER_SETTINGS,
+      undefined,
+    );
+  }
+
+  /**
+   * Updates the font size settings of the viewer.
+   */
+  async updateFontSize(
+    options: ViewerActionParams[ViewerActionType.FONT_SIZE_UPDATE],
+  ) {
+    await this.sendDataToViewer(ViewerActionType.FONT_SIZE_UPDATE, options);
+  }
 }
