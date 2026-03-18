@@ -14,15 +14,18 @@
 
 ## Getting started
 
-**Situm SDK JS** is primarily used to **embed and control the Situm Map Viewer** in your web app (or web-view) and to **interact with it through the Javascript postMessage API**.
+**Situm SDK JS** is a library designed for developers **integrating Situm into web applications or WebViews**. It provides an easy way to embed and control the Situm Map Viewer, as well as to interact with Situm’s APIs from JavaScript. 
 
-Under the hood, the SDK:
+With this SDK, you can seamlessly display indoor maps, control [Situm's Map Viewer](https://situm.com/docs/map-viewer-quickstart-guide/) programmatically, and access Situm data (buildings, POIs, positions, etc.) without dealing with low-level integration details. 
 
-- Creates and configures the Map Viewer `iframe`.
-- Wraps the [Javascript PostMessage API](https://situm.com/docs/javascript-api-postmessage/) actions as **typed `viewer.xxx` functions**.
-- Exposes viewer events as **`viewer.on(ViewerEventType.XYZ, callback)`**.
+Under the hood, the SDK: 
 
-This keeps your app code small and focused while still letting you use the full power of the Map Viewer.
+- Creates and configures the Map Viewer `iframe` 
+- Provides simple, typed methods (e.g. viewer.xxx) to control the viewer 
+- Exposes viewer events through an easy-to-use subscription API (viewer.on(...)) 
+- Wraps Situm’s REST APIs into a convenient client and Situm’s PostMessage APIs 
+
+By abstracting the underlying communication layer, the SDK lets you focus on your application logic while still leveraging the full capabilities of the Situm Map Viewer. 
 
 ### Minimal viewer example
 
@@ -51,7 +54,9 @@ You can find more complete HTML examples under the [`examples/`](examples/) fold
 
 ### Public viewer functions (actions)
 
-Each [**postMessage action**](https://situm.com/docs/javascript-api-postmessage/#sending-actions-to-the-viewer) is exposed as a **typed method on the `Viewer` instance**. For example:
+The SDK provides a set of **typed methods** on the `viewer` instance that allow you to **control and interact with the Map Viewer programmatically**. 
+
+For example: 
 
 ```ts
 import Situm, { ViewerEventType } from "@situm/sdk-js";
@@ -78,11 +83,15 @@ viewer.openLocationPicker({
 });
 ```
 
-For the complete, always up‑to‑date list of actions and payloads, see the generated [API reference](https://developers.situm.com/sdk_documentation/sdk-js/index.html) and the [Javascript PostMessage API docs](https://situm.com/docs/javascript-api-postmessage/).
+
+You can find the complete list of available public viewer methods and their parameters in the JS SDK API reference: 
+
+→ [**JS SDK API reference**](https://developers.situm.com/sdk_documentation/sdk-js/index.html) 
+
 
 ### Subscribing to viewer events
 
-The SDK exposes the **viewer events** (the `type` values in incoming postMessage events) via the `viewer.on` helper:
+The SDK allows you to listen to **events triggered by the Map Viewer** using the `viewer.on(...)` method. This makes it easy to react to user interactions such as selecting a POI or requesting directions. 
 
 ```ts
 import Situm, { ViewerEventType } from "@situm/sdk-js";
@@ -99,19 +108,17 @@ viewer.on(ViewerEventType.DIRECTIONS_REQUESTED, (payload) => {
 });
 ```
 
-Internally this listens to the `message` event on `window`, parses the `data` field, and routes the event to the registered callbacks.
+Each event provides a payload with relevant data that you can use to update your application logic. 
 
-### Where to go next
+You can find the complete list of available events and their payloads in the JS SDK API reference: 
 
-- **PostMessage API details** (all actions & events): [Javascript PostMessage API docs](https://situm.com/docs/javascript-api-postmessage/).
-- **Map Viewer configuration, query params, profiles, etc.**: see the Map Viewer docs in `https://situm.com/docs/map-viewer-specifications/`.
-- **Concrete integration examples**: check the `examples/` folder in this repository.
+→ [**JS SDK API reference**](https://developers.situm.com/sdk_documentation/sdk-js/index.html) 
 
 <br />
 
 ## Using the REST API domains
 
-Besides the Map Viewer integration, this SDK also wraps Situm's REST APIs in several **domains**:
+Besides the Map Viewer integration, this SDK also wraps Situm's REST APIs, dividing them into several **domains**:
 
 | Name           | Explanation                                                                 | Example                          |
 |----------------|-----------------------------------------------------------------------------|----------------------------------|
@@ -140,22 +147,37 @@ For most web integrations you will combine these domains (to fetch data) with th
 
 ## Documentation
 
-- **Quickstart & guides**: `https://situm.com/docs/websdk-javascript-sdk-quickstart-guide/`
-- **Javascript PostMessage API** (Map Viewer actions & events): `https://situm.com/docs/javascript-api-postmessage/`
-- **Full API reference** (all domains & methods): `https://developers.situm.com/sdk_documentation/sdk-js/index.html`
+- **Get started**: Follow the step-by-step guide to quickly integrate the SDK and embed the Map Viewer in your application: 
+→ https://situm.com/docs/websdk-javascript-sdk-quickstart-guide/ 
 
-You can also run `yarn doc` in this repository to build the API reference locally from JSDoc annotations, then open `docs/public/index.html`.
+- **JS SDK API reference**: Explore all available methods provided by the SDK to: 
+  - Control and interact with the Map Viewer from JavaScript 
+  - Use Situm’s REST APIs through the SDK 
+
+→ https://developers.situm.com/sdk_documentation/sdk-js/index.html 
+
+- **Javascript PostMessage API**: If you want to interact with the Map Viewer directly via an iframe (without using this SDK), you can use the PostMessage API.  This approach is recommended only for specific use cases where the SDK cannot be used. 
+
+→ https://situm.com/docs/javascript-api-postmessage/ 
+
+- **Map Viewer configuration**: Learn how to configure the Map Viewer (query parameters, profiles, customization options, etc.): 
+→ https://situm.com/docs/map-viewer-quickstart-guide/ 
+
+- **Examples**: Check the examples/ folder in this repository for practical integration use cases, including: 
+
+  - Embedding Situm's Map Viewer in your web app 
+  - Realtime data visualization 
+  - Situm's REST APIs integration
+  - Trajectory playback 
+  - ...
 
 ## Examples
 
-<!-- JLAQ review this section -->
-You can find several examples under the `examples/` folder, including:
+You can find several examples under the [`examples/`](examples/) folder, including:
 
 - Basic Viewer embedding with buttons.
-- Realtime positions overlay.
-- Trajectory playback.
-
-Serve the folder with any static web server (for example `npx serve examples`) and open the desired HTML file in your browser.
+- Realtime positions and/or trajectory overlay on top of Situm’s Map Viewer. 
+- Interacting with the REST APIs both to consume and update data. 
 
 ## Development
 
