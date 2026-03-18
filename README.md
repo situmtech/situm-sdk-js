@@ -21,17 +21,21 @@ With this SDK, you can seamlessly display indoor maps, control [Situm's Map View
 Under the hood, the SDK: 
 
 - Creates and configures the Map Viewer `iframe` 
-- Provides simple, typed methods (e.g. viewer.xxx) to control the viewer 
-- Exposes viewer events through an easy-to-use subscription API (viewer.on(...)) 
-- Wraps Situm’s REST APIs into a convenient client and Situm’s PostMessage APIs 
+- Provides simple, typed methods (e.g. `viewer.xxx`) to control the viewer 
+- Exposes viewer events through an easy-to-use subscription API (`viewer.on(...)`) 
+- Wraps Situm’s REST APIs into a convenient client
 
 By abstracting the underlying communication layer, the SDK lets you focus on your application logic while still leveraging the full capabilities of the Situm Map Viewer. 
 
 ### Minimal viewer example
 
+Add a container for the Map Viewer iframe in your HTML:
+
 ```html
 <div id="viewer1"></div>
 ```
+
+Create a new Map Viewer instance using the ID from the previous step:
 
 ```ts
 import SitumSDK, { ViewerEventType } from "@situm/sdk-js";
