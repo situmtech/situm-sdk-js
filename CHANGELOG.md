@@ -10,6 +10,12 @@ All notable changes to this project will be documented in this file. See [standa
 - Removed deprecated Viewer actions and events.
 - Updated README.md to include documentation for the `Viewer` instance
 
+## 0.17.2 (2026-03-04)
+
+### Removed
+
+- Removed deprecated navigation computation library related types
+
 ## 0.17.1 (2026-03-02)
 
 ### Fixed
