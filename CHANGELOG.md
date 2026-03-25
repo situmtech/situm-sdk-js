@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.18.0 (2026-03-25)
+
+### Added
+
+- Added new viewer methods to the `Viewer` instance: `startNavigation`, `startNavigationToCar`, `cancelNavigation`, `updateLocationStatus`, `setInitialConfig`, `setLanguage`, `setFavoritePois`, `setSearchFilter`, `showUserSettings`, `toggleUserSettings`, `updateFontSize`.
+- Removed deprecated Viewer actions and events.
+- Updated README.md to include documentation for the `Viewer` instance
+
 ## 0.17.2 (2026-03-04)
 
 ### Removed

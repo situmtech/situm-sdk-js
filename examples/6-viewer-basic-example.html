@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" class="dark:bg-gray-900">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Situm SDK Viewer Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Add dark mode configuration
+      tailwind.config = {
+        darkMode: "class",
+      };
+    </script>
+  </head>
+
+  <body
+    class="bg-gray-100 dark:bg-gray-900 min-h-screen flex flex-col items-center justify-center space-y-6 p-6"
+  >
+    <header
+      class="w-full flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow-md fixed top-0 left-0 z-50"
+    >
+      <div class="flex items-center">
+        <img
+          id="logo"
+          src="https://situm.com/wp-content/themes/situm/img/logo-situm.svg"
+          alt="Situm Logo"
+          class="h-12 w-auto mr-5"
+        />
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">
+          Situm SDK Viewer Demo
+        </h1>
+      </div>
+    </header>
+
+    <div class="w-full">
+      <div
+        id="viewer"
+        class="w-full h-[400px] md:h-[700px] border-2 border-gray-300 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden dark:bg-gray-800"
+      ></div>
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-2 mt-4">
+      <button
+        id="selectPoiBtn"
+        class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition text-sm"
+      >
+        Select POI
+      </button>
+      <button
+        id="deselectPoiBtn"
+        class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition text-sm"
+      >
+        Deselect POI
+      </button>
+      <button
+        id="selectFloorBtn"
+        class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition text-sm"
+      >
+        Select floor 1
+      </button>
+      <button
+        id="selectPoiCategoryBtn"
+        class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition text-sm"
+      >
+        Select POI category
+      </button>
+      <button
+        id="deselectPoiCategoryBtn"
+        class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition text-sm"
+      >
+        Deselect POI category
+      </button>
+      <button
+        id="routeToPoiBtn"
+        class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition text-sm"
+      >
+        Route to POI
+      </button>
+    </div>
+
+    <!-- Bundle UMD -->
+    <script src="https://unpkg.com/axios@1.12.2/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/@situm/sdk-js@latest/dist/umd/situm-sdk.js"></script>
+
+    <script>
+      const { ViewerEventType, RouteType } = window.SitumSDK;
+      const SDKClass = window.SitumSDK.default;
+
+      const BUILDING_ID = 18532;
+      const API_KEY = "YOUR_API_KEY";
+      const FLOOR_ID = 61534;
+      const POI_ID = 811784;
+      const FROM_POI_ID = 811420;
+      const POI_CATEGORY_ID = 32289;
+
+      const options = {
+        auth: {
+          // You can either use apiKey or profile to authenticate on viewer
+          // apiKey: API_KEY,
+          profile: "demo",
+          domain: "https://api.situm.com",
+        },
+      };
+      const sdk = new SDKClass(options);
+      const viewer = sdk.viewer.create({
+        buildingId: BUILDING_ID,
+        domElement: document.querySelector("#viewer"),
+      });
+
+      viewer.on(ViewerEventType.MAP_IS_READY, () => {
+        viewer.setUserLocation({
+          x: 536.93,
+          y: 511.97,
+          latitude: 41.355389,
+          longitude: 2.1318781,
+          floorIdentifier: 61535,
+          buildingIdentifier: 18532,
+          accuracy: 0,
+          bearing: { radians: 0 },
+          hasBearing: false,
+        });
+      });
+
+      document.getElementById("selectPoiBtn").addEventListener("click", () => {
+        viewer.selectPoiById(POI_ID);
+      });
+
+      document.getElementById("routeToPoiBtn").addEventListener("click", () => {
+        viewer.startDirections({
+          navigationFrom: FROM_POI_ID,
+          navigationTo: POI_ID,
+          routeType: RouteType.CHOOSE_SHORTEST,
+        });
+      });
+
+      document.getElementById("deselectPoiBtn").addEventListener("click", () => {
+        viewer.deselectPoi();
+      });
+
+      document.getElementById("selectFloorBtn").addEventListener("click", () => {
+        viewer.selectFloor(FLOOR_ID);
+      });
+
+      document.getElementById("selectPoiCategoryBtn").addEventListener("click", () => {
+        viewer.selectPoiCategory(POI_CATEGORY_ID);
+      });
+
+      document.getElementById("deselectPoiCategoryBtn").addEventListener("click", () => {
+        viewer.deselectPoiCategory();
+      });
+    </script>
+  </body>
+</html>
