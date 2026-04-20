@@ -152,6 +152,17 @@ export class Viewer {
   }
 
   /**
+   * Selects a poi by its external identifier.
+   *
+   * @param externalId The external identifier of the poi to select.
+   */
+  async selectPoiByExternalId(externalId: string) {
+    this.sendDataToViewer(ViewerActionType.SELECT_POI, {
+      externalIdentifier: externalId,
+    });
+  }
+
+  /**
    * Deselects the currently selected poi.
    *
    * This function sends a message to the viewer to deselect the currently
@@ -213,6 +224,17 @@ export class Viewer {
   async selectPoiCategory(categoryId: number) {
     this.sendDataToViewer(ViewerActionType.SELECT_POI_CATEGORY, {
       identifier: categoryId,
+    });
+  }
+
+  /**
+   * Selects a poi category by its external identifier.
+   *
+   * @param externalId The external identifier of the poi category to select.
+   */
+  async selectPoiCategoryByExternalId(externalId: string) {
+    this.sendDataToViewer(ViewerActionType.SELECT_POI_CATEGORY, {
+      externalIdentifier: externalId,
     });
   }
 
