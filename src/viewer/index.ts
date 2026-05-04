@@ -270,10 +270,13 @@ export class Viewer {
    *
    * This function sends a message to the viewer to start the directions feature. It does not return any value.
    *
-   * @param options The options to start the directions feature. The options object should contain the following
-   * properties:
+   * @param options The options to start the directions feature.
    *   - navigationFrom: The identifier of the starting position of the directions.
    *   - navigationTo: The identifier of the ending position of the directions.
+   *   - routeType: The type of route to calculate. Optional.
+   * or:
+   *   - externalNavigationFrom: The external identifier of the starting position of the directions.
+   *   - externalNavigationTo: The external identifier of the ending position of the directions.
    *   - routeType: The type of route to calculate. Optional.
    */
   async startDirections(
