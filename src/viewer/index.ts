@@ -9,6 +9,7 @@
 import type RealtimeApi from "../domains/realtime";
 import type ReportsApi from "../domains/reports";
 import {
+  type RouteType,
   type UUID,
   type ViewerActionParams,
   ViewerActionType,
@@ -274,14 +275,30 @@ export class Viewer {
    *   - navigationFrom: The identifier of the starting position of the directions.
    *   - navigationTo: The identifier of the ending position of the directions.
    *   - routeType: The type of route to calculate. Optional.
-   * or:
+   */
+  async startDirections(options: {
+    navigationFrom: number;
+    navigationTo: number;
+    routeType?: RouteType;
+  }) {
+    this.sendDataToViewer(ViewerActionType.DIRECTIONS_START, options);
+  }
+
+  /**
+   * Calculates a static route between two points by their external identifiers.
+   *
+   * This function sends a message to the viewer to start the directions feature by their external identifiers. It does not return any value.
+   *
+   * @param options The options to start the directions feature.
    *   - externalNavigationFrom: The external identifier of the starting position of the directions.
    *   - externalNavigationTo: The external identifier of the ending position of the directions.
    *   - routeType: The type of route to calculate. Optional.
    */
-  async startDirections(
-    options: ViewerActionParams[ViewerActionType.DIRECTIONS_START],
-  ) {
+  async startDirectionsByExternalId(options: {
+    externalNavigationFrom: string;
+    externalNavigationTo: string;
+    routeType?: RouteType;
+  }) {
     this.sendDataToViewer(ViewerActionType.DIRECTIONS_START, options);
   }
 
