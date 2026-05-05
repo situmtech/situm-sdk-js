@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.19.0 (2026-04-17)
+
+### Added
+- Add new method `Viewer.selectPoiByExternalId` to select a POI given its external identifier.
+- Add new method `Viewer.selectPoiCategoryByExternalId` to select a POI category given its external identifier.
+
 ## 0.18.0 (2026-03-25)
 
 ### Added
