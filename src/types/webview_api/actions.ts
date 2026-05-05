@@ -156,11 +156,17 @@ export type _ViewerActionParams = {
   [ViewerActionType.NAVIGATION_CANCEL]: undefined;
 
   // directions
-  [ViewerActionType.DIRECTIONS_START]: {
-    navigationFrom: number;
-    navigationTo: number;
-    routeType?: RouteType;
-  };
+  [ViewerActionType.DIRECTIONS_START]:
+    | {
+        navigationFrom: number;
+        navigationTo: number;
+        routeType?: RouteType;
+      }
+    | {
+        externalNavigationFrom: string;
+        externalNavigationTo: string;
+        routeType?: RouteType;
+      };
   [ViewerActionType.DIRECTIONS_SET_OPTIONS]: {
     includedTags?: string[];
     excludedTags?: string[];
