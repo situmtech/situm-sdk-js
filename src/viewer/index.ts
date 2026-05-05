@@ -20,6 +20,10 @@ import type { ExternalFeature } from "../types/models";
 import type { RTDataCustomizer, ViewerOptions } from "./types";
 
 const VIEWER_URL = "https://maps.situm.com";
+type InternalViewerOptions = ViewerOptions & {
+  // Undocumented internal override for QA/testing environments.
+  __viewerUrl?: string;
+};
 
 type ViewerEventCallback<T extends ViewerEventType> = (
   payload: ViewerEventPayloads[T],
@@ -68,14 +72,18 @@ export class Viewer {
    * @param {ViewerOptions} opts - The viewer options object containing the
    * profile, API key and building ID.
    */
-  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: called in constructor
   private _initIframe(opts: ViewerOptions) {
+    const internalOpts = opts as InternalViewerOptions;
+    const viewerUrl = (internalOpts.__viewerUrl || VIEWER_URL).replace(
+      /\/+$/,
+      "",
+    );
     const iframe = document.createElement("iframe");
     let url = this.profile
-      ? `${VIEWER_URL}/${this.profile}`
+      ? `${viewerUrl}/${this.profile}`
       : this.apiKey
-        ? `${VIEWER_URL}?apikey=${this.apiKey}`
-        : VIEWER_URL;
+        ? `${viewerUrl}?apikey=${this.apiKey}`
+        : viewerUrl;
     if (opts.buildingId)
       url += url.includes("?")
         ? `&buildingid=${opts.buildingId}`
@@ -94,7 +102,6 @@ export class Viewer {
    * Listens for messages from the iframe content window and calls the respective
    * callbacks if the message type matches one of the registered event types.
    */
-  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: called in constructor
   private _attachGlobalListener() {
     window.addEventListener("message", (e: MessageEvent) => {
       if (e.source !== this.iframe?.contentWindow) return;
