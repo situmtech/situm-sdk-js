@@ -5,6 +5,7 @@ export interface ViewerOptions {
   profile?: string;
   apiKey?: string;
   buildingId?: ID;
+  viewerUrl?: string;
 }
 
 export interface RTDataCustomizer {

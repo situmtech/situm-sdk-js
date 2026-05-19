@@ -20,10 +20,6 @@ import type { ExternalFeature } from "../types/models";
 import type { RTDataCustomizer, ViewerOptions } from "./types";
 
 const VIEWER_URL = "https://maps.situm.com";
-type InternalViewerOptions = ViewerOptions & {
-  // Undocumented internal override for QA/testing environments.
-  __viewerUrl?: string;
-};
 
 type ViewerEventCallback<T extends ViewerEventType> = (
   payload: ViewerEventPayloads[T],
@@ -70,14 +66,10 @@ export class Viewer {
    * Initializes the iframe element with the correct URL and appends it to the
    * given DOM element.
    * @param {ViewerOptions} opts - The viewer options object containing the
-   * profile, API key and building ID.
+   * profile, API key, building ID and optional viewer URL.
    */
   private _initIframe(opts: ViewerOptions) {
-    const internalOpts = opts as InternalViewerOptions;
-    const viewerUrl = (internalOpts.__viewerUrl || VIEWER_URL).replace(
-      /\/+$/,
-      "",
-    );
+    const viewerUrl = (opts.viewerUrl || VIEWER_URL).replace(/\/+$/, "");
     const iframe = document.createElement("iframe");
     let url = this.profile
       ? `${viewerUrl}/${this.profile}`
