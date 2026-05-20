@@ -17,6 +17,7 @@ import { Viewer } from "./viewer";
 import type { ViewerOptions } from "./viewer/types";
 
 export * from "./types";
+export { getOrganizationIdFromJwt } from "./utils/authSession";
 
 /**
  * Main class that exports different domains from the Situm REST APIs,
