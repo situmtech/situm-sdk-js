@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.21.0 (2026-05-20)
+
+### Added
+
+- Add new event `app.ready_for_auth` to notify when the viewer is ready for authentication.
+
 ## 0.20.0 (2026-05-05)
 
 ### Added
