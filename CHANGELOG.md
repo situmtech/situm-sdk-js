@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Added
 
-- Add new event `app.ready_for_auth` to notify when the viewer is ready for authentication.
+- Add new event `app.ready_for_auth` to notify when the Map Viewer is ready for authentication.
+- Add optional `viewerUrl` parameter to `sdk.viewer.create()` to override the default Map Viewer base URL (`https://maps.situm.com`).
 
 ## 0.20.0 (2026-05-05)
 
