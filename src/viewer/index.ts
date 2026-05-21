@@ -270,15 +270,19 @@ export class Viewer {
    * This function sends a message to the viewer to start the directions feature. It does not return any value.
    *
    * @param options The options to start the directions feature.
-   *   - navigationFrom: The identifier of the starting position of the directions.
-   *   - navigationTo: The identifier of the ending position of the directions.
+   *   - One of:
+   *     - navigationFrom: The identifier of the starting position of the directions.
+   *     - externalNavigationFrom: The external identifier of the starting position of the directions.
+   *     - flightNavigationFrom: The identifier of the starting flight of the directions.
+   *   - One of:
+   *     - navigationTo: The identifier of the ending position of the directions.
+   *     - externalNavigationTo: The external identifier of the ending position of the directions.
+   *     - flightNavigationTo: The identifier of the ending flight of the directions.
    *   - routeType: The type of route to calculate. Optional.
    */
-  async startDirections(options: {
-    navigationFrom: number;
-    navigationTo: number;
-    routeType?: RouteType;
-  }) {
+  async startDirections(
+    options: ViewerActionParams[ViewerActionType.DIRECTIONS_START],
+  ) {
     this.sendDataToViewer(ViewerActionType.DIRECTIONS_START, options);
   }
 
@@ -298,6 +302,17 @@ export class Viewer {
     routeType?: RouteType;
   }) {
     this.sendDataToViewer(ViewerActionType.DIRECTIONS_START, options);
+  }
+
+  /**
+   * Selects a flight by its identifier.
+   *
+   * Equivalent to the `flight_id` query parameter.
+   *
+   * @param flightId The flight identifier to select.
+   */
+  async selectFlightById(flightId: string) {
+    this.sendDataToViewer(ViewerActionType.SELECT_FLIGHT, { flightId });
   }
 
   /**
