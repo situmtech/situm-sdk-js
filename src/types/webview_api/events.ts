@@ -24,6 +24,7 @@ export enum ViewerEventType {
   MAP_IS_READY = "app.map_is_ready",
   APP_ERROR = "app.error",
   APP_VIBRATE = "app.vibrate",
+  READY_FOR_AUTH = "app.ready_for_auth",
 
   // cartography
   POI_SELECTED = "cartography.poi_selected",
@@ -67,6 +68,7 @@ export interface _ViewerEventPayloads {
   [ViewerEventType.MAP_IS_READY]: undefined;
   [ViewerEventType.APP_ERROR]: PostMessageErrorPayload;
   [ViewerEventType.APP_VIBRATE]: VibratePayload;
+  [ViewerEventType.READY_FOR_AUTH]: undefined;
 
   // cartography
   [ViewerEventType.POI_SELECTED]: {
