@@ -46,6 +46,29 @@ interface CartographySelectionOptions {
   fitCamera?: boolean;
 }
 
+type WithRouteType<T> = T & { routeType?: RouteType };
+
+type DirectionsFrom =
+  | { navigationFrom: number }
+  | { externalNavigationFrom: string }
+  | { flightNavigationFrom: string };
+
+type DirectionsTo =
+  | { navigationTo: number }
+  | { externalNavigationTo: string }
+  | { flightNavigationTo: string };
+
+/**
+ * Payload for `directions.start`.
+ * Provide an origin, a destination, or both — but not neither.
+ * Each side accepts exactly one identifier kind.
+ */
+export type DirectionsStartPayload = WithRouteType<
+  | DirectionsFrom // origin only
+  | DirectionsTo // destination only
+  | (DirectionsFrom & DirectionsTo) // both
+>;
+
 type LanguageShortCode = string;
 
 export enum ViewerUIMode {
@@ -90,6 +113,9 @@ export enum ViewerActionType {
   // directions
   DIRECTIONS_START = "directions.start",
   DIRECTIONS_SET_OPTIONS = "directions.set_options",
+
+  // flight
+  SELECT_FLIGHT = "flights.select",
 
   // location
   LOCATION_UPDATE = "location.update",
@@ -154,23 +180,14 @@ export type _ViewerActionParams = {
   [ViewerActionType.NAVIGATION_START]: NavigationStartPayload;
   [ViewerActionType.NAVIGATION_TO_CAR]: OnNavigationStartRequestedPayload;
   [ViewerActionType.NAVIGATION_CANCEL]: undefined;
-
-  // directions
-  [ViewerActionType.DIRECTIONS_START]:
-    | {
-        navigationFrom: number;
-        navigationTo: number;
-        routeType?: RouteType;
-      }
-    | {
-        externalNavigationFrom: string;
-        externalNavigationTo: string;
-        routeType?: RouteType;
-      };
+  [ViewerActionType.DIRECTIONS_START]: DirectionsStartPayload;
   [ViewerActionType.DIRECTIONS_SET_OPTIONS]: {
     includedTags?: string[];
     excludedTags?: string[];
   };
+
+  // flight
+  [ViewerActionType.SELECT_FLIGHT]: { flightId: string };
 
   // location
   [ViewerActionType.LOCATION_UPDATE]: any; // TODO can be a location object with either SDK or Viewer format

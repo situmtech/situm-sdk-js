@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.22.0 (2026-05-21)
+
+### Added
+
+- Support flight IDs, external IDs and Situm IDs for both origin or destination parameters of the `viewer.startDirections` function.
+- New `viewer.selectFlightById` function to select a flight given its ID.
+
 ## 0.21.0 (2026-05-20)
 
 ### Added
