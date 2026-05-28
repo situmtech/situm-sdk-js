@@ -151,7 +151,7 @@ export type _ViewerActionParams = {
 
   // cartography
   [ViewerActionType.SELECT_POI]:
-    | { identifier: number }
+    | { identifier: number | string }
     | { externalIdentifier: string };
   [ViewerActionType.DESELECT_POI]: undefined;
   [ViewerActionType.SELECT_CAR]: undefined;
@@ -161,7 +161,7 @@ export type _ViewerActionParams = {
     options?: CartographySelectionOptions;
   };
   [ViewerActionType.SELECT_POI_CATEGORY]:
-    | { identifier: number | string }
+    | { identifier: number }
     | { externalIdentifier: string };
   [ViewerActionType.DESELECT_POI_CATEGORIES]: undefined;
 
