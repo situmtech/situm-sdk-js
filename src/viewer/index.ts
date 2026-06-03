@@ -584,6 +584,17 @@ export class Viewer {
   }
 
   /**
+   * Resets the viewer session to its initial state.
+   *
+   * Restores the initial camera view, clears navigation and search filters,
+   * resets user preferences, emits a session-ended analytics event, and
+   * regenerates the session identifier.
+   */
+  async resetSession() {
+    await this.sendDataToViewer(ViewerActionType.SESSION_RESET, undefined);
+  }
+
+  /**
    * Opens the location picker in the viewer.
    *
    * This function sends a message to the viewer to open the location picker. It does not return any value.

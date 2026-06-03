@@ -89,6 +89,9 @@ export enum ViewerActionType {
   CAMERA_SET = "camera.set",
   CAMERA_RESET = "camera.reset",
 
+  // session
+  SESSION_RESET = "session.reset",
+
   // cartography
   SELECT_POI = "cartography.select_poi",
   DESELECT_POI = "cartography.deselect_poi",
@@ -150,6 +153,9 @@ export type _ViewerActionParams = {
   [ViewerActionType.FOLLOW_USER]: { value: boolean } | boolean;
   [ViewerActionType.CAMERA_SET]: Camera;
   [ViewerActionType.CAMERA_RESET]: undefined;
+
+  // session
+  [ViewerActionType.SESSION_RESET]: undefined;
 
   // cartography
   [ViewerActionType.SELECT_POI]:
