@@ -575,6 +575,15 @@ export class Viewer {
   }
 
   /**
+   * Resets the camera to the initial view defined by the Map Viewer profile.
+   *
+   * Restores the initial zoom, bearing, pitch, center, and floor.
+   */
+  async resetCamera() {
+    await this.sendDataToViewer(ViewerActionType.CAMERA_RESET, undefined);
+  }
+
+  /**
    * Opens the location picker in the viewer.
    *
    * This function sends a message to the viewer to open the location picker. It does not return any value.
