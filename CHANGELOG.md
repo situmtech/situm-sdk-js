@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.22.1 (2026-06-04)
+
+### Added
+
+- allow POI IDs to be strings on select_poi api
+
 ## 0.22.0 (2026-05-21)
 
 ### Added
