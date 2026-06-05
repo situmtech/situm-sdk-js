@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.23.0 (2026-06-05)
+
+### Added
+
+- Add new event `map.clicked` to notify when the user clicks on the map.
+
 ## 0.22.1 (2026-06-04)
 
 ### Added
