@@ -575,7 +575,7 @@ export class Viewer {
   }
 
   /**
-   * Resets the camera to the initial view defined by the Map Viewer profile.
+   * Resets the camera to the initial view configured for the Map Viewer.
    *
    * Restores the initial zoom, bearing, pitch, center, and floor.
    */
