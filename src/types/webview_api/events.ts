@@ -19,8 +19,7 @@ interface VibratePayload {
   intensity: "LOW" | "MEDIUM" | "HIGH";
 }
 
-type MapClickedFeatureType =
-  | "poi";
+type MapClickedFeatureType = "poi";
 
 interface MapClickedFeature {
   type: MapClickedFeatureType;
