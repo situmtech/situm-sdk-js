@@ -575,15 +575,6 @@ export class Viewer {
   }
 
   /**
-   * Resets the camera to the initial view configured for the Map Viewer.
-   *
-   * Restores the initial zoom, bearing, pitch, center, and floor.
-   */
-  async resetCamera() {
-    await this.sendDataToViewer(ViewerActionType.CAMERA_RESET, undefined);
-  }
-
-  /**
    * Resets the viewer session to its initial state.
    *
    * Restores the initial camera view, clears navigation and search filters,
