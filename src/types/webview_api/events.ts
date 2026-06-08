@@ -19,6 +19,13 @@ interface VibratePayload {
   intensity: "LOW" | "MEDIUM" | "HIGH";
 }
 
+type MapClickedFeatureType = "poi";
+
+interface MapClickedFeature {
+  type: MapClickedFeatureType;
+  identifier: string;
+}
+
 export enum ViewerEventType {
   // app
   MAP_IS_READY = "app.map_is_ready",
@@ -56,6 +63,9 @@ export enum ViewerEventType {
   CALIBRATION_POINT_CLICKED = "calibration.point_clicked",
   CALIBRATION_STOPPED = "calibration.stopped",
   LOCAL_CALIBRATIONS_UPLOAD_REQUESTED = "calibration.local_calibrations_upload_requested",
+
+  // map
+  MAP_CLICKED = "map.clicked",
 
   // UI
   FAV_POIS_UPDATED = "ui.favorite_pois_updated",
@@ -114,6 +124,15 @@ export interface _ViewerEventPayloads {
     status: "cancelled" | "undo" | "success";
   };
   [ViewerEventType.LOCAL_CALIBRATIONS_UPLOAD_REQUESTED]: undefined;
+
+  // Map
+  [ViewerEventType.MAP_CLICKED]: {
+    coordinate: { latitude: number; longitude: number };
+    cartesian: { x: number; y: number } | null;
+    buildingIdentifier: number | null;
+    floorIdentifier: number | null;
+    features: MapClickedFeature[];
+  };
 
   // UI
   [ViewerEventType.FAV_POIS_UPDATED]: { favoritePois: number[] };
