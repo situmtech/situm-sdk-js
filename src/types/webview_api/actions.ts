@@ -116,6 +116,7 @@ export enum ViewerActionType {
   // directions
   DIRECTIONS_START = "directions.start",
   DIRECTIONS_SET_OPTIONS = "directions.set_options",
+  DIRECTIONS_CANCEL = "directions.cancel",
 
   // flight
   SELECT_FLIGHT = "flights.select",
@@ -186,11 +187,14 @@ export type _ViewerActionParams = {
   [ViewerActionType.NAVIGATION_START]: NavigationStartPayload;
   [ViewerActionType.NAVIGATION_TO_CAR]: OnNavigationStartRequestedPayload;
   [ViewerActionType.NAVIGATION_CANCEL]: undefined;
+  
+  // directions
   [ViewerActionType.DIRECTIONS_START]: DirectionsStartPayload;
   [ViewerActionType.DIRECTIONS_SET_OPTIONS]: {
     includedTags?: string[];
     excludedTags?: string[];
   };
+  [ViewerActionType.DIRECTIONS_CANCEL]: undefined;
 
   // flight
   [ViewerActionType.SELECT_FLIGHT]: { flightId: string };

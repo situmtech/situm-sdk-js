@@ -305,6 +305,13 @@ export class Viewer {
   }
 
   /**
+   * Cancels the computed static route and resets the directions UI.
+   */
+  async cancelDirections() {
+    await this.sendDataToViewer(ViewerActionType.DIRECTIONS_CANCEL, undefined);
+  }
+
+  /**
    * Selects a flight by its identifier.
    *
    * Equivalent to the `flight_id` query parameter.
