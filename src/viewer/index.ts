@@ -305,7 +305,7 @@ export class Viewer {
   }
 
   /**
-   * Cancels the computed static route and resets the directions UI.
+   * Cancels the computed static route and exits the directions UI.
    */
   async cancelDirections() {
     await this.sendDataToViewer(ViewerActionType.DIRECTIONS_CANCEL, undefined);
