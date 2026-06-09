@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.24.0 (2026-06-09)
+
+### Added
+
+- Add new method `viewer.resetSession` to reset the Map Viewer session.
+
 ## 0.23.0 (2026-06-05)
 
 ### Added
