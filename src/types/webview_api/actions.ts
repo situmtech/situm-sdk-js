@@ -187,7 +187,7 @@ export type _ViewerActionParams = {
   [ViewerActionType.NAVIGATION_START]: NavigationStartPayload;
   [ViewerActionType.NAVIGATION_TO_CAR]: OnNavigationStartRequestedPayload;
   [ViewerActionType.NAVIGATION_CANCEL]: undefined;
-  
+
   // directions
   [ViewerActionType.DIRECTIONS_START]: DirectionsStartPayload;
   [ViewerActionType.DIRECTIONS_SET_OPTIONS]: {
