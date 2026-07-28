@@ -56,6 +56,10 @@ viewer.on(ViewerEventType.MAP_IS_READY, () => {
 
 You can find more complete HTML examples under the [`examples/`](examples/) folder.
 
+The SDK grants the embedded Map Viewer the `clipboard-write` and `web-share`
+permissions for its share action. When embedding the Map Viewer without the
+SDK, add `allow="clipboard-write; web-share"` to its `iframe`.
+
 ### Public viewer functions (actions)
 
 The SDK provides a set of **typed methods** on the `viewer` instance that allow you to **control and interact with the Map Viewer programmatically**. 
