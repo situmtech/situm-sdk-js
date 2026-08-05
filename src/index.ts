@@ -139,11 +139,30 @@ export default class SitumSDK {
   }
 
   /**
-   * Proxy to get the JWT
-   * @returns {string} - the JWT calculated
+   * Returns the JWT held by the current session, without waiting for any
+   * authentication round trip.
+   *
+   * @returns {string} - the JWT currently held, undefined if not authenticated yet
    */
   public get jwt() {
     return this.apiBase.jwt();
+  }
+
+  /**
+   * Returns a usable JWT, authenticating or renewing the session as needed.
+   * Prefer this over `jwt` when the token is about to be sent somewhere.
+   */
+  public getValidJwt(): Promise<string> {
+    return this.apiBase.getValidJwt();
+  }
+
+  /**
+   * Releases the resources held by this client, cancelling any pending session
+   * renewal. Call it when the client is replaced or no longer needed and
+   * `autoRenewSession` is enabled.
+   */
+  public dispose(): void {
+    this.apiBase.dispose();
   }
 
   /**
