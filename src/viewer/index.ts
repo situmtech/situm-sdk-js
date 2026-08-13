@@ -80,6 +80,7 @@ export class Viewer {
         ? `&buildingid=${opts.buildingId}`
         : `?buildingid=${opts.buildingId}`;
     iframe.src = url;
+    iframe.allow = "clipboard-write; web-share";
 
     iframe.style.width = "100%";
     iframe.style.height = "100%";
