@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 - The expiration margin is now proportional to the token lifetime, capped at 500 seconds. A fixed margin made tokens shorter than that be considered expired the moment they were issued.
 - Sessions built from a JWT are now renewed too, instead of being used until they expired.
+- Concurrent callers now share a single authentication request, on the first authentication as well as on a renewal. Requests issued before the first token arrived used to authenticate one by one.
 - `jwt` no longer triggers a background authentication as a side effect; it just returns the token currently held. Use `getValidJwt()` for the previous behaviour.
 
 ## 0.25.1 (2026-07-21)
