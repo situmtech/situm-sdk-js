@@ -1,6 +1,6 @@
 import type { Feature, Point } from "geojson";
 
-import type { AuthConfiguration } from "./auth";
+import type { AuthConfiguration, OnAuthSessionChange } from "./auth";
 
 type UUID = string;
 type ID = number;
@@ -12,6 +12,12 @@ type SDKConfiguration = {
   version?: string;
   lang?: string;
   compact?: boolean;
+  onAuthSessionChange?: OnAuthSessionChange;
+  /**
+   * Renews the session on a timer, ahead of its expiration. Keeps a pending
+   * timer alive, so consumers must call `dispose()` when done.
+   */
+  autoRenewSession?: boolean;
 };
 
 type CustomField = {

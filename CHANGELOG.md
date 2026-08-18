@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.26.0 (2026-08-05)
+
+### Added
+
+- New `autoRenewSession` configuration flag: when enabled, the SDK renews the session before the JWT expires instead of waiting for a request to fail. Disabled by default, since it keeps a pending timer alive.
+- New `onAuthSessionChange` configuration callback, invoked with the new access and refresh tokens every time the session is replaced.
+- New `getValidJwt()` method, which authenticates or renews the session as needed before resolving. Prefer it over `jwt` when the token is going to be sent somewhere.
+- New `dispose()` method to cancel any pending renewal when the client is no longer used.
+- `auth.jwt` configurations now accept an optional `refreshToken`, so a session handed over by the host can renew itself.
+
+### Changed
+
+- The expiration margin is now proportional to the token lifetime, capped at 500 seconds. A fixed margin made tokens shorter than that be considered expired the moment they were issued.
+- Sessions built from a JWT are now renewed too, instead of being used until they expired.
+- `jwt` no longer triggers a background authentication as a side effect; it just returns the token currently held. Use `getValidJwt()` for the previous behaviour.
+
 ## 0.25.1 (2026-07-21)
 
 ### Fixed
