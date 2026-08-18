@@ -18,6 +18,12 @@ All notable changes to this project will be documented in this file. See [standa
 - Sessions built from a JWT are now renewed too, instead of being used until they expired.
 - `jwt` no longer triggers a background authentication as a side effect; it just returns the token currently held. Use `getValidJwt()` for the previous behaviour.
 
+## 0.25.1 (2026-07-21)
+
+### Fixed
+
+- Allow 'clipboard-write' and 'web-share' on iframe to avoid errors on chrome based browsers when trying to use 'copy url' features.
+
 ## 0.25.0 (2026-06-10)
 
 ### Added
@@ -54,7 +60,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### Added
 
 - Add new event `app.ready_for_auth` to notify when the Map Viewer is ready for authentication.
-- Add optional `viewerUrl` parameter to `sdk.viewer.create()` to override the default Map Viewer base URL (`https://maps.situm.com`).
+  - Add optional `viewerUrl` parameter to `sdk.viewer.create()` to override the default Map Viewer base URL (`https://maps.situm.com`).
 
 ## 0.20.0 (2026-05-05)
 
@@ -93,28 +99,32 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Added
 
-- Add new method `openLocationPicker` to open Location Picker mode.  
+- Add new method `openLocationPicker` to open Location Picker mode.
 
   Location Picker mode hides the default map UI and places a draggable marker on the map, either at a given position or replacing an existing POI.
 
 ```ts
-  // Place the marker replacing an existing POI
-  viewer.openLocationPicker({
-    poiIdentifier: 12345
-  });
+// Place the marker replacing an existing POI
+viewer.openLocationPicker({
+  poiIdentifier: 12345,
+});
 
-  // Open on a specific location
-  viewer.openLocationPicker({
-    initialPosition: { latitude: 42.86345, longitude: -8.54359, floorIdentifier: 12345 }
-  });
+// Open on a specific location
+viewer.openLocationPicker({
+  initialPosition: {
+    latitude: 42.86345,
+    longitude: -8.54359,
+    floorIdentifier: 12345,
+  },
+});
 ```
 
 - Add new event `ui.location_picker_dragged` with the updated marker position when the marker is moved.
 
 ```ts
-  viewer.on("ui.location_picker_dragged", (event) => {
-    console.log(event.coordinate);
-  });
+viewer.on("ui.location_picker_dragged", (event) => {
+  console.log(event.coordinate);
+});
 ```
 
 ## 0.16.0 (2026-02-03)
@@ -130,24 +140,27 @@ All notable changes to this project will be documented in this file. See [standa
 - Add new methods to manage GeoJSON and GeoJSONTheme.
 
   Upload a GeoJSON:
-   ```ts
-   await situmSDK.cartography.uploadGeoJSON({
-     buildingId: 1234,
-     geojson: myGeoJSON
-   }); 
-   ```
 
-  Delete a GeoJSON: 
-   ```ts
-   await situmSDK.cartography.deleteGeoJSON(buildingId);
-   ```
+  ```ts
+  await situmSDK.cartography.uploadGeoJSON({
+    buildingId: 1234,
+    geojson: myGeoJSON,
+  });
+  ```
+
+  Delete a GeoJSON:
+
+  ```ts
+  await situmSDK.cartography.deleteGeoJSON(buildingId);
+  ```
 
   Upload a GeoJSON theme:
-   ```ts
-    await situmSDK.cartography.uploadGeoJSONTheme({
-      buildingId: 1234,
-      theme: myGeoJSONTheme
-    });
+
+  ```ts
+  await situmSDK.cartography.uploadGeoJSONTheme({
+    buildingId: 1234,
+    theme: myGeoJSONTheme,
+  });
   ```
 
 ## 0.14.0 (2025-12-11)
@@ -157,7 +170,13 @@ All notable changes to this project will be documented in this file. See [standa
 - Add new method to center camera in the Map Viewer component.
 
   ```ts
-  viewer.setCamera({ zoom: 10, bearing: 0, pitch: 0, transitionDuration: 1000, center: { latitude: 42.863450025098274, longitude: -8.54359901596718 } });
+  viewer.setCamera({
+    zoom: 10,
+    bearing: 0,
+    pitch: 0,
+    transitionDuration: 1000,
+    center: { latitude: 42.863450025098274, longitude: -8.54359901596718 },
+  });
   ```
 
 ## 0.13.0 (2025-12-11)
@@ -220,26 +239,25 @@ All notable changes to this project will be documented in this file. See [standa
 
 - Code analysis using Trivy.
 
-
 ## 0.11.0 (2025-11-05)
 
 ### Added
 
 - Implement all the actions wrappers that are supported by the map viewer
 
-   ```ts
-   viewer.selectFloor(xx);
-   viewer.selectPoiCategory(xx);
-   viewer.setFollowUser();
+  ```ts
+  viewer.selectFloor(xx);
+  viewer.selectPoiCategory(xx);
+  viewer.setFollowUser();
 
-   // among others
-   ```
+  // among others
+  ```
 
 - Implement all the events that are supported by the map viewer
 
-   ```ts
-   viewer.on(ViewerEventType.XX)
-   ```
+  ```ts
+  viewer.on(ViewerEventType.XX);
+  ```
 
 ## 0.10.0 (2025-10-02)
 
