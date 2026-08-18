@@ -159,7 +159,7 @@ export default class ApiBase {
     },
   };
   private _authSession: AuthSession | null;
-  private _renewal: Promise<AuthSession> | null = null;
+  private _acquisition: Promise<AuthSession> | null = null;
   private _renewalTimeout: ReturnType<typeof setTimeout> | null = null;
 
   constructor(configuration: SDKConfiguration) {
@@ -348,7 +348,7 @@ export default class ApiBase {
         return this._authSession.jwt;
       }
 
-      return (await this.renewSession()).jwt;
+      return (await this.acquireSession()).jwt;
     }
 
     // If no auth configuration provided, throw an error
@@ -365,7 +365,7 @@ export default class ApiBase {
     }
 
     // If authentication is using BASIC or apikey auth, fetch the JWT and return it
-    return (await this.authenticate()).jwt;
+    return (await this.acquireSession()).jwt;
   }
 
   private setAuthSession(authSession: AuthSession): AuthSession {
@@ -417,7 +417,7 @@ export default class ApiBase {
       }
 
       // Nobody awaits this one: `getJwt` retries on the next request.
-      void this.renewSession().catch(() => undefined);
+      void this.acquireSession().catch(() => undefined);
     }, cappedDelay);
 
     // Do not hold a Node process open just because a session is alive.
@@ -459,24 +459,27 @@ export default class ApiBase {
   }
 
   /**
-   * Collapses concurrent renewals into a single request: otherwise every
-   * in-flight request would fire its own, and single use refresh tokens would
-   * invalidate one another.
+   * Collapses the concurrent callers that need a session into a single
+   * request, both on the first authentication and on a renewal: otherwise
+   * every in-flight request would fire its own, and single use refresh tokens
+   * would invalidate one another.
+   *
+   * The promise is stored before awaiting anything, so a caller entering while
+   * the request is in flight finds it: `_authSession` is only written once the
+   * response is back, and is therefore too late to act as the guard.
    */
-  private renewSession(): Promise<AuthSession> {
-    if (this._renewal) {
-      return this._renewal;
+  private acquireSession(): Promise<AuthSession> {
+    if (!this._acquisition) {
+      this._acquisition = this.performAcquisition().finally(() => {
+        this._acquisition = null;
+      });
     }
 
-    this._renewal = this.performRenewal().finally(() => {
-      this._renewal = null;
-    });
-
-    return this._renewal;
+    return this._acquisition;
   }
 
-  private async performRenewal(): Promise<AuthSession> {
-    if (this._authSession.refreshToken) {
+  private async performAcquisition(): Promise<AuthSession> {
+    if (this._authSession?.refreshToken) {
       try {
         const { accessToken, refreshToken } = await this.renewJwt();
 
