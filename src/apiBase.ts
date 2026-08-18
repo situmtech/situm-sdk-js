@@ -26,6 +26,7 @@ import { keysToCamel, keysToSnake } from "./utils/snakeCaseCamelCaseUtils";
 
 const FALLBACK_LANGUAGE = "en";
 const DEFAULT_TIMEOUT = 0; // no timeout
+const MAX_TIMEOUT_DELAY_MS = 2 ** 31 - 1;
 
 /**
  * Calculates the HTTP request headers based on the provided configuration, JWT, and headers.
@@ -158,6 +159,8 @@ export default class ApiBase {
     },
   };
   private _authSession: AuthSession | null;
+  private _renewal: Promise<AuthSession> | null = null;
+  private _renewalTimeout: ReturnType<typeof setTimeout> | null = null;
 
   constructor(configuration: SDKConfiguration) {
     this.configuration = { ...this.configuration, ...configuration };
@@ -297,18 +300,22 @@ export default class ApiBase {
   }
 
   /**
-   * Proxy to get the JWT
-   * @returns {string} - the JWT calculated
+   * Returns the JWT held by the current session, without authenticating.
    */
   jwt() {
-    this.getJwt();
     return this._authSession?.jwt;
   }
 
+  /**
+   * Returns a usable JWT, authenticating or renewing the session as needed.
+   */
+  getValidJwt(): Promise<string> {
+    return this.getJwt();
+  }
+
   async getAuthSession() {
-    if (!this._authSession) {
-      await this.getJwt();
-    }
+    await this.getJwt();
+
     return this._authSession;
   }
 
@@ -333,18 +340,15 @@ export default class ApiBase {
    * @returns Promise<string>
    */
   private async getJwt(): Promise<string> {
-    // If we had previously fetched the jwt and it's not expired, return it
     if (this._authSession?.jwt) {
-      if (this._authSession.isExpired() && this._authSession.refreshToken) {
-        const newTokens = await this.renewJwt();
+      const canRenew =
+        !!this._authSession.refreshToken || this.canAuthenticate();
 
-        this._authSession = new AuthSession(
-          newTokens.accessToken,
-          newTokens.refreshToken,
-        );
+      if (!canRenew || !this._authSession.isExpired()) {
+        return this._authSession.jwt;
       }
 
-      return this._authSession.jwt;
+      return (await this.renewSession()).jwt;
     }
 
     // If no auth configuration provided, throw an error
@@ -352,20 +356,93 @@ export default class ApiBase {
       throw new Error("No auth configuration provided");
     }
 
-    // If authentication is using JWT auth, assume it and return it
     if (this.isAuthJwt(this.configuration.auth)) {
-      this._authSession = new AuthSession(
-        (<AuthJWT>this.configuration.auth).jwt,
-        null,
-      );
+      const authJwt = <AuthJWT>this.configuration.auth;
 
-      // TODO: maybe we need to fetch a refreshToken for future expirations.
-
-      return (<AuthJWT>this.configuration.auth).jwt;
+      return this.setAuthSession(
+        new AuthSession(authJwt.jwt, authJwt.refreshToken ?? null),
+      ).jwt;
     }
 
     // If authentication is using BASIC or apikey auth, fetch the JWT and return it
+    return (await this.authenticate()).jwt;
+  }
+
+  private setAuthSession(authSession: AuthSession): AuthSession {
+    this._authSession = authSession;
+    this.scheduleRenewal(authSession);
+
+    try {
+      this.configuration.onAuthSessionChange?.({
+        jwt: authSession.jwt,
+        refreshToken: authSession.refreshToken,
+      });
+    } catch {
+      // A throwing consumer callback must never break authentication.
+    }
+
+    return authSession;
+  }
+
+  /**
+   * Renews an idle session ahead of its expiration. The request driven path in
+   * `getJwt` stays as the safety net: browsers throttle background timers.
+   */
+  private scheduleRenewal(authSession: AuthSession): void {
+    this.dispose();
+
+    if (!this.configuration.autoRenewSession) {
+      return;
+    }
+
+    // A session that cannot renew itself would just spin.
+    const delay = authSession.renewalDelayMs;
+    if (
+      delay === null ||
+      (!authSession.refreshToken && !this.canAuthenticate())
+    ) {
+      return;
+    }
+
+    // setTimeout truncates to a signed 32 bit delay: a longer one would fire
+    // immediately. Wake up early and reschedule instead.
+    const cappedDelay = Math.min(delay, MAX_TIMEOUT_DELAY_MS);
+
+    this._renewalTimeout = setTimeout(() => {
+      this._renewalTimeout = null;
+
+      if (cappedDelay < delay) {
+        this.scheduleRenewal(authSession);
+        return;
+      }
+
+      // Nobody awaits this one: `getJwt` retries on the next request.
+      void this.renewSession().catch(() => undefined);
+    }, cappedDelay);
+
+    // Do not hold a Node process open just because a session is alive.
+    (this._renewalTimeout as { unref?: () => void }).unref?.();
+  }
+
+  /**
+   * Cancels any pending renewal. Deliberately not a permanent kill switch: a
+   * client that keeps being used reschedules, so React StrictMode's
+   * mount/cleanup/mount does not disable renewals for good.
+   */
+  dispose(): void {
+    clearTimeout(this._renewalTimeout);
+    this._renewalTimeout = null;
+  }
+
+  private canAuthenticate(): boolean {
+    return (
+      !!this.configuration.auth && !this.isAuthJwt(this.configuration.auth)
+    );
+  }
+
+  private async authenticate(): Promise<AuthSession> {
     const authData = this.getAuthorizationHeaders(this.configuration.auth);
+
     try {
       const response = (await this.post({
         notAuthenticated: true,
@@ -373,15 +450,45 @@ export default class ApiBase {
         ...authData,
       })) as AccessTokens;
 
-      this._authSession = new AuthSession(
-        response.accessToken,
-        response.refreshToken,
+      return this.setAuthSession(
+        new AuthSession(response.accessToken, response.refreshToken),
       );
-
-      return this._authSession.jwt;
     } catch (error) {
       throw await error;
     }
+  }
+
+  /**
+   * Collapses concurrent renewals into a single request: otherwise every
+   * in-flight request would fire its own, and single use refresh tokens would
+   * invalidate one another.
+   */
+  private renewSession(): Promise<AuthSession> {
+    if (this._renewal) {
+      return this._renewal;
+    }
+
+    this._renewal = this.performRenewal().finally(() => {
+      this._renewal = null;
+    });
+
+    return this._renewal;
+  }
+
+  private async performRenewal(): Promise<AuthSession> {
+    if (this._authSession.refreshToken) {
+      try {
+        const { accessToken, refreshToken } = await this.renewJwt();
+
+        return this.setAuthSession(new AuthSession(accessToken, refreshToken));
+      } catch (error) {
+        if (!this.canAuthenticate()) {
+          throw error;
+        }
+      }
+    }
+
+    return this.canAuthenticate() ? this.authenticate() : this._authSession;
   }
 
   /**
