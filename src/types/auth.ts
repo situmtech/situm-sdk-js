@@ -29,28 +29,19 @@ type AuthApiKey = {
 
 type AuthJWT = {
   jwt: Jwt;
-  /**
-   * Refresh token paired with `jwt`. Without it the session cannot be renewed
-   * once the token expires, since there is no way to derive one from the JWT.
-   */
+  /** Without it the session cannot be renewed once the token expires. */
   refreshToken?: string;
 };
 
 type AuthConfiguration = AuthBasic | AuthApiKey | AuthJWT;
 
-/**
- * Token pair currently held by the SDK, as handed to `onAuthSessionChange`.
- */
+/** Token pair currently held by the SDK. */
 type AuthTokens = {
   jwt: Jwt;
   refreshToken: string | null;
 };
 
-/**
- * Called every time the SDK installs a new session, either from the initial
- * authentication or from a renewal, so consumers can keep their own copy of
- * the token in sync.
- */
+/** Called every time the SDK installs a new session, initial or renewed. */
 type OnAuthSessionChange = (tokens: AuthTokens) => void;
 
 interface SitumJWTPayload {

@@ -48,17 +48,11 @@ export default class AuthSession {
   }
 
   /**
-   * Instant at which the session must be replaced, in epoch milliseconds, or
-   * null when the token carries no usable `exp`.
+   * Instant at which the session must be replaced, in epoch milliseconds.
    *
-   * A fixed margin cannot span the supported lifetimes: with a 5 minute token
-   * a flat 500s margin covers more than the token itself, so the session would
-   * be reported as expired the moment it is issued and every request would
-   * trigger a renewal. Capping the margin to a fraction of the lifetime
-   * guarantees a freshly received token is never already inside its margin.
-   *
-   * The lifetime comes from `iat` when present, keeping it purely server side
-   * and immune to client clock skew, and falls back to the reception time.
+   * The margin is capped to a fraction of the lifetime: a flat 500s exceeds a
+   * 5 minute token, which would report it as expired the moment it is issued.
+   * The lifetime comes from `iat` when present, immune to client clock skew.
    */
   private get renewalDeadlineMs(): number | null {
     const { exp, iat } = this.payload;
@@ -78,8 +72,7 @@ export default class AuthSession {
   }
 
   /**
-   * Checks if the current session is expired, or close enough to expiring that
-   * it should be renewed before being used again.
+   * True once the session is expired or inside its renewal margin.
    */
   isExpired() {
     const deadline = this.renewalDeadlineMs;
@@ -88,8 +81,7 @@ export default class AuthSession {
   }
 
   /**
-   * Milliseconds left until the session enters its renewal margin, so it can be
-   * renewed ahead of time instead of waiting for the next request.
+   * Milliseconds left until the session enters its renewal margin.
    */
   public get renewalDelayMs(): number | null {
     const deadline = this.renewalDeadlineMs;

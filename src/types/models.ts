@@ -14,9 +14,8 @@ type SDKConfiguration = {
   compact?: boolean;
   onAuthSessionChange?: OnAuthSessionChange;
   /**
-   * Renews the session on a timer, ahead of its expiration, instead of waiting
-   * for the next request to notice it. Off by default: it keeps a pending
-   * timer alive, so consumers must call `dispose()` when done with the client.
+   * Renews the session on a timer, ahead of its expiration. Keeps a pending
+   * timer alive, so consumers must call `dispose()` when done.
    */
   autoRenewSession?: boolean;
 };
