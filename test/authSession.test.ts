@@ -2,6 +2,7 @@
 import axios from "axios";
 
 import SitumSDK from "../src/index";
+import { getMockData } from "./utils/mockUtils";
 
 const ACCESS_TOKENS_URL = "/api/v1/auth/access_tokens";
 const REFRESH_TOKENS_URL = "/api/v1/auth/refresh_access_tokens";
@@ -9,22 +10,20 @@ const REFRESH_TOKENS_URL = "/api/v1/auth/refresh_access_tokens";
 const encodeSegment = (value: object) =>
   Buffer.from(JSON.stringify(value)).toString("base64");
 
-/**
- * Builds a JWT with the given lifetime, optionally issued in the past so it
- * already sits inside its renewal margin.
- */
+const decodeSegment = (segment: string) =>
+  JSON.parse(Buffer.from(segment, "base64").toString());
+
+// The identity comes from the shared mock token, whose `exp` is frozen in the
+// past; only the validity window is rebuilt around the current time.
+const mockPayload = decodeSegment(getMockData("jwtMock").split(".")[1]);
+
+// `issuedSecondsAgo` ages the token so it already sits inside its margin.
 const buildJwt = (lifetimeSeconds: number, issuedSecondsAgo = 0) => {
   const iat = Math.floor(Date.now() / 1000) - issuedSecondsAgo;
 
   return [
     encodeSegment({ alg: "HS256", typ: "JWT" }),
-    encodeSegment({
-      email: "user@situm.com",
-      exp: iat + lifetimeSeconds,
-      iat,
-      organization_uuid: "8ad0e3ac-e6e3-4b3f-9b45-0a1f3b7a1f21",
-      role: "USER",
-    }),
+    encodeSegment({ ...mockPayload, exp: iat + lifetimeSeconds, iat }),
     "signature",
   ].join(".");
 };
@@ -40,10 +39,6 @@ const authenticationFailure = () => ({
   },
 });
 
-/**
- * Answers every auth request from a per-url handler, so a test only declares
- * the endpoints it expects to be hit.
- */
 const mockAuthEndpoints = (handlers: Record<string, () => unknown>) =>
   jest.spyOn(axios, "request").mockImplementation(async (config: any) => {
     const handler = handlers[config.url];
@@ -98,8 +93,7 @@ describe("auth session", () => {
   });
 
   it("should not renew a freshly issued short lived token", async () => {
-    // Arrange: a fixed 500s margin would exceed the lifetime of this token and
-    // report it as expired the moment it was issued.
+    // Arrange: a fixed 500s margin would exceed this token's lifetime.
     const jwt = buildJwt(300);
     const spy = mockAuthEndpoints({
       [ACCESS_TOKENS_URL]: () => ({
@@ -219,8 +213,7 @@ describe("auth session", () => {
       auth: { jwt: handedOverJwt, refreshToken: "refresh" },
     });
 
-    // Execute: the handed over token is installed as is, and renewed from the
-    // next use onwards.
+    // Execute: the handed over token is used as is, renewed from the next use.
     const firstJwt = await situmSDK.getValidJwt();
     const renewed = await situmSDK.getValidJwt();
 
@@ -270,10 +263,8 @@ describe("auth session", () => {
 
     // Assert
     expect(authSession?.jwt).toBe(jwt);
-    expect(authSession?.payload.email).toBe("user@situm.com");
-    expect(authSession?.organizationId).toBe(
-      "8ad0e3ac-e6e3-4b3f-9b45-0a1f3b7a1f21",
-    );
+    expect(authSession?.payload.email).toBe(mockPayload.email);
+    expect(authSession?.organizationId).toBe(mockPayload.organization_uuid);
   });
 
   it("should notify onAuthSessionChange on authentication and on renewal", async () => {
