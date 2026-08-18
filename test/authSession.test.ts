@@ -171,6 +171,30 @@ describe("auth session", () => {
     expect(callsTo(spy, REFRESH_TOKENS_URL)).toBe(1);
   });
 
+  it("should collapse concurrent initial authentications into a single request", async () => {
+    // Arrange: `_authSession` is only written once the response is back, so it
+    // cannot guard the callers that enter while the request is in flight.
+    const jwt = buildJwt(3600);
+    const spy = mockAuthEndpoints({
+      [ACCESS_TOKENS_URL]: () => ({
+        access_token: jwt,
+        refresh_token: "refresh",
+      }),
+    });
+    const situmSDK = new SitumSDK({ auth: { apiKey: "notvalid" } });
+
+    // Execute
+    const jwts = await Promise.all([
+      situmSDK.getValidJwt(),
+      situmSDK.getValidJwt(),
+      situmSDK.getValidJwt(),
+    ]);
+
+    // Assert
+    expect(jwts).toStrictEqual([jwt, jwt, jwt]);
+    expect(callsTo(spy, ACCESS_TOKENS_URL)).toBe(1);
+  });
+
   it("should fall back to a full authentication when the refresh fails", async () => {
     // Arrange
     const expiringJwt = buildJwt(300, 290);
