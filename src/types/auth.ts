@@ -29,9 +29,20 @@ type AuthApiKey = {
 
 type AuthJWT = {
   jwt: Jwt;
+  /** Without it the session cannot be renewed once the token expires. */
+  refreshToken?: string;
 };
 
 type AuthConfiguration = AuthBasic | AuthApiKey | AuthJWT;
+
+/** Token pair currently held by the SDK. */
+type AuthTokens = {
+  jwt: Jwt;
+  refreshToken: string | null;
+};
+
+/** Called every time the SDK installs a new session, initial or renewed. */
+type OnAuthSessionChange = (tokens: AuthTokens) => void;
 
 interface SitumJWTPayload {
   sub?: string | undefined;
@@ -121,7 +132,9 @@ export type {
   AuthBasic,
   AuthJWT,
   AuthConfiguration,
+  AuthTokens,
   Jwt,
+  OnAuthSessionChange,
   SitumJWTPayload,
   User,
   UserForm,
