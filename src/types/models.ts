@@ -69,7 +69,7 @@ type Organization = {
   cookiesMessage: string;
   support_email: string;
   copyright: string;
-  featureFlags: string[];
+  featureFlags: Record<string, string>;
   colors: Colors;
 };
 
