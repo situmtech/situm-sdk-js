@@ -35,7 +35,7 @@ function transformKeys(object, keyTransformation) {
 }
 
 export const toCamel = (key: string): string =>
-  key.replace(/([-_][a-z])/gi, ($1) => {
+  key.toLowerCase().replace(/([-_][a-z])/gi, ($1) => {
     return $1.toUpperCase().replace("-", "").replace("_", "");
   });
 
