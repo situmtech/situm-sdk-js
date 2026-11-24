@@ -133,6 +133,7 @@ type BuildingBase = {
   location: LatLng;
   name: string;
   rotation: number;
+  organizationId: string;
 };
 
 type BuildingForm = {
